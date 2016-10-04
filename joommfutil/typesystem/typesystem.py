@@ -42,7 +42,7 @@ class MaxSized(Descriptor):
 
     def __set__(self, instance, value):
         if len(value) != self.size:
-            raise ValueError("size must be < " + str(self.size))
+            raise TypeError("size must be < " + str(self.size))
         super().__set__(instance, value)
 
 

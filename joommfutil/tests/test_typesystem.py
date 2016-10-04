@@ -91,19 +91,19 @@ def test_typesystem():
         dc.e = -0.1
     with pytest.raises(TypeError):
         dc.f = "abc"
-    with pytest.raises(ValueError):
+    with pytest.raises(TypeError):
         dc.g = (3, 2.1, -6)
-    with pytest.raises(ValueError):
+    with pytest.raises(TypeError):
         dc.h = (-5, 6, 8, 9)
-    with pytest.raises(ValueError):
+    with pytest.raises(TypeError):
         dc.h = (-5+1j, 8, 9)
     with pytest.raises(TypeError):
         dc.i = (1, -2, 3.2)
     with pytest.raises(TypeError):
         dc.j = 5
-    with pytest.raises(ValueError):
+    with pytest.raises(TypeError):
         dc.k = "new name2"
-    with pytest.raises(ValueError):
+    with pytest.raises(TypeError):
         dc.k = "2newname2"
 
     # Attempt deleting attribute
