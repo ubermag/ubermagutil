@@ -95,14 +95,15 @@ def test_typesystem():
         dc.g = (3, 2.1, -6)
     with pytest.raises(ValueError):
         dc.h = (-5, 6, 8, 9)
+    with pytest.raises(ValueError):
+        dc.h = (-5+1j, 8, 9)
     with pytest.raises(TypeError):
         dc.i = (1, -2, 3.2)
     with pytest.raises(TypeError):
         dc.j = 5
-    # Invalid object names
-    with pytest.raises(TypeError):
+    with pytest.raises(ValueError):
         dc.k = "new name2"
-    with pytest.raises(TypeError):
+    with pytest.raises(ValueError):
         dc.k = "2newname2"
 
     # Attempt deleting attribute
