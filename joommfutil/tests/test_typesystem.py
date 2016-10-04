@@ -1,5 +1,5 @@
 import pytest
-import joommfutils.typesystem as ts
+import joommfutil.typesystem as ts
 
 
 def test_typesystem():
