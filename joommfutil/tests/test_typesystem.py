@@ -13,9 +13,11 @@ def test_typesystem():
                    h=ts.RealVector(size=3),
                    i=ts.PositiveRealVector(size=3),
                    j=ts.TypedAttribute(expected_type=dict),
-                   k=ts.ObjectName)
+                   k=ts.ObjectName,
+                   l=ts.IntVector(size=3),
+                   m=ts.PositiveIntVector(size=3))
     class DummyClass:
-        def __init__(self, a, b, c, d, e, f, g, h, i, j, k):
+        def __init__(self, a, b, c, d, e, f, g, h, i, j, k, l, m):
             self.a = a
             self.b = b
             self.c = c
@@ -27,6 +29,8 @@ def test_typesystem():
             self.i = i
             self.j = j
             self.k = k
+            self.l = l
+            self.m = m
 
     a = 1.7
     b = 2
@@ -39,8 +43,11 @@ def test_typesystem():
     i = (1, 2, 31.1)
     j = {}
     k = "exchange_energy_name"
+    l = (-1, 2, -3)
+    m = (1, 2, 3)
 
-    dc = DummyClass(a=a, b=b, c=c, d=d, e=e, f=f, g=g, h=h, i=i, j=j, k=k)
+    dc = DummyClass(a=a, b=b, c=c, d=d, e=e, f=f, g=g,
+                    h=h, i=i, j=j, k=k, l=l, m=m)
 
     # Simple assertions
     assert dc.a == a
@@ -54,6 +61,8 @@ def test_typesystem():
     assert dc.i == i
     assert dc.j == j
     assert dc.k == k
+    assert dc.l == l
+    assert dc.m == m
 
     # Valid settings
     dc.a = 77.4
@@ -77,6 +86,11 @@ def test_typesystem():
     dc.j = {"a": 1}
     assert dc.j == {"a": 1}
     dc.k = "_new_name2"
+    assert dc.k == "_new_name2"
+    dc.l = (-11, -5, 6)
+    assert dc.l == (-11, -5, 6)
+    dc.m = (5, 9, 879)
+    assert dc.m == (5, 9, 879)
 
     # Invalid settings
     with pytest.raises(TypeError):
@@ -105,6 +119,10 @@ def test_typesystem():
         dc.k = "new name2"
     with pytest.raises(TypeError):
         dc.k = "2newname2"
+    with pytest.raises(TypeError):
+        dc.l = (1.1, 2, 5)
+    with pytest.raises(TypeError):
+        dc.m = (0, 2, 5)
 
     # Attempt deleting attribute
     with pytest.raises(AttributeError):

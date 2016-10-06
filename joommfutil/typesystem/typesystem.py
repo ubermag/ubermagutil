@@ -102,9 +102,22 @@ class RealVector(SizedVector):
 class PositiveRealVector(RealVector):
     def __set__(self, instance, value):
         if not all([i > 0 for i in value]):
-            raise TypeError("Expected Positive vector components.")
+            raise TypeError("Expected positive vector components.")
         super().__set__(instance, value)
 
+
+class IntVector(SizedVector):
+    def __set__(self, instance, value):
+        if not all([isinstance(i, int) for i in value]):
+            raise TypeError("Expected integer vector components.")
+        super().__set__(instance, value)
+
+
+class PositiveIntVector(IntVector):
+    def __set__(self, instance, value):
+        if not all([i > 0 for i in value]):
+            raise TypeError("Expected positive vector components.")
+        super().__set__(instance, value)
 
 
 class ObjectName(String):
