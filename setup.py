@@ -5,13 +5,13 @@ with open("README.rst") as f:
 
 setup(
     name="joommfutil",
-    version="0.5.4.1",
+    version="0.5.4.2",
     description="A JOOMMF utilities package.",
     long_description=readme,
     author="Computational Modelling Group",
     author_email="fangohr@soton.ac.uk",
     url="https://github.com/joommf/joommfutil",
-    download_url="https://github.com/joommf/joommfutil/tarball/0.5.4.1",
+    download_url="https://github.com/joommf/joommfutil/tarball/0.5.4.2",
     packages=["joommfutil",
               "joommfutil.typesystem",
               "joommfutil.tests"],
