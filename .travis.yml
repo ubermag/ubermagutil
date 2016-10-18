@@ -9,7 +9,7 @@ install:
 script:
   - ci_env=`bash <(curl -s https://codecov.io/env)`
   - docker run -e ci_env -ti dockertestimage /bin/bash -c
-     "python3 -m pytest --nbval --cov=joommfutil --cov-config .coveragerc &&
+     "python3 -m pytest --cov=joommfutil --cov-config .coveragerc &&
       bash <(curl -s https://codecov.io/bash) -t 54e51b25-3a19-438f-a491-55826e6da789"
 
 notifications:
