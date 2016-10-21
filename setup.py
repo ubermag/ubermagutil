@@ -3,7 +3,7 @@ import setuptools
 with open('README.rst') as f:
     readme = f.read()
 
-setup(
+setuptools.setup(
     name='joommfutil',
     version='0.5.4.2',
     description='A JOOMMF utilities package.',
