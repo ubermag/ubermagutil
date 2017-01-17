@@ -1,6 +1,6 @@
 import pkg_resources as pr
 
-__version__ = pr.get_distribution("micromagneticmodel").version
+__version__ = pr.get_distribution("joommfutil").version
 
 
 def test():
