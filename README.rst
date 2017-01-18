@@ -13,6 +13,6 @@
 .. image:: https://badge.fury.io/py/joommfutil.svg
    :target: https://badge.fury.io/py/joommfutil
 
-Util repository for the code used across other JOOMMF packages.
+Utility repository for the code used across other JOOMMF packages.
 
-Authors: Marijan Beg, Ryan Pepper, Hans Fangohr
+Authors: Marijan Beg, Ryan A. Pepper, Hans Fangohr
