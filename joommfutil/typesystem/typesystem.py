@@ -2,6 +2,65 @@ import numbers
 import numpy as np
 
 
+class ConstantDescriptor:
+    def __init__(self, name=None, **opts):
+        self.name = name
+        self.initialised = False
+        for key, value in opts.items():
+            setattr(self, key, value)
+
+    def __set__(self, instance, value):
+        if self.initialised is False:
+            instance.__dict__[self.name] = value
+            self.initialised = True
+        else:
+            raise AttributeError("Changing attribute not allowed.")
+
+    def __delete__(self, instance):
+        raise AttributeError("Deleting attribute not allowed.")
+
+
+class ConstantMaxSized(ConstantDescriptor):
+    def __init__(self, name=None, **opts):
+        if "size" not in opts:
+            raise TypeError("Missing size option")
+        super().__init__(name, **opts)
+
+    def __set__(self, instance, value):
+        if len(value) != self.size:
+            raise TypeError("size must be < " + str(self.size))
+        super().__set__(instance, value)
+
+
+class ConstantTyped(ConstantDescriptor):
+    def __set__(self, instance, value):
+        if not isinstance(value, self.expected_type):
+            raise TypeError("Expected " + str(self.expected_type))
+        super().__set__(instance, value)
+
+
+class ConstantVector(ConstantTyped):
+    expected_type = (list, tuple, np.ndarray)
+
+
+class ConstantSizedVector(ConstantVector, ConstantMaxSized):
+    pass
+
+
+class ConstantRealVector(ConstantSizedVector):
+    def __set__(self, instance, value):
+        if not all([isinstance(i, numbers.Real) for i in value]):
+            raise TypeError("Expected Real vector components.")
+        super().__set__(instance, value)
+
+
+class ConstantPositiveRealVector(ConstantRealVector):
+    def __set__(self, instance, value):
+        if not all([i > 0 for i in value]):
+            raise TypeError("Expected positive vector components.")
+        super().__set__(instance, value)
+
+
 class Descriptor:
     def __init__(self, name=None, **opts):
         self.name = name
@@ -133,7 +192,7 @@ class ObjectName(String):
 def typesystem(**kwargs):
     def decorate(cls):
         for key, value in kwargs.items():
-            if isinstance(value, Descriptor):
+            if isinstance(value, (Descriptor, ConstantDescriptor)):
                 value.name = key
                 setattr(cls, key, value)
             else:
