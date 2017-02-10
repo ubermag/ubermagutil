@@ -188,15 +188,28 @@ def test_usecase():
     c1 = 9
     dc1 = DummyClass(a=a1, b=b1, c=c1)
 
+    a2 = (1, 1, -2)
+    b2 = (9, 10, 12)
+    c2 = 78
+    dc2 = DummyClass(a=a2, b=b2, c=c2)
+
     assert dc1.a == a1
     assert dc1.b == b1
     assert dc1.c == c1
+
+    assert dc2.a == a2
+    assert dc2.b == b2
+    assert dc2.c == c2
 
     # Attempt to change constant values
     with pytest.raises(AttributeError):
         dc1.a = (1, 0, 3)
     with pytest.raises(AttributeError):
         dc1.b = (5, 6.1, 7)
+    with pytest.raises(AttributeError):
+        dc2.a = (1, 0, 3)
+    with pytest.raises(AttributeError):
+        dc2.b = (5, 6.1, 7)
 
     # Change variable value
     dc1.c = 11
@@ -205,6 +218,10 @@ def test_usecase():
     assert dc1.b == b1
     assert dc1.c == 11
 
+    assert dc2.a == a2
+    assert dc2.b == b2
+    assert dc2.c == c2
+
     # Attempt deleting attribute
     with pytest.raises(AttributeError):
         del dc1.a
@@ -212,3 +229,9 @@ def test_usecase():
         del dc1.b
     with pytest.raises(AttributeError):
         del dc1.c
+    with pytest.raises(AttributeError):
+        del dc2.a
+    with pytest.raises(AttributeError):
+        del dc2.b
+    with pytest.raises(AttributeError):
+        del dc2.c
