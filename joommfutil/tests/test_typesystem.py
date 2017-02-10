@@ -214,6 +214,7 @@ def test_usecase():
     # Change variable value
     dc1.c = 11
 
+    # Assert values after changes
     assert dc1.a == a1
     assert dc1.b == b1
     assert dc1.c == 11
@@ -222,7 +223,7 @@ def test_usecase():
     assert dc2.b == b2
     assert dc2.c == c2
 
-    # Attempt deleting attribute
+    # Attempt deleting attributes
     with pytest.raises(AttributeError):
         del dc1.a
     with pytest.raises(AttributeError):
