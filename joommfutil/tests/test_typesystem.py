@@ -171,3 +171,44 @@ def test_constanttypesystem():
     # Attempt deleting attribute
     with pytest.raises(AttributeError):
         del dc.a
+
+
+def test_usecase():
+    @ts.typesystem(a=ts.ConstantRealVector(size=3),
+                   b=ts.ConstantPositiveRealVector(size=3),
+                   c=ts.PositiveReal)
+    class DummyClass:
+        def __init__(self, a, b, c):
+            self.a = a
+            self.b = b
+            self.c = c
+
+    a1 = (5, 4, -6.1e-3)
+    b1 = (0.1, 2, 3)
+    c1 = 9
+    dc1 = DummyClass(a=a1, b=b1, c=c1)
+
+    assert dc1.a == a1
+    assert dc1.b == b1
+    assert dc1.c == c1
+
+    # Attempt to change constant values
+    with pytest.raises(AttributeError):
+        dc1.a = (1, 0, 3)
+    with pytest.raises(AttributeError):
+        dc1.b = (5, 6.1, 7)
+
+    # Change variable value
+    dc1.c = 11
+
+    assert dc1.a == a1
+    assert dc1.b == b1
+    assert dc1.c == 11
+
+    # Attempt deleting attribute
+    with pytest.raises(AttributeError):
+        del dc1.a
+    with pytest.raises(AttributeError):
+        del dc1.b
+    with pytest.raises(AttributeError):
+        del dc1.c
