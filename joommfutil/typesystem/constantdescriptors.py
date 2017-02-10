@@ -7,12 +7,10 @@ class ConstantDescriptor:
         self.name = name
         for key, value in opts.items():
             setattr(self, key, value)
-        self.initialised = False
 
     def __set__(self, instance, value):
-        if self.initialised is False:
+        if self.name not in instance.__dict__:
             instance.__dict__[self.name] = value
-            self.initialised = True
         else:
             raise AttributeError("Changing attribute not allowed.")
 
