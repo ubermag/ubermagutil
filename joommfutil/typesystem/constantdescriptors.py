@@ -57,3 +57,17 @@ class ConstantPositiveRealVector(ConstantRealVector):
         if not all([i > 0 for i in value]):
             raise TypeError("Expected positive vector components.")
         super().__set__(instance, value)
+
+
+class ConstantString(ConstantTyped):
+    expected_type = str
+
+
+class ConstantObjectName(ConstantString):
+    def __set__(self, instance, value):
+        if not (value[0].isalpha() or value[0] == "_"):
+            raise TypeError("Object name must start with "
+                            "a letter or underscore.")
+        if " " in value:
+            raise TypeError("Object name must not contain space.")
+        super().__set__(instance, value)

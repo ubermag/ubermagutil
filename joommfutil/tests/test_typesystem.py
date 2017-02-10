@@ -147,26 +147,32 @@ def test_missing_expected_type_option():
 
 def test_constanttypesystem():
     @ts.typesystem(a=ts.ConstantRealVector(size=3),
-                   b=ts.ConstantPositiveRealVector(size=3))
+                   b=ts.ConstantPositiveRealVector(size=3),
+                   c=ts.ConstantObjectName)
     class DummyClass:
-        def __init__(self, a, b):
+        def __init__(self, a, b, c):
             self.a = a
             self.b = b
+            self.c = c
 
     a = (0, -1, 2.4)
     b = (1.2, 3.14, 5e-6)
+    c = "object_name"
 
-    dc = DummyClass(a=a, b=b)
+    dc = DummyClass(a=a, b=b, c=c)
 
     # Simple assertions
     assert dc.a == a
     assert dc.b == b
+    assert dc.c == c
 
     # Attempt to change value
     with pytest.raises(AttributeError):
         dc.a = (1, 0, 3)
     with pytest.raises(AttributeError):
         dc.b = (5, 6.1, 7)
+    with pytest.raises(AttributeError):
+        dc.c = "new_object_name"
 
     # Attempt deleting attribute
     with pytest.raises(AttributeError):
