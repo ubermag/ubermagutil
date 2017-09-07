@@ -11,7 +11,7 @@ class Descriptor:
     def __set__(self, instance, value):
         instance.__dict__[self.name] = value
 
-    def __delete__(self, instancxe):
+    def __delete__(self, instance):
         raise AttributeError("Deleting attribute not allowed.")
 
 
