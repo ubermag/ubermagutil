@@ -5,7 +5,7 @@ with open('README.rst') as f:
 
 setuptools.setup(
     name='joommfutil',
-    version='0.7.3',
+    version='0.7.4',
     description='A JOOMMF utilities package.',
     long_description=readme,
     url='https://joommf.github.io',
