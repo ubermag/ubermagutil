@@ -18,7 +18,7 @@ def typesystem(**kwargs):
     ...     def __init__(self, a, b):
     ...         self.a = a
     ...         self.b = b
-    
+
     """
     def decorate(cls):
         for key, value in kwargs.items():

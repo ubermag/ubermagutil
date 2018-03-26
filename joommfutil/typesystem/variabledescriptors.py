@@ -54,7 +54,8 @@ class FromSet(Descriptor):
 
     def __set__(self, instance, value):
         if value not in self.allowed_values:
-            raise TypeError("Expected value from {} set.".format(self.allowed_values))
+            raise TypeError("Expected value from "
+                            "{}.".format(self.allowed_values))
         super().__set__(instance, value)
 
 
