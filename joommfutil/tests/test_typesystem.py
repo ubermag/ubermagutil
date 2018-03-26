@@ -164,33 +164,39 @@ def test_missing_allowed_values_option():
 def test_constanttypesystem():
     @ts.typesystem(a=ts.ConstantRealVector(size=3),
                    b=ts.ConstantPositiveRealVector(size=3),
-                   c=ts.ConstantObjectName)
+                   c=ts.ConstantObjectName,
+                   d=ts.ConstantFromSet(allowed_values={1, 2, -9}))
     class DummyClass:
-        def __init__(self, a, b, c):
+        def __init__(self, a, b, c, d):
             self.a = a
             self.b = b
             self.c = c
+            self.d = d
 
     a = (0, -1, 2.4)
     b = (1.2, 3.14, 5e-6)
     c = "object_name"
+    d = 1
 
-    dc = DummyClass(a=a, b=b, c=c)
+    dc = DummyClass(a=a, b=b, c=c, d=d)
 
     # Simple assertions
     assert dc.a == a
     assert dc.b == b
     assert dc.c == c
+    assert dc.d == d
 
-    # Attempt to change value
+    # Attempt to change value.
     with pytest.raises(AttributeError):
         dc.a = (1, 0, 3)
     with pytest.raises(AttributeError):
         dc.b = (5, 6.1, 7)
     with pytest.raises(AttributeError):
         dc.c = "new_object_name"
+    with pytest.raises(AttributeError):
+        dc.d = -9
 
-    # Attempt deleting attribute
+    # Attempt deleting attribute.
     with pytest.raises(AttributeError):
         del dc.a
 
