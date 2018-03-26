@@ -15,9 +15,10 @@ def test_typesystem():
                    j=ts.TypedAttribute(expected_type=dict),
                    k=ts.ObjectName,
                    l=ts.IntVector(size=3),
-                   m=ts.PositiveIntVector(size=3))
+                   m=ts.PositiveIntVector(size=3),
+                   n=ts.FromSet(allowed_values={1, 2, "b"}))
     class DummyClass:
-        def __init__(self, a, b, c, d, e, f, g, h, i, j, k, l, m):
+        def __init__(self, a, b, c, d, e, f, g, h, i, j, k, l, m, n):
             self.a = a
             self.b = b
             self.c = c
@@ -31,6 +32,7 @@ def test_typesystem():
             self.k = k
             self.l = l
             self.m = m
+            self.n = n
 
     a = 1.7
     b = 2
@@ -45,9 +47,10 @@ def test_typesystem():
     k = "exchange_energy_name"
     l = (-1, 2, -3)
     m = (1, 2, 3)
+    n = 1
 
     dc = DummyClass(a=a, b=b, c=c, d=d, e=e, f=f, g=g,
-                    h=h, i=i, j=j, k=k, l=l, m=m)
+                    h=h, i=i, j=j, k=k, l=l, m=m, n=n)
 
     # Simple assertions
     assert dc.a == a
@@ -63,6 +66,7 @@ def test_typesystem():
     assert dc.k == k
     assert dc.l == l
     assert dc.m == m
+    assert dc.n == n
 
     # Valid settings
     dc.a = 77.4
@@ -91,6 +95,8 @@ def test_typesystem():
     assert dc.l == (-11, -5, 6)
     dc.m = (5, 9, 879)
     assert dc.m == (5, 9, 879)
+    dc.n = "b"
+    assert dc.n == "b"
 
     # Invalid settings
     with pytest.raises(TypeError):
@@ -123,6 +129,8 @@ def test_typesystem():
         dc.l = (1.1, 2, 5)
     with pytest.raises(TypeError):
         dc.m = (0, 2, 5)
+    with pytest.raises(TypeError):
+        dc.n = -25
 
     # Attempt deleting attribute
     with pytest.raises(AttributeError):
@@ -140,6 +148,14 @@ def test_missing_size_option():
 def test_missing_expected_type_option():
     with pytest.raises(TypeError):
         @ts.typesystem(a=ts.TypedAttribute)
+        class DummyClass:
+            def __init__(self, a):
+                self.a = a
+
+
+def test_missing_allowed_values_option():
+    with pytest.raises(TypeError):
+        @ts.typesystem(a=ts.FromSet)
         class DummyClass:
             def __init__(self, a):
                 self.a = a

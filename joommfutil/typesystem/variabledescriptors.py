@@ -46,6 +46,18 @@ class MaxSized(Descriptor):
         super().__set__(instance, value)
 
 
+class FromSet(Descriptor):
+    def __init__(self, name=None, **opts):
+        if "allowed_values" not in opts:
+            raise TypeError("Missing allowed_values option.")
+        super().__init__(name, **opts)
+
+    def __set__(self, instance, value):
+        if value not in self.allowed_values:
+            raise TypeError("Expected value from {} set.".format(self.allowed_values))
+        super().__set__(instance, value)
+
+
 class Unsigned(Descriptor):
     def __set__(self, instance, value):
         if value < 0:
