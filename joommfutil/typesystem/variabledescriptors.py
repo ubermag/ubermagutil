@@ -71,12 +71,14 @@ class FromCombinations(Descriptor):
         for i in range(1, len(self.sample_set)+1):
             combs += list(itertools.combinations(self.sample_set, r=i))
         combs = map(set, combs)
-        if set(value) not in combs:
-            raise TypeError("Expected value from "
-                            "{}.".format(combs))
-        super().__set__(instance, set(value))
+        if value is not None: 
+            if set(value) not in combs:
+                raise TypeError("Expected value from "
+                                "{}.".format(combs))
+            value = set(value)
+        super().__set__(instance, value)
 
-        
+
 class Unsigned(Descriptor):
     def __set__(self, instance, value):
         if value < 0:
