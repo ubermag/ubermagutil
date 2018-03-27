@@ -1,4 +1,5 @@
 import numbers
+import itertools
 import numpy as np
 
 
@@ -59,6 +60,23 @@ class FromSet(Descriptor):
         super().__set__(instance, value)
 
 
+class FromCombinations(Descriptor):
+    def __init__(self, name=None, **opts):
+        if "sample_set" not in opts:
+            raise TypeError("Missing sample_set option.")
+        super().__init__(name, **opts)
+
+    def __set__(self, instance, value):
+        combs = []
+        for i in range(1, len(self.sample_set)+1):
+            combs += list(itertools.combinations(self.sample_set, r=i))
+        combs = map(set, combs)
+        if set(value) not in combs:
+            raise TypeError("Expected value from "
+                            "{}.".format(combs))
+        super().__set__(instance, set(value))
+
+        
 class Unsigned(Descriptor):
     def __set__(self, instance, value):
         if value < 0:

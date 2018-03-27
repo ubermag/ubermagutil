@@ -16,9 +16,10 @@ def test_typesystem():
                    k=ts.ObjectName,
                    l=ts.IntVector(size=3),
                    m=ts.PositiveIntVector(size=3),
-                   n=ts.FromSet(allowed_values={1, 2, "b"}))
+                   n=ts.FromSet(allowed_values={1, 2, "b"}),
+                   o=ts.FromCombinations(sample_set='xyz'))
     class DummyClass:
-        def __init__(self, a, b, c, d, e, f, g, h, i, j, k, l, m, n):
+        def __init__(self, a, b, c, d, e, f, g, h, i, j, k, l, m, n, o):
             self.a = a
             self.b = b
             self.c = c
@@ -33,6 +34,7 @@ def test_typesystem():
             self.l = l
             self.m = m
             self.n = n
+            self.o = o
 
     a = 1.7
     b = 2
@@ -48,9 +50,10 @@ def test_typesystem():
     l = (-1, 2, -3)
     m = (1, 2, 3)
     n = 1
+    o = set('xy')
 
     dc = DummyClass(a=a, b=b, c=c, d=d, e=e, f=f, g=g,
-                    h=h, i=i, j=j, k=k, l=l, m=m, n=n)
+                    h=h, i=i, j=j, k=k, l=l, m=m, n=n, o=o)
 
     # Simple assertions
     assert dc.a == a
@@ -67,6 +70,7 @@ def test_typesystem():
     assert dc.l == l
     assert dc.m == m
     assert dc.n == n
+    assert dc.o == o
 
     # Valid settings
     dc.a = 77.4
@@ -97,6 +101,8 @@ def test_typesystem():
     assert dc.m == (5, 9, 879)
     dc.n = "b"
     assert dc.n == "b"
+    dc.o = "xzy"
+    assert dc.o == set("xyz")
 
     # Invalid settings
     with pytest.raises(TypeError):
@@ -131,6 +137,8 @@ def test_typesystem():
         dc.m = (0, 2, 5)
     with pytest.raises(TypeError):
         dc.n = -25
+    with pytest.raises(TypeError):
+        dc.n = "abc"
 
     # Attempt deleting attribute
     with pytest.raises(AttributeError):
@@ -161,30 +169,42 @@ def test_missing_allowed_values_option():
                 self.a = a
 
 
+def test_missing_sample_set_option():
+    with pytest.raises(TypeError):
+        @ts.typesystem(a=ts.FromCombinations)
+        class DummyClass:
+            def __init__(self, a):
+                self.a = a
+
+
 def test_constanttypesystem():
     @ts.typesystem(a=ts.ConstantRealVector(size=3),
                    b=ts.ConstantPositiveRealVector(size=3),
                    c=ts.ConstantObjectName,
-                   d=ts.ConstantFromSet(allowed_values={1, 2, -9}))
+                   d=ts.ConstantFromSet(allowed_values={1, 2, -9}),
+                   e=ts.ConstantFromCombinations(sample_set='xyz'))
     class DummyClass:
-        def __init__(self, a, b, c, d):
+        def __init__(self, a, b, c, d, e):
             self.a = a
             self.b = b
             self.c = c
             self.d = d
+            self.e = e
 
     a = (0, -1, 2.4)
     b = (1.2, 3.14, 5e-6)
     c = "object_name"
     d = 1
+    e = 'xy'
 
-    dc = DummyClass(a=a, b=b, c=c, d=d)
+    dc = DummyClass(a=a, b=b, c=c, d=d, e=e)
 
     # Simple assertions
     assert dc.a == a
     assert dc.b == b
     assert dc.c == c
     assert dc.d == d
+    assert dc.e == set(e)
 
     # Attempt to change value.
     with pytest.raises(AttributeError):
@@ -195,6 +215,8 @@ def test_constanttypesystem():
         dc.c = "new_object_name"
     with pytest.raises(AttributeError):
         dc.d = -9
+    with pytest.raises(AttributeError):
+        dc.e = 'x'
 
     # Attempt deleting attribute.
     with pytest.raises(AttributeError):
