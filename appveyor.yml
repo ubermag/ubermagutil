@@ -11,10 +11,10 @@ platform:
 build: off
 
 install:
-  - "%PYTHON%\\python.exe -m pip install ."
+  - python -m pip install .
 
 test_script:
-  - "%PYTHON%\\python.exe -m pytest -v"
+  - python -m pytest -v"
 
 #on_success:
 #  You can use this step to upload your artifacts to a public website.
