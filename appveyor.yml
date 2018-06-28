@@ -1,14 +1,15 @@
 environment:
   matrix:
-    - CONDA_PY: 35
-      CONDA_INSTALL_LOCN: "C:\\Miniconda35-x64"
-    - CONDA_PY: 36
-      CONDA_INSTALL_LOCN: "C:\\Miniconda36-x64"
+    - PYTHON_VERSION: 3.5
+      MINICONDA: C:\Miniconda3
 
 platform:
   - x64
 
 build: off
+
+init:
+  - "ECHO %PYTHON_VERSION% %MINICONDA%"
 
 install:
   - cmd: python -m pip install pytest .
