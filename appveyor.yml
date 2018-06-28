@@ -14,7 +14,7 @@ install:
   - cmd: python -m pip install pytest .
 
 test_script:
-  - python -m pytest -v
+  - cmd: python -m pytest -v
 
 #on_success:
 #  You can use this step to upload your artifacts to a public website.
