@@ -6,7 +6,7 @@ with open("README.md", 'r+', encoding="utf-8") as f:
 setuptools.setup(
     name='joommfutil',
     version='0.8',
-    description='A JOOMMF utilities package.',
+    description='Python utilities package used across all JOOMMF packages.',
     long_description=readme,
     url='https://joommf.github.io',
     author='Marijan Beg, Ryan A. Pepper, Thomas Kluyver, and Hans Fangohr',
