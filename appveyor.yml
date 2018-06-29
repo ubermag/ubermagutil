@@ -22,3 +22,9 @@ test_script:
   - python -c "import joommfutil as j; import sys; sys.exit(j.test())"
   - python -m pytest --nbval docs\ipynb\
   - python -m pytest --doctest-modules --ignore=joommfutil\tests joommfutil
+
+notifications:
+  - provider: Slack
+    auth_token:
+      secure: xoxp-18108416695-18216207383-390281600243-1e1d6a113ea920ee52e73535b58947e3
+    channel: '#notifications'
