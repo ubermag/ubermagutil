@@ -16,7 +16,7 @@ install:
   - conda update -q conda
   - "conda create -q -n test-environment python=%PYTHON_VERSION%"
   - activate test-environment
-  - pip install --upgrade pytest nbval .
+  - python -m pip install --upgrade pip pytest nbval .
 
 test_script:
   - make test-all
