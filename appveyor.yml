@@ -1,9 +1,9 @@
 environment:
   matrix:
     - PYTHON_VERSION: 3.5
-      MINICONDA: C:\Miniconda3
+      MINICONDA: C:\Miniconda3-x64
     - PYTHON_VERSION: 3.6
-      MINICONDA: C:\Miniconda3
+      MINICONDA: C:\Miniconda3-x64
 
 platform:
   - x64
@@ -25,5 +25,4 @@ test_script:
 
 notifications:
   - provider: Slack
-    auth_token: xoxp-18108416695-18216207383-390281600243-1e1d6a113ea920ee52e73535b58947e3
-    channel: '#notifications'
+    incoming_webhook: https://hooks.slack.com/services/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
