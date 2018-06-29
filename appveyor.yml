@@ -19,4 +19,6 @@ install:
   - python -m pip install --upgrade pip pytest nbval .
 
 test_script:
-  - make test-all
+  - python -c "import joommfutil as j; import sys; sys.exit(j.test())"
+  - python -m pytest --nbval docs/ipynb/*.ipynb
+  - python -m pytest --doctest-modules --ignore=joommfutil/tests joommfutil
