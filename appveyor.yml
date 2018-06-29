@@ -16,12 +16,7 @@ install:
   - conda update -q conda
   - "conda create -q -n test-environment python=%PYTHON_VERSION%"
   - activate test-environment
-  - pip install pytest .
+  - pip install --upgrade pip pytest nbval .
 
 test_script:
-  - python -m pytest -v
-
-#on_success:
-#  You can use this step to upload your artifacts to a public website.
-#  See Appveyor's documentation for more details. Or you can simply
-#  access your wheels from the Appveyor "artifacts" tab for your build.
+  - make test-all
