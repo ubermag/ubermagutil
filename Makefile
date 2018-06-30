@@ -3,11 +3,9 @@ IPYNBPATH=docs/ipynb/*.ipynb
 CODECOVTOKEN=54e51b25-3a19-438f-a491-55826e6da789
 PYTHON?=python3
 
-# run tests in source
 test:
 	$(PYTHON) -m pytest
 
-# test as the use would call it
 test-test:
 	$(PYTHON) -c "import joommfutil as j; import sys; sys.exit(j.test())"
 
@@ -45,8 +43,7 @@ test-docker:
 
 build-dists:
 	rm -rf dist/
-	$(PYTHON) setup.py sdist
-	$(PYTHON) setup.py bdist_wheel
+	$(PYTHON) setup.py sdist bdist_wheel
 
 release: build-dists
 	twine upload dist/*
