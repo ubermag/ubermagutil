@@ -12,7 +12,7 @@ RUN python3 -m pip install .
 
 # Commands to make Binder work.
 RUN python3 -m pip install --no-cache-dir notebook==5.*
-ENV NB_USER finmaguser
+ENV NB_USER binderuser
 ENV NB_UID 1000
 ENV HOME /home/${NB_USER}
 
@@ -26,5 +26,3 @@ USER root
 RUN chown -R ${NB_UID} ${HOME}
 RUN chown -R ${NB_UID} /usr/local/joommfutil
 USER ${NB_USER}
-
-WORKDIR /usr/local/joommfutil

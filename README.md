@@ -12,6 +12,7 @@ Marijan Beg<sup>1,2</sup>, Ryan A. Pepper<sup>2</sup>, Thomas Kluyver<sup>1</sup
 |       | [![Build status](https://ci.appveyor.com/api/projects/status/oukup0h6i6wxb3g1?svg=true)](https://ci.appveyor.com/project/marijanbeg/joommfutil) |
 | Coverage | [![codecov](https://codecov.io/gh/joommf/joommfutil/branch/master/graph/badge.svg)](https://codecov.io/gh/joommf/joommfutil) |
 | Documentation | [![Documentation Status](https://readthedocs.org/projects/joommfutil/badge/?version=latest)](http://joommfutil.readthedocs.io/en/latest/?badge=latest) |
+| Binder | [![Binder](https://mybinder.org/badge.svg)](https://mybinder.org/v2/gh/joommf/joommfutil/master?filepath=index.ipynb) |
 | Dependecies | [![Requirements Status](https://requires.io/github/joommf/joommfutil/requirements.svg?branch=master)](https://requires.io/github/joommf/joommfutil/requirements/?branch=master) |
 | License | [![License](https://img.shields.io/badge/License-BSD%203--Clause-blue.svg)](https://opensource.org/licenses/BSD-3-Clause) |
 
@@ -71,6 +72,10 @@ The most recent development version of `joommfutil` that is not yet released can
     python3 -m pip install --upgrade joommfutil
 
 **Note**: If you do not have `git` on your system, it can be installed by following the instructions [here](https://git-scm.com/book/en/v2/Getting-Started-Installing-Git).
+
+## Binder
+
+`joommfutil` can be used in the cloud via Binder. This does not require you to have anything installed and no files will be created on your machine. To use `joommfutil` in the cloud, follow this [link](https://mybinder.org/v2/gh/joommf/joommfutil/master?filepath=index.ipynb).
 
 ## Documentation
 
