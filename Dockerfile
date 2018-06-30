@@ -25,7 +25,7 @@ RUN adduser --disabled-password \
 COPY . ${HOME}
 USER root
 RUN chown -R ${NB_UID} ${HOME}
-RUN chown -R ${NB_UID} /joommfutil
+RUN chown -R ${NB_UID} /usr/local/joommfutil
 USER ${NB_USER}
 
 WORKDIR /usr/local/joommfutil
