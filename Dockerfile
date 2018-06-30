@@ -28,4 +28,4 @@ RUN chown -R ${NB_UID} ${HOME}
 RUN chown -R ${NB_UID} /joommfutil
 USER ${NB_USER}
 
-WORKDIR /joommfutil
+WORKDIR /usr/local/joommfutil
