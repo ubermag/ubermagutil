@@ -11,7 +11,7 @@ WORKDIR /usr/local/joommfutil
 RUN python3 -m pip install .
 
 # Commands to make Binder work.
-RUN pip install --no-cache-dir notebook==5.*
+RUN python3 -m pip install --no-cache-dir notebook==5.*
 ENV NB_USER finmaguser
 ENV NB_UID 1000
 ENV HOME /home/${NB_USER}
