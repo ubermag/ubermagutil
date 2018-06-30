@@ -37,7 +37,7 @@ travis-build:
 test-docker:
 	docker build -t dockertestimage .
 	docker run -ti -d --name testcontainer dockertestimage
-	docker exec testcontainer find . -name __pycache__ -type d -exec rm -r {} +
+	docker exec testcontainer find . -name '*.pyc' -delete
 	docker exec testcontainer make test-all
 	docker stop testcontainer
 	docker rm testcontainer
