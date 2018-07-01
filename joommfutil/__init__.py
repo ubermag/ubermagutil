@@ -1,8 +1,7 @@
 import pkg_resources
-
+import pytest
 
 def test():
-    import pytest  # pragma: no cover
     return pytest.main(["-v", "--pyargs", "joommfutil"])  # pragma: no cover
 
 __version__ = pkg_resources.get_distribution(__name__).version
