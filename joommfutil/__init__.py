@@ -1,5 +1,5 @@
-import pkg_resources
 import pytest
+import pkg_resources
 
 def test():
     return pytest.main(["-v", "--pyargs", "joommfutil"])  # pragma: no cover
