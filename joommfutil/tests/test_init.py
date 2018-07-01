@@ -1,10 +1,10 @@
-import joommf as jo
+import joommfutil as ju
 
 def test_version():
-    assert isinstance(jo.__version__, str)
-    assert '.' in jo.__version__
+    assert isinstance(ju.__version__, str)
+    assert '.' in ju.__version__
 
 def test_dependencies():
-    assert isinstance(jo.__dependencies__, list)
-    assert len(jo.__dependencies__) > 0
+    assert isinstance(ju.__dependencies__, list)
+    assert len(ju.__dependencies__) > 0
     
