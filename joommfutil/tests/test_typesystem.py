@@ -121,7 +121,7 @@ def test_vector():
     with pytest.raises(ValueError):
         dc.n = [-1, 5]
     with pytest.raises(ValueError):
-        dc.o = (9, "a")
+        dc.o = (9, -3)
     with pytest.raises(ValueError):
         dc.p = []
     with pytest.raises(ValueError):

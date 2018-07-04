@@ -11,7 +11,8 @@ class Descriptor:
 
     def __set__(self, instance, value):
         if hasattr(self, "const"):
-            if not self.const or (self.name not in instance.__dict__ and self.const):
+            if not self.const or \
+               (self.name not in instance.__dict__ and self.const):
                 instance.__dict__[self.name] = value
             else:
                 raise AttributeError('Changing the attribute value is not allowed.')
