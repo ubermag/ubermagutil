@@ -1,3 +1,2 @@
-from .variabledescriptors import *
-from .constantdescriptors import *
-from .typesystem import *
+from .descriptors import Typed, Scalar, Vector, Name, InSet, Subset
+from .typesystem import typesystem

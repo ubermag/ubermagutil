@@ -1,5 +1,4 @@
-from .variabledescriptors import Descriptor
-from .constantdescriptors import ConstantDescriptor
+from .descriptors import Descriptor
 
 
 def typesystem(**kwargs):
@@ -22,7 +21,7 @@ def typesystem(**kwargs):
     """
     def decorate(cls):
         for key, value in kwargs.items():
-            if isinstance(value, (Descriptor, ConstantDescriptor)):
+            if isinstance(value, (Descriptor)):
                 value.name = key
                 setattr(cls, key, value)
             else:
