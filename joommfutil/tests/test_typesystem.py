@@ -147,6 +147,11 @@ def test_add_missing_argument():
     with pytest.raises(ValueError):
         dc.h = -1e-10
 
+
+
+# Add consts tests
+# tests from the end of the file
+
 """
 def test_typesystem():
     @ts.typesystem(a=ts.Real,

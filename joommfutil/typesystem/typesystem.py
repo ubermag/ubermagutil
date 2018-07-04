@@ -13,7 +13,7 @@ def typesystem(**kwargs):
     Simple class decorating.
 
     >>> import joommfutil.typesystem as ts
-    >>> @ts.typesystem(a=ts.UnsignedReal)
+    >>> @ts.typesystem(a=ts.Scalar, b=ts.Typed(expected_type=str))
     ... class A:
     ...     def __init__(self, a, b):
     ...         self.a = a
