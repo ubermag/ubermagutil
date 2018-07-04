@@ -61,16 +61,15 @@ class Vector(Typed):
         super().__set__(instance, value)
 
 
-class String(Typed):
+class Name(Typed):
     expected_type = str
-
-
-class Name(String):
     def __set__(self, instance, value):
-        if not value[0].isalpha() or not value.startswith('_'):
-            raise TypeError('String must start with a letter or an underscore.')
+        if not isinstance(value, str):
+            raise TypeError('Expected: type(value) = str.')
+        if not (value[0].isalpha() or value.startswith('_')):
+            raise ValueError('String must start with a letter or an underscore.')
         if ' ' in value:
-            raise TypeError('String must not contain spaces.')
+            raise ValueError('String must not contain spaces.')
         super().__set__(instance, value)
 
 """

@@ -6,7 +6,7 @@ import joommfutil.typesystem as ts
 
 @ts.typesystem(a=ts.Typed(expected_type=int),
                b=ts.Typed(expected_type=numbers.Real),
-               c=ts.Typed(expected_type=tuple),
+               c=ts.Typed(expected_type=str),
                d=ts.Typed(expected_type=list),
                
                e=ts.Scalar,
@@ -24,7 +24,9 @@ import joommfutil.typesystem as ts
                p=ts.Vector(size=1, positive=False),
                r=ts.Vector(component_type=int),
                s=ts.Vector(size=3, component_type=float),
-               t=ts.Vector(size=2, positive=True, component_type=int))
+               t=ts.Vector(size=2, positive=True, component_type=int),
+
+               u=ts.Name)
 class DummyClass:
     def __init__(self, **kwargs):
         for key, value in kwargs.items():
@@ -32,12 +34,12 @@ class DummyClass:
 
 
 def test_typed():
-    dc = DummyClass(a=5, b=-3, c=(1, 2, 3), d=[-9.1, 6, 7])
+    dc = DummyClass(a=5, b=-3, c="joommf", d=[-9.1, 6, 7])
 
     # Valid sets
     dc.a = -999
     dc.b = 3e6    
-    dc.c = (1e-3, "a", 5, "abcd")
+    dc.c = "joommf"
     dc.d = []
 
     # Invalid sets
@@ -115,7 +117,22 @@ def test_vector():
 
 
 
+def test_name():
+    dc = DummyClass(u="var_name")
 
+    dc.u = "a1"
+    dc.u = "mesh"
+    dc.u = "a1a"
+    dc.u = "var-name"
+
+    with pytest.raises(TypeError):
+        dc.u = 5
+    with pytest.raises(ValueError):
+        dc.u = "1a"
+    with pytest.raises(ValueError):
+        dc.u = "-a"
+    with pytest.raises(ValueError):
+        dc.u = "val name"
 
 
 
