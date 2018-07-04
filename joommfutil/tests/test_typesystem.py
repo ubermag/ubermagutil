@@ -2,6 +2,30 @@ import pytest
 import joommfutil.typesystem as ts
 
 
+def test_var_const():
+    @ts.typesystem(a=ts.Real(const=False),
+                   b=ts.Real,
+                   c=ts.Real(const=True),
+                   d=ts.PositiveIntVector(size=3, const=False))
+    class DummyClass:
+        def __init__(self, a, b, c, d):
+            self.a = a
+            self.b = b
+            self.c = c
+            self.d = d
+    
+    a = 5
+    b = -3
+    c = 1e-9
+    d = [5, 9, 6]
+    dc = DummyClass(a, b, c, d)
+
+    dc.a = 9
+    dc.b = 3
+    with pytest.raises(AttributeError):
+        dc.c = 6
+    dc.d = [1, 3, 9]
+
 def test_typesystem():
     @ts.typesystem(a=ts.Real,
                    b=ts.Int,
