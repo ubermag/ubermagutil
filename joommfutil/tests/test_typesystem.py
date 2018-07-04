@@ -1,31 +1,136 @@
 import pytest
+import numbers
+import numpy as np
 import joommfutil.typesystem as ts
 
 
-def test_var_const():
-    @ts.typesystem(a=ts.Real(const=False),
-                   b=ts.Real,
-                   c=ts.Real(const=True),
-                   d=ts.PositiveIntVector(size=3, const=False))
-    class DummyClass:
-        def __init__(self, a, b, c, d):
-            self.a = a
-            self.b = b
-            self.c = c
-            self.d = d
-    
-    a = 5
-    b = -3
-    c = 1e-9
-    d = [5, 9, 6]
-    dc = DummyClass(a, b, c, d)
+@ts.typesystem(a=ts.Typed(expected_type=int),
+               b=ts.Typed(expected_type=numbers.Real),
+               c=ts.Typed(expected_type=tuple),
+               d=ts.Typed(expected_type=list),
+               
+               e=ts.Scalar,
+               f=ts.Scalar(expected_type=float),
+               g=ts.Scalar(positive=True),
+               h=ts.Scalar(unsigned=True),
+               i=ts.Scalar(expected_type=int, positive=True),
+               j=ts.Scalar(expected_type=numbers.Real, positive=False),
+               k=ts.Scalar(expected_type=float, unsigned=True),
 
-    dc.a = 9
-    dc.b = 3
-    with pytest.raises(AttributeError):
-        dc.c = 6
-    dc.d = [1, 3, 9]
+               l=ts.Vector,
+               m=ts.Vector(size=5),
+               n=ts.Vector(unsigned=True),
+               o=ts.Vector(positive=True),
+               p=ts.Vector(size=1, positive=False),
+               r=ts.Vector(component_type=int),
+               s=ts.Vector(size=3, component_type=float),
+               t=ts.Vector(size=2, positive=True, component_type=int))
+class DummyClass:
+    def __init__(self, **kwargs):
+        for key, value in kwargs.items():
+            setattr(self, key, value)
 
+
+def test_typed():
+    dc = DummyClass(a=5, b=-3, c=(1, 2, 3), d=[-9.1, 6, 7])
+
+    # Valid sets
+    dc.a = -999
+    dc.b = 3e6    
+    dc.c = (1e-3, "a", 5, "abcd")
+    dc.d = []
+
+    # Invalid sets
+    with pytest.raises(TypeError):
+        dc.a = 0.1
+    with pytest.raises(TypeError):
+        dc.b = {}
+    with pytest.raises(TypeError):
+        dc.c = 5    
+    with pytest.raises(TypeError):
+        dc.d = ()
+
+
+def test_scalar():
+    dc = DummyClass(e=1e-2, f=1.1, g=500, h=0, i=1, j=1, k=0.)
+
+    # Valid sets
+    dc.e = -1
+    dc.f = -5.
+    dc.g = 1e-11
+    dc.h = 101
+    dc.i = 20
+    dc.j = -500
+    dc.k = 1.2
+
+    # Invalid sets
+    with pytest.raises(TypeError):
+        dc.e = []
+    with pytest.raises(TypeError):
+        dc.f = 5000
+    with pytest.raises(ValueError):
+        dc.g = 0
+    with pytest.raises(ValueError):
+        dc.h = -1
+    with pytest.raises(TypeError):
+        dc.i = 0.1
+    with pytest.raises(TypeError):
+        dc.j = []
+    with pytest.raises(TypeError):
+        dc.k = -1  # First caught because it is not float
+
+
+def test_vector():
+    dc = DummyClass(l=[1, -2, 1.1], m=(-1, 2.1, 0, 0, 0), n=[0, 5], o=[1e-9,],
+                    p=[5], r=[1, 2, 3], s=[0.1, 0.2, -5.1], t=[100, 200])
+
+
+    # Valid sets
+    dc.l = (1, 5e-9)
+    dc.m = np.array([1, 2, 3, 0.1, -1e-9])
+    dc.n = [1, 0]
+    dc.o = np.array([5, 1e5])
+    dc.p = (-5,)
+    dc.r = [5, 9]
+    dc.s = (11.1, np.pi, 0.0)
+    dc.t = [1, 9]
+
+    # Invalid sets
+    with pytest.raises(TypeError):
+        dc.l = {}
+    with pytest.raises(ValueError):
+        dc.m = (20, 11)
+    with pytest.raises(ValueError):
+        dc.n = [-1, 5]
+    with pytest.raises(ValueError):
+        dc.o = (9, -11.0)
+    with pytest.raises(ValueError):
+        dc.p = []
+    with pytest.raises(ValueError):
+        dc.r = ["a", 1, 3]
+    with pytest.raises(ValueError):
+        dc.s = [1.1, 2, np.pi]
+    with pytest.raises(ValueError):
+        dc.t = np.array([])
+
+
+
+
+
+
+
+
+
+
+        
+def test_add_missing_argument():
+    dc = DummyClass()
+    dc.h = 5
+    dc.h = 9.1
+    with pytest.raises(ValueError):
+        dc.h = -1e-10
+
+"""
 def test_typesystem():
     @ts.typesystem(a=ts.Real,
                    b=ts.Int,
@@ -36,14 +141,13 @@ def test_typesystem():
                    g=ts.SizedVector(size=2),
                    h=ts.RealVector(size=3),
                    i=ts.PositiveRealVector(size=3),
-                   j=ts.TypedAttribute(expected_type=dict),
                    k=ts.ObjectName,
                    l=ts.IntVector(size=3),
                    m=ts.PositiveIntVector(size=3),
                    n=ts.FromSet(allowed_values={1, 2, "b"}),
                    o=ts.FromCombinations(sample_set='xyz'))
     class DummyClass:
-        def __init__(self, a, b, c, d, e, f, g, h, i, j, k, l, m, n, o):
+        def __init__(self, a, b, c, d, e, f, g, h, i, k, l, m, n, o):
             self.a = a
             self.b = b
             self.c = c
@@ -53,7 +157,6 @@ def test_typesystem():
             self.g = g
             self.h = h
             self.i = i
-            self.j = j
             self.k = k
             self.l = l
             self.m = m
@@ -69,7 +172,6 @@ def test_typesystem():
     g = (1, 2)
     h = (-1, 2, 3.1)
     i = (1, 2, 31.1)
-    j = {}
     k = "exchange_energy_name"
     l = (-1, 2, -3)
     m = (1, 2, 3)
@@ -77,7 +179,7 @@ def test_typesystem():
     o = set('xy')
 
     dc = DummyClass(a=a, b=b, c=c, d=d, e=e, f=f, g=g,
-                    h=h, i=i, j=j, k=k, l=l, m=m, n=n, o=o)
+                    h=h, i=i, k=k, l=l, m=m, n=n, o=o)
 
     # Simple assertions
     assert dc.a == a
@@ -89,7 +191,6 @@ def test_typesystem():
     assert dc.g == g
     assert dc.h == h
     assert dc.i == i
-    assert dc.j == j
     assert dc.k == k
     assert dc.l == l
     assert dc.m == m
@@ -115,8 +216,6 @@ def test_typesystem():
     assert dc.h == (-5, 6, 8)
     dc.i = (1, 2, 3.2)
     assert dc.i == (1, 2, 3.2)
-    dc.j = {"a": 1}
-    assert dc.j == {"a": 1}
     dc.k = "_new_name2"
     assert dc.k == "_new_name2"
     dc.l = (-11, -5, 6)
@@ -150,8 +249,6 @@ def test_typesystem():
     with pytest.raises(TypeError):
         dc.i = (1, -2, 3.2)
     with pytest.raises(TypeError):
-        dc.j = 5
-    with pytest.raises(TypeError):
         dc.k = "new name2"
     with pytest.raises(TypeError):
         dc.k = "2newname2"
@@ -167,7 +264,6 @@ def test_typesystem():
     # Attempt deleting attribute
     with pytest.raises(AttributeError):
         del dc.i
-
 
 def test_missing_size_option():
     with pytest.raises(TypeError):
@@ -310,3 +406,4 @@ def test_usecase():
         del dc2.b
     with pytest.raises(AttributeError):
         del dc2.c
+"""
