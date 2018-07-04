@@ -8,7 +8,6 @@ import joommfutil.typesystem as ts
                b=ts.Typed(expected_type=numbers.Real),
                c=ts.Typed(expected_type=str),
                d=ts.Typed(expected_type=list),
-               
                e=ts.Scalar,
                f=ts.Scalar(expected_type=float),
                g=ts.Scalar(positive=True),
@@ -16,7 +15,6 @@ import joommfutil.typesystem as ts
                i=ts.Scalar(expected_type=int, positive=True),
                j=ts.Scalar(expected_type=numbers.Real, positive=False),
                k=ts.Scalar(expected_type=float, unsigned=True),
-
                l=ts.Vector,
                m=ts.Vector(size=5),
                n=ts.Vector(unsigned=True),
@@ -25,15 +23,12 @@ import joommfutil.typesystem as ts
                r=ts.Vector(component_type=int),
                s=ts.Vector(size=3, component_type=float),
                t=ts.Vector(size=2, positive=True, component_type=int),
-
                u=ts.Name,
-
                v=ts.Typed(expected_type=str, const=True),
                w=ts.Scalar(positive=True, const=True),
                x=ts.Vector(positive=True, unsigned=True, const=True),
                y=ts.Vector(size=3, component_type=int, const=True),
                z=ts.Name(const=True),
-
                a1=ts.InSet(allowed_values=[1, 2, '5']),
                b1=ts.InSet(allowed_values=[-1, 5], const=True),
                c1=ts.Subset(sample_set="xyz"),
@@ -61,7 +56,7 @@ def test_typed():
     with pytest.raises(TypeError):
         dc.b = {}
     with pytest.raises(TypeError):
-        dc.c = 5    
+        dc.c = 5
     with pytest.raises(TypeError):
         dc.d = ()
 
@@ -98,9 +93,8 @@ def test_scalar():
 
 
 def test_vector():
-    dc = DummyClass(l=[1, -2, 1.1], m=(-1, 2.1, 0, 0, 0), n=[0, 5], o=[1e-9,],
+    dc = DummyClass(l=[1, -2, 1.1], m=(-1, 2.1, 0, 0, 0), n=[0, 5], o=[1e-9, ],
                     p=[5], r=[1, 2, 3], s=[0.1, 0.2, -5.1], t=[100, 200])
-
 
     # Valid sets
     dc.l = (1, 5e-9)
@@ -168,17 +162,16 @@ def test_subset():
     dc.c1 = 'x'
     assert dc.c1 == {'x'}
     dc.c1 = []
-    dc.c1 = 'yx'  
+    dc.c1 = 'yx'
     dc.c1 = 'yxzz'
     with pytest.raises(AttributeError):
         dc.d1 = 'x'  # const == True
-
     with pytest.raises(ValueError):
         dc.c1 = 'a'  # Invalid set
     with pytest.raises(ValueError):
         dc.c1 = [1]  # Invalid set
 
-        
+
 def test_const():
     dc = DummyClass(v="a", w=3.5, x=(1e9,), y=[1, 2, -5])
 
@@ -197,7 +190,7 @@ def test_const():
     with pytest.raises(AttributeError):
         dc.z = "new_string"
 
-        
+
 def test_add_missing_argument():
     dc = DummyClass()
     dc.h = 5
