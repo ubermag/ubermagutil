@@ -46,6 +46,8 @@ class Scalar(Descriptor):
 class Vector(Typed):
     expected_type = (list, tuple, np.ndarray)
     def __set__(self, instance, value):
+        if not all(isinstance(i, numbers.Real) for i in value):
+            raise ValueError('Expected typr(value[.]) == number.Real')
         if hasattr(self, "size"):
             if len(value) != self.size:
                 raise ValueError('Expected len(value) == {}'.format(self.size))
