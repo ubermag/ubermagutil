@@ -32,7 +32,12 @@ import joommfutil.typesystem as ts
                w=ts.Scalar(positive=True, const=True),
                x=ts.Vector(positive=True, unsigned=True, const=True),
                y=ts.Vector(size=3, component_type=int, const=True),
-               z=ts.Name(const=True))
+               z=ts.Name(const=True),
+
+               a1=ts.InSet(allowed_values=[1, 2, '5']),
+               b1=ts.InSet(allowed_values=[-1, 5], const=True),
+               c1=ts.Subset(sample_set="xyz"),
+               d1=ts.Subset(sample_set='xyz', const=True))
 class DummyClass:
     def __init__(self, **kwargs):
         for key, value in kwargs.items():
@@ -44,9 +49,11 @@ def test_typed():
 
     # Valid sets
     dc.a = -999
-    dc.b = 3e6    
+    dc.b = 3e6
+    assert dc.b == 3e6
     dc.c = "joommf"
     dc.d = []
+    assert dc.d == []
 
     # Invalid sets
     with pytest.raises(TypeError):
@@ -66,7 +73,9 @@ def test_scalar():
     dc.e = -1
     dc.f = -5.
     dc.g = 1e-11
+    assert dc.h == 0
     dc.h = 101
+    assert dc.h == 101
     dc.i = 20
     dc.j = -500
     dc.k = 1.2
@@ -100,6 +109,7 @@ def test_vector():
     dc.o = np.array([5, 1e5])
     dc.p = (-5,)
     dc.r = [5, 9]
+    assert dc.r == [5, 9]
     dc.s = (11.1, np.pi, 0.0)
     dc.t = [1, 9]
 
@@ -140,6 +150,35 @@ def test_name():
         dc.u = "val name"
 
 
+def test_inset():
+    dc = DummyClass(a1=1, b1=5)
+
+    dc.a1 = '5'  # Valid set
+    with pytest.raises(AttributeError):
+        dc.b1 = -1  # const == True
+
+    with pytest.raises(ValueError):
+        dc.a1 = -1  # Invalid set
+
+
+def test_subset():
+    dc = DummyClass(c1="xy", d1=[])
+
+    # Valid sets
+    dc.c1 = 'x'
+    assert dc.c1 == {'x'}
+    dc.c1 = []
+    dc.c1 = 'yx'  
+    dc.c1 = 'yxzz'
+    with pytest.raises(AttributeError):
+        dc.d1 = 'x'  # const == True
+
+    with pytest.raises(ValueError):
+        dc.c1 = 'a'  # Invalid set
+    with pytest.raises(ValueError):
+        dc.c1 = [1]  # Invalid set
+
+        
 def test_const():
     dc = DummyClass(v="a", w=3.5, x=(1e9,), y=[1, 2, -5])
 

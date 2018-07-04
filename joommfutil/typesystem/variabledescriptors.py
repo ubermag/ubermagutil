@@ -15,6 +15,8 @@ class Descriptor:
                 instance.__dict__[self.name] = value
             else:
                 raise AttributeError('Changing the attribute value is not allowed.')
+        else:
+            instance.__dict__[self.name] = value
 
     def __delete__(self, instance):
         raise AttributeError('Deleting attribute is not allowed.')
@@ -74,40 +76,20 @@ class Name(Typed):
             raise ValueError('String must not contain spaces.')
         super().__set__(instance, value)
 
-"""
-class FromSet(Descriptor):
-    def __init__(self, name=None, **opts):
-        if 'allowed_values' not in opts:
-            raise TypeError('Missing allowed_values argument.')
-        super().__init__(name, **opts)
 
+class InSet(Descriptor):
     def __set__(self, instance, value):
         if value not in self.allowed_values:
-            raise TypeError('Expected value from '
-                            '{}.'.format(self.allowed_values))
+            raise ValueError('Expected value from {}.'.format(self.allowed_values))
         super().__set__(instance, value)
 
 
-class FromCombinations(Descriptor):
-    def __init__(self, name=None, **opts):
-        if 'sample_set' not in opts:
-            raise TypeError('Missing sample_set argument.')
-        super().__init__(name, **opts)
-
+class Subset(Descriptor):
     def __set__(self, instance, value):
         combs = []
-        for i in range(1, len(self.sample_set)+1):
+        for i in range(0, len(self.sample_set)+1):
             combs += list(itertools.combinations(self.sample_set, r=i))
         combs = map(set, combs)
-        if value is not None: 
-            if set(value) not in combs:
-                raise TypeError('Expected value from '
-                                '{}.'.format(combs))
-            value = set(value)
-        super().__set__(instance, value)
-
-
-
-
-
-"""
+        if set(value) not in combs:
+            raise ValueError('Expected value from {}.'.format(combs))
+        super().__set__(instance, set(value))
