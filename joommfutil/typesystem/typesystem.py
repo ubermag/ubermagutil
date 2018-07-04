@@ -1,5 +1,4 @@
-from .variabledescriptors import Descriptor
-from .constantdescriptors import ConstantDescriptor
+from .descriptors import Descriptor
 
 
 def typesystem(**kwargs):
@@ -13,7 +12,7 @@ def typesystem(**kwargs):
     Simple class decorating.
 
     >>> import joommfutil.typesystem as ts
-    >>> @ts.typesystem(a=ts.UnsignedReal)
+    >>> @ts.typesystem(a=ts.Scalar, b=ts.Typed(expected_type=str))
     ... class A:
     ...     def __init__(self, a, b):
     ...         self.a = a
@@ -22,7 +21,7 @@ def typesystem(**kwargs):
     """
     def decorate(cls):
         for key, value in kwargs.items():
-            if isinstance(value, (Descriptor, ConstantDescriptor)):
+            if isinstance(value, (Descriptor)):
                 value.name = key
                 setattr(cls, key, value)
             else:
