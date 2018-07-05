@@ -5,7 +5,7 @@ with open('README.md', encoding='utf-8') as f:
 
 setuptools.setup(
     name='joommfutil',
-    version='0.8.2',
+    version='0.8.3',
     description='Python utilities package used across all JOOMMF packages.',
     long_description=long_description,
     long_description_content_type='text/markdown',

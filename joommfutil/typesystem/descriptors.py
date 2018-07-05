@@ -1,5 +1,6 @@
 import numbers
 import itertools
+import collections
 import numpy as np
 
 
@@ -72,9 +73,7 @@ class Vector(Typed):
         super().__set__(instance, value)
 
 
-class Name(Typed):
-    expected_type = str
-
+class Name(Descriptor):
     def __set__(self, instance, value):
         if not isinstance(value, str):
             raise TypeError('Expected: type(value) = str.')
@@ -96,6 +95,8 @@ class InSet(Descriptor):
 
 class Subset(Descriptor):
     def __set__(self, instance, value):
+        if not isinstance(value, collections.Iterable):
+            raise TypeError('value must be an iterable.')
         combs = []
         for i in range(0, len(self.sample_set)+1):
             combs += list(itertools.combinations(self.sample_set, r=i))
