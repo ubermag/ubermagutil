@@ -5,13 +5,63 @@ import numpy as np
 
 
 class Descriptor:
+    """Base descriptor from which all descriptors in `joommfutil` are
+    derived for the typesystem.
+
+    Before allowing setting the attribute value of the decorated
+    class, certain type and value checks are performed - defined in
+    the derived classes. If `const=True` is specified when the class
+    is instantiated, no value changes to the class attribute are
+    allowed after the initial assignment. Deleting attributes of a
+    decorated class is not allowed.
+
+    Parameters
+    ----------
+    name : str
+        Decorated class attribute name (the default is None). `name`
+        must be a valid Python variable name string. More
+        specifically, it must not contain spaces, or start with
+        underscore or numeric character.
+    const : bool, optinal
+        If `const=True`, the attribute in the decorated class is
+        constant and its value cannot be changed after the first set.
+
+    Examples
+    --------
+    1. Deriving a descriptor class from `Descriptor`
+
+    >>> import joommfutil.typesystem as ts
+    ...
+    >>> class PositiveInt(ts.Descriptor):
+    ...     def __set__(self, instance, value):
+    ...        if not isinstance(value, int) or value < 0:
+    ...            raise ValueError('Positive int expected.')
+    ...        super().__set__(instance, value)
+    ...
+    >>> @ts.typesystem(myattribute=PositiveInt)
+    ... class MyClass:
+    ...     def __init__(self, myattribute):
+    ...         self.myattribute = myattribute
+    >>>
+    >>> mc = MyClass(myattribute=5)
+    >>> mc.myattribute
+    5
+    >>> mc.myattribute = 6
+    >>> mc.myattribute
+    6
+    >>> mc.myattribute = -1
+    Traceback (most recent call last):
+       ...
+    ValueError: Positive int expected.
+    
+    """
     def __init__(self, name=None, **opts):
         self.name = name
         for key, value in opts.items():
             setattr(self, key, value)
 
     def __set__(self, instance, value):
-        if hasattr(self, "const"):
+        if hasattr(self, 'const'):
             if not self.const or \
                (self.name not in instance.__dict__ and self.const):
                 instance.__dict__[self.name] = value
@@ -37,14 +87,14 @@ class Scalar(Descriptor):
     def __set__(self, instance, value):
         if not isinstance(value, numbers.Real):
             raise TypeError('Expected: type(value) = numbers.Real.')
-        if hasattr(self, "expected_type"):
+        if hasattr(self, 'expected_type'):
             if not isinstance(value, self.expected_type):
                 raise TypeError('Expected: type(value) = '
                                 '{}.'.format(self.expected_type))
-        if hasattr(self, "unsigned"):
+        if hasattr(self, 'unsigned'):
             if self.unsigned and value < 0:
                 raise ValueError('Expected value >= 0.')
-        if hasattr(self, "positive"):
+        if hasattr(self, 'positive'):
             if self.positive and value <= 0:
                 raise ValueError('Expected value > 0.')
         super().__set__(instance, value)
@@ -56,14 +106,14 @@ class Vector(Typed):
     def __set__(self, instance, value):
         if not all(isinstance(i, numbers.Real) for i in value):
             raise ValueError('Expected typr(value[.]) == number.Real')
-        if hasattr(self, "size"):
+        if hasattr(self, 'size'):
             if len(value) != self.size:
                 raise ValueError('Expected len(value) == '
                                  '{}'.format(self.size))
-        if hasattr(self, "unsigned"):
+        if hasattr(self, 'unsigned'):
             if self.unsigned and not all(i >= 0 for i in value):
                 raise ValueError('Expected value[.] >= 0.')
-        if hasattr(self, "positive"):
+        if hasattr(self, 'positive'):
             if self.positive and not all(i > 0 for i in value):
                 raise ValueError('Expected value[.] > 0.')
         if hasattr(self, 'component_type'):
