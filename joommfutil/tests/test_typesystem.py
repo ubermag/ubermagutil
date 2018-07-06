@@ -31,22 +31,22 @@ import joommfutil.typesystem as ts
                z=ts.Name(const=True),
                a1=ts.InSet(allowed_values=[1, 2, '5']),
                b1=ts.InSet(allowed_values=[-1, 5], const=True),
-               c1=ts.Subset(sample_set="xyz"),
+               c1=ts.Subset(sample_set='xyz'),
                d1=ts.Subset(sample_set='xyz', const=True))
-class DummyClass:
+class DecoratedClass:
     def __init__(self, **kwargs):
         for key, value in kwargs.items():
             setattr(self, key, value)
 
 
 def test_typed():
-    dc = DummyClass(a=5, b=-3, c="joommf", d=[-9.1, 6, 7])
+    dc = DecoratedClass(a=5, b=-3, c='joommf', d=[-9.1, 6, 7])
 
     # Valid sets
     dc.a = -999
     dc.b = 3e6
     assert dc.b == 3e6
-    dc.c = "joommf"
+    dc.c = 'joommf'
     dc.d = []
     assert dc.d == []
 
@@ -62,7 +62,7 @@ def test_typed():
 
 
 def test_scalar():
-    dc = DummyClass(e=1e-2, f=1.1, g=500, h=0, i=1, j=1, k=0.)
+    dc = DecoratedClass(e=1e-2, f=1.1, g=500, h=0, i=1, j=1, k=0.)
 
     # Valid sets
     dc.e = -1
@@ -93,8 +93,8 @@ def test_scalar():
 
 
 def test_vector():
-    dc = DummyClass(l=[1, -2, 1.1], m=(-1, 2.1, 0, 0, 0), n=[0, 5], o=[1e-9, ],
-                    p=[5], r=[1, 2, 3], s=[0.1, 0.2, -5.1], t=[100, 200])
+    dc = DecoratedClass(l=[1, -2, 1.1], m=(-1, 2.1, 0, 0, 0), n=[0, 5], o=[1e-9, ],
+                        p=[5], r=[1, 2, 3], s=[0.1, 0.2, -5.1], t=[100, 200])
 
     # Valid sets
     dc.l = (1, 5e-9)
@@ -119,7 +119,7 @@ def test_vector():
     with pytest.raises(ValueError):
         dc.p = []
     with pytest.raises(ValueError):
-        dc.r = ["a", 1, 3]
+        dc.r = ['a', 1, 3]
     with pytest.raises(ValueError):
         dc.s = [1.1, 2, np.pi]
     with pytest.raises(ValueError):
@@ -127,25 +127,25 @@ def test_vector():
 
 
 def test_name():
-    dc = DummyClass(u="var_name")
+    dc = DecoratedClass(u='var_name')
 
-    dc.u = "a1"
-    dc.u = "mesh"
-    dc.u = "a1a"
-    dc.u = "var-name"
+    dc.u = 'a1'
+    dc.u = 'mesh'
+    dc.u = 'a1a'
+    dc.u = 'var-name'
 
     with pytest.raises(TypeError):
         dc.u = 5
     with pytest.raises(ValueError):
-        dc.u = "1a"
+        dc.u = '1a'
     with pytest.raises(ValueError):
-        dc.u = "-a"
+        dc.u = '-a'
     with pytest.raises(ValueError):
-        dc.u = "val name"
+        dc.u = 'val name'
 
 
 def test_inset():
-    dc = DummyClass(a1=1, b1=5)
+    dc = DecoratedClass(a1=1, b1=5)
 
     dc.a1 = '5'  # Valid set
     with pytest.raises(AttributeError):
@@ -156,7 +156,7 @@ def test_inset():
 
 
 def test_subset():
-    dc = DummyClass(c1="xy", d1=[])
+    dc = DecoratedClass(c1='xy', d1=[])
 
     # Valid sets
     dc.c1 = 'x'
@@ -173,14 +173,14 @@ def test_subset():
 
 
 def test_const():
-    dc = DummyClass(v="a", w=3.5, x=(1e9,), y=[1, 2, -5])
+    dc = DecoratedClass(v='a', w=3.5, x=(1e9,), y=[1, 2, -5])
 
     # z value has not been set yet
-    dc.z = "var_name"
+    dc.z = 'var_name'
 
     # Try to change values of set consts
     with pytest.raises(AttributeError):
-        dc.v = "new_string"
+        dc.v = 'new_string'
     with pytest.raises(AttributeError):
         dc.w = 1e-9
     with pytest.raises(TypeError):
@@ -188,11 +188,11 @@ def test_const():
     with pytest.raises(AttributeError):
         dc.y = [1, 2, -5]
     with pytest.raises(AttributeError):
-        dc.z = "new_string"
+        dc.z = 'new_string'
 
 
 def test_add_missing_argument():
-    dc = DummyClass()
+    dc = DecoratedClass()
     dc.h = 5
     dc.h = 9.1
     with pytest.raises(ValueError):
@@ -200,7 +200,7 @@ def test_add_missing_argument():
 
 
 def test_del_attribute():
-    dc = DummyClass(a=5, l=[-1, 1])
+    dc = DecoratedClass(a=5, l=[-1, 1])
 
     # Attempt deleting attributes
     with pytest.raises(AttributeError):
