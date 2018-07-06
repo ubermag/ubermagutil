@@ -5,55 +5,97 @@ import numpy as np
 
 
 class Descriptor:
-    """Base descriptor from which all descriptors in `joommfutil` are
-    derived for the typesystem.
+    """Base descriptor class from which all descriptors in
+    `joommfutil.typesystem` are derived.
 
-    Before allowing setting the attribute value of the decorated
-    class, certain type and value checks are performed - defined in
-    the derived classes. If `const=True` is specified when the class
-    is instantiated, no value changes to the class attribute are
-    allowed after the initial assignment. Deleting attributes of a
-    decorated class is not allowed.
+    Before setting of the attribute value of the decorated class is
+    allowed, certain type and value checks are performed. If type or
+    value are not according to the decorator specification,
+    `TypeError` or `ValueError` are raised accordingly. If
+    `const=True` is passed to the decorator, no value changes to the
+    class attribute are allowed after the initial assignment. Deleting
+    attributes of a decorated class is not allowed.
 
     Parameters
     ----------
     name : str
         Decorated class attribute name (the default is None). `name`
         must be a valid Python variable name string. More
-        specifically, it must not contain spaces, or start with
-        underscore or numeric character.
-    const : bool, optinal
+        specifically, it must not contain spaces, or start with an
+        underscore or a numeric character.
+    const : bool, optional
         If `const=True`, the attribute in the decorated class is
         constant and its value cannot be changed after the first set.
 
     Examples
     --------
-    1. Deriving a descriptor class from `Descriptor`
+    1. Deriving a descriptor class from the base class `Descriptor`,
+    which only allows positive integer values.
 
     >>> import joommfutil.typesystem as ts
     ...
     >>> class PositiveInt(ts.Descriptor):
     ...     def __set__(self, instance, value):
-    ...        if not isinstance(value, int) or value < 0:
-    ...            raise ValueError('Positive int expected.')
+    ...        if not isinstance(value, int):
+    ...            raise TypeError('Allowed only type(value) == int.')
+    ...        if value < 0:
+    ...            raise ValueError('Allowed only value >= 0.')
     ...        super().__set__(instance, value)
     ...
     >>> @ts.typesystem(myattribute=PositiveInt)
-    ... class MyClass:
+    ... class DecoratedClass:
     ...     def __init__(self, myattribute):
     ...         self.myattribute = myattribute
-    >>>
-    >>> mc = MyClass(myattribute=5)
-    >>> mc.myattribute
+    ...
+    >>> dc = DecoratedClass(myattribute=5)
+    >>> dc.myattribute
     5
-    >>> mc.myattribute = 6
-    >>> mc.myattribute
-    6
-    >>> mc.myattribute = -1
+    >>> dc.myattribute = 101  # valid set
+    >>> dc.myattribute
+    101
+    >>> dc.myattribute = -1  # invalid set - negative value
     Traceback (most recent call last):
        ...
-    ValueError: Positive int expected.
-    
+    ValueError: Allowed only value >= 0.
+    >>> dc.myattribute = 3.14  # invalid set - float value
+    Traceback (most recent call last):
+       ...
+    TypeError: Allowed only type(value) == int.
+    >>> dc.myattribute  # value has not beed affected by invalid sets
+    101
+
+    2. Setting the value of a decorated class attribute constant.
+    >>> import joommfutil.typesystem as ts
+    ...
+    >>> @ts.typesystem(myattribute=ts.Descriptor(const=True))
+    ... class DecoratedClass:
+    ...     def __init__(self, myattribute):
+    ...         self.myattribute = myattribute
+    ...
+    >>> dc = DecoratedClass(myattribute="John Doe")
+    >>> dc.myattribute
+    'John Doe'
+    >>> dc.myattribute = 'Jane Doe'
+    Traceback (most recent call last):
+       ...
+    AttributeError: Changing attribute value is not allowed.
+
+    3. Deleting an attribute of a decorated class.
+    >>> import joommfutil.typesystem as ts
+    ...
+    >>> @ts.typesystem(myattribute=ts.Descriptor)
+    ... class DecoratedClass:
+    ...     def __init__(self, myattribute):
+    ...         self.myattribute = myattribute
+    ...
+    >>> dc = DecoratedClass(myattribute="Nikola Tesla")
+    >>> dc.myattribute
+    'Nikola Tesla'
+    >>> del dc.myattribute
+    Traceback (most recent call last):
+       ...
+    AttributeError: Deleting attribute is not allowed.
+
     """
     def __init__(self, name=None, **opts):
         self.name = name
@@ -78,7 +120,7 @@ class Descriptor:
 class Typed(Descriptor):
     def __set__(self, instance, value):
         if not isinstance(value, self.expected_type):
-            raise TypeError('Expected: type(value) = '
+            raise TypeError('Allowed only type(value) = '
                             '{}.'.format(self.expected_type))
         super().__set__(instance, value)
 
@@ -86,17 +128,17 @@ class Typed(Descriptor):
 class Scalar(Descriptor):
     def __set__(self, instance, value):
         if not isinstance(value, numbers.Real):
-            raise TypeError('Expected: type(value) = numbers.Real.')
+            raise TypeError('Allowed only type(value) = numbers.Real.')
         if hasattr(self, 'expected_type'):
             if not isinstance(value, self.expected_type):
-                raise TypeError('Expected: type(value) = '
+                raise TypeError('Allowed only type(value) = '
                                 '{}.'.format(self.expected_type))
         if hasattr(self, 'unsigned'):
             if self.unsigned and value < 0:
-                raise ValueError('Expected value >= 0.')
+                raise ValueError('Allowed only value >= 0.')
         if hasattr(self, 'positive'):
             if self.positive and value <= 0:
-                raise ValueError('Expected value > 0.')
+                raise ValueError('Allowed only value > 0.')
         super().__set__(instance, value)
 
 
@@ -105,20 +147,20 @@ class Vector(Typed):
 
     def __set__(self, instance, value):
         if not all(isinstance(i, numbers.Real) for i in value):
-            raise ValueError('Expected typr(value[.]) == number.Real')
+            raise ValueError('Allowed only type(value[.]) == number.Real')
         if hasattr(self, 'size'):
             if len(value) != self.size:
-                raise ValueError('Expected len(value) == '
+                raise ValueError('Allowed only len(value) == '
                                  '{}'.format(self.size))
         if hasattr(self, 'unsigned'):
             if self.unsigned and not all(i >= 0 for i in value):
-                raise ValueError('Expected value[.] >= 0.')
+                raise ValueError('Allowed only value[.] >= 0.')
         if hasattr(self, 'positive'):
             if self.positive and not all(i > 0 for i in value):
-                raise ValueError('Expected value[.] > 0.')
+                raise ValueError('Allowed only value[.] > 0.')
         if hasattr(self, 'component_type'):
             if not all(isinstance(i, self.component_type) for i in value):
-                raise ValueError('Expected type(value[.]) == '
+                raise ValueError('Allowed only type(value[.]) == '
                                  '{}.'.format(self.component_type))
         super().__set__(instance, value)
 
@@ -126,7 +168,7 @@ class Vector(Typed):
 class Name(Descriptor):
     def __set__(self, instance, value):
         if not isinstance(value, str):
-            raise TypeError('Expected: type(value) = str.')
+            raise TypeError('Allowed only type(value) = str.')
         if not (value[0].isalpha() or value.startswith('_')):
             raise ValueError('String must start with '
                              'a letter or an underscore.')
@@ -138,7 +180,7 @@ class Name(Descriptor):
 class InSet(Descriptor):
     def __set__(self, instance, value):
         if value not in self.allowed_values:
-            raise ValueError('Expected value from '
+            raise ValueError('Allowed only value from set'
                              '{}.'.format(self.allowed_values))
         super().__set__(instance, value)
 
@@ -152,5 +194,5 @@ class Subset(Descriptor):
             combs += list(itertools.combinations(self.sample_set, r=i))
         combs = map(set, combs)
         if set(value) not in combs:
-            raise ValueError('Expected value from {}.'.format(combs))
+            raise ValueError('Allowed only value from set {}.'.format(combs))
         super().__set__(instance, set(value))
