@@ -8,7 +8,7 @@ class Descriptor:
     """Base descriptor class from which all descriptors in
     `joommfutil.typesystem` are derived.
 
-    Before setting of the attribute value of the decorated class is
+    Before setting of the attribute value of a decorated class is
     allowed, certain type and value checks are performed. If type or
     value are not according to the decorator specification,
     `TypeError` or `ValueError` are raised accordingly. If
@@ -84,7 +84,7 @@ class Descriptor:
 
         Example
         -------
-        1. Changing the value of a decorated class constant attribute.
+        1. Changing the value of a constant decorated class attribute.
 
         >>> import joommfutil.typesystem as ts
         ...
@@ -146,6 +146,10 @@ class Descriptor:
 
 
 class Typed(Descriptor):
+    """Descriptor allowing setting attributes with values of a certain
+    type.
+
+    """
     def __set__(self, instance, value):
         if not isinstance(value, self.expected_type):
             raise TypeError('Allowed only type(value) = '
@@ -170,10 +174,11 @@ class Scalar(Descriptor):
         super().__set__(instance, value)
 
 
-class Vector(Typed):
-    expected_type = (list, tuple, np.ndarray)
-
+class Vector(Descriptor):
     def __set__(self, instance, value):
+        if not isinstance(value, (list, tuple, np.ndarray)):
+            raise TypeError('Allowed only type(value) = '
+                            'list, tuple, np.ndarray.')
         if not all(isinstance(i, numbers.Real) for i in value):
             raise ValueError('Allowed only type(value[.]) == number.Real')
         if hasattr(self, 'size'):
