@@ -27,8 +27,8 @@ class Descriptor:
         If `const=True`, the attribute in the decorated class is
         constant and its value cannot be changed after the first set.
 
-    Examples
-    --------
+    Example
+    -------
     1. Deriving a descriptor class from the base class `Descriptor`,
     which only allows positive integer values.
 
@@ -64,38 +64,6 @@ class Descriptor:
     >>> dc.myattribute  # value has not beed affected by invalid sets
     101
 
-    2. Setting the value of a decorated class attribute constant.
-    >>> import joommfutil.typesystem as ts
-    ...
-    >>> @ts.typesystem(myattribute=ts.Descriptor(const=True))
-    ... class DecoratedClass:
-    ...     def __init__(self, myattribute):
-    ...         self.myattribute = myattribute
-    ...
-    >>> dc = DecoratedClass(myattribute="John Doe")
-    >>> dc.myattribute
-    'John Doe'
-    >>> dc.myattribute = 'Jane Doe'
-    Traceback (most recent call last):
-       ...
-    AttributeError: Changing attribute value is not allowed.
-
-    3. Deleting an attribute of a decorated class.
-    >>> import joommfutil.typesystem as ts
-    ...
-    >>> @ts.typesystem(myattribute=ts.Descriptor)
-    ... class DecoratedClass:
-    ...     def __init__(self, myattribute):
-    ...         self.myattribute = myattribute
-    ...
-    >>> dc = DecoratedClass(myattribute="Nikola Tesla")
-    >>> dc.myattribute
-    'Nikola Tesla'
-    >>> del dc.myattribute
-    Traceback (most recent call last):
-       ...
-    AttributeError: Deleting attribute is not allowed.
-
     """
     def __init__(self, name=None, **opts):
         self.name = name
@@ -103,6 +71,37 @@ class Descriptor:
             setattr(self, key, value)
 
     def __set__(self, instance, value):
+        """Set method
+
+        If `const=True`, changing the value of a decorated class
+        attribute after the initial set is not allowed.
+
+        Raises
+        ------
+        AttributeError
+            If changing the value of a decorated class attribute is
+            attempted.
+
+        Example
+        -------
+        1. Changing the value of a decorated class constant attribute.
+
+        >>> import joommfutil.typesystem as ts
+        ...
+        >>> @ts.typesystem(myattribute=ts.Descriptor(const=True))
+        ... class DecoratedClass:
+        ...     def __init__(self, myattribute):
+        ...         self.myattribute = myattribute
+        ...
+        >>> dc = DecoratedClass(myattribute="John Doe")
+        >>> dc.myattribute
+        'John Doe'
+        >>> dc.myattribute = 'Jane Doe'
+        Traceback (most recent call last):
+           ...
+        AttributeError: Changing attribute value is not allowed.
+
+        """
         if hasattr(self, 'const'):
             if not self.const or \
                (self.name not in instance.__dict__ and self.const):
@@ -114,6 +113,35 @@ class Descriptor:
             instance.__dict__[self.name] = value
 
     def __delete__(self, instance):
+        """Delete method
+
+        Deleting the decorated class attribute is never allowed.
+
+        Raises
+        ------
+        AttributeError
+            If deleting decorated class attribute is attempted.
+
+        Example
+        -------
+        1. Deleting an attribute of a decorated class.
+
+        >>> import joommfutil.typesystem as ts
+        ...
+        >>> @ts.typesystem(myattribute=ts.Descriptor)
+        ... class DecoratedClass:
+        ...     def __init__(self, myattribute):
+        ...         self.myattribute = myattribute
+        ...
+        >>> dc = DecoratedClass(myattribute="Nikola Tesla")
+        >>> dc.myattribute
+        'Nikola Tesla'
+        >>> del dc.myattribute
+        Traceback (most recent call last):
+           ...
+        AttributeError: Deleting attribute is not allowed.
+
+        """
         raise AttributeError('Deleting attribute is not allowed.')
 
 
