@@ -26,7 +26,7 @@ It is available on all major operating systems (Windows, MacOS, Linux) and requi
 
 ## Installation, testing, and upgrade
 
-Please follow instructions at ...
+We support installation using `conda` and `pip` package managers. Instructions can be found [here](...).
 
 ## Binder
 
