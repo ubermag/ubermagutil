@@ -8,21 +8,19 @@ class Descriptor:
     """Base descriptor class from which all descriptors in
     `joommfutil.typesystem` are derived.
 
-    Before setting of the attribute value of a decorated class is
+    Before setting the attribute value of a decorated class is
     allowed, certain type and value checks are performed. If type or
     value are not according to the decorator specification,
     `TypeError` or `ValueError` are raised accordingly. If
-    `const=True` is passed to the decorator, no value changes to the
-    class attribute are allowed after the initial assignment. Deleting
-    attributes of a decorated class is not allowed.
+    `const=True` is passed, no value changes to the class attribute
+    are allowed after the initial assignment. Deleting attributes of a
+    decorated class is not allowed.
 
     Parameters
     ----------
     name : str
         Decorated class attribute name (the default is None). `name`
-        must be a valid Python variable name string. More
-        specifically, it must not contain spaces, or start with an
-        underscore or a numeric character.
+        must be a valid Python variable name string.
     const : bool, optional
         If `const=True`, the attribute in the decorated class is
         constant and its value cannot be changed after the first set.
@@ -73,7 +71,7 @@ class Descriptor:
     def __set__(self, instance, value):
         """Set method
 
-        If `const=True`, changing the value of a decorated class
+        If `self.const=True`, changing the value of a decorated class
         attribute after the initial set is not allowed.
 
         Raises
@@ -146,8 +144,37 @@ class Descriptor:
 
 
 class Typed(Descriptor):
-    """Descriptor allowing setting attributes with values of a certain
+    """Typed descriptor
+
+    Descriptor allowing setting attributes with values of a certain
     type.
+
+    Raises
+    ------
+    TypeError
+        If `type(value)` is not the same as the `expected_type`.
+
+    Example
+    -------
+    1. Usage of the Typed descriptor.
+
+    >>> import joommfutil.typesystem as ts
+    ...
+    >>> @ts.typesystem(myattribute=ts.Typed(expected_type=str))
+    ... class DecoratedClass:
+    ...     def __init__(self, myattribute):
+    ...         self.myattribute = myattribute
+    ...
+    >>> dc = DecoratedClass(myattribute='Nikola Tesla')
+    >>> dc.myattribute
+    'Nikola Tesla'
+    >>> dc.myattribute = 'Mihajlo Pupin'  # valid set
+    >>> dc.myattribute
+    'Mihajlo Pupin'
+    >>> dc.myattribute = 3.14  # invalid set
+    Traceback (most recent call last):
+       ...
+    TypeError: Allowed only type(value) = <class 'str'>.
 
     """
     def __set__(self, instance, value):
@@ -158,6 +185,52 @@ class Typed(Descriptor):
 
 
 class Scalar(Descriptor):
+    """Scalar descriptor
+
+    Descriptor allowing setting attributes only with scalars
+    (`numbers.Real`). If it is necessary to more closely define the
+    allowed type, `expected_type` should be passed. In order to more
+    specifically define the allowed value `unsigned=True` or
+    `positive=True` can be passed.
+
+    Raises
+    ------
+    TypeError
+        If the `type(value)` is neither `numbers.Real` nor as the
+        `expected_type` (if passed).
+    ValueError
+        If `value < 0` and `unsigned=True` is passed or `value <= 0`
+        if `positive=True` is passed.
+
+    Example
+    -------
+    1. Usage of the Scalar descriptor for defining a positive integer.
+
+    >>> import joommfutil.typesystem as ts
+    ...
+    >>> @ts.typesystem(myattribute=ts.Scalar(expected_type=int, positive=True))
+    ... class DecoratedClass:
+    ...     def __init__(self, myattribute):
+    ...         self.myattribute = myattribute
+    ...
+    >>> dc = DecoratedClass(myattribute=5)
+    >>> dc.myattribute
+    5
+    >>> dc.myattribute = 10  # valid set
+    >>> dc.myattribute
+    10
+    >>> dc.myattribute = 3.14  # invalid set
+    Traceback (most recent call last):
+       ...
+    TypeError: Allowed only type(value) = <class 'int'>.
+    >>> dc.myattribute = 0  # invalid set
+    Traceback (most recent call last):
+       ...
+    ValueError: Allowed only value > 0.
+    >>> dc.myattribute
+    10
+
+    """
     def __set__(self, instance, value):
         if not isinstance(value, numbers.Real):
             raise TypeError('Allowed only type(value) = numbers.Real.')
@@ -175,6 +248,51 @@ class Scalar(Descriptor):
 
 
 class Vector(Descriptor):
+    """Vector descriptor
+
+    Descriptor allowing setting attributes only with vectors (`list`,
+    `tuple`, or `numpy.ndarray`) whose elements are of `numbers.Real`
+    type. To define the size (number of elements), `size` should be
+    passed.
+
+    Raises
+    ------
+    TypeError
+        If the `type(value)` is neither `numbers.Real` nor as the
+        `expected_type` (if passed).
+    ValueError
+        If `value < 0` and `unsigned=True` is passed or `value <= 0`
+        if `positive=True` is passed.
+
+    Example
+    -------
+    1. Usage of the Scalar descriptor for defining a positive integer.
+
+    >>> import joommfutil.typesystem as ts
+    ...
+    >>> @ts.typesystem(myattribute=ts.Scalar(expected_type=int, positive=True))
+    ... class DecoratedClass:
+    ...     def __init__(self, myattribute):
+    ...         self.myattribute = myattribute
+    ...
+    >>> dc = DecoratedClass(myattribute=5)
+    >>> dc.myattribute
+    5
+    >>> dc.myattribute = 10  # valid set
+    >>> dc.myattribute
+    10
+    >>> dc.myattribute = 3.14  # invalid set
+    Traceback (most recent call last):
+       ...
+    TypeError: Allowed only type(value) = <class 'int'>.
+    >>> dc.myattribute = 0  # invalid set
+    Traceback (most recent call last):
+       ...
+    ValueError: Allowed only value > 0.
+    >>> dc.myattribute
+    10
+
+    """
     def __set__(self, instance, value):
         if not isinstance(value, (list, tuple, np.ndarray)):
             raise TypeError('Allowed only type(value) = '
