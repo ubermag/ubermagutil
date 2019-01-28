@@ -1,8 +1,8 @@
 # joommfutil
-Marijan Beg<sup>1,2</sup>, Ryan A. Pepper<sup>2</sup>, Thomas Kluyver<sup>1</sup>, and Hans Fangohr<sup>1,2</sup>
+Marijan Beg<sup>1,2</sup>, Sergii Mamedov<sup>1</sup>, Ryan A. Pepper<sup>2</sup>, Thomas Kluyver<sup>1</sup>, and Hans Fangohr<sup>1,2</sup>
 
 <sup>1</sup> *European XFEL GmbH, Holzkoppel 4, 22869 Schenefeld, Germany*  
-<sup>2</sup> *Faculty of Engineering and the Environment, University of Southampton, Southampton SO17 1BJ, United Kingdom*  
+<sup>2</sup> *Faculty of Engineering and Physical Sciences, University of Southampton, Southampton SO17 1BJ, United Kingdom*  
 
 | Description | Badge |
 | --- | --- |
@@ -20,7 +20,7 @@ Marijan Beg<sup>1,2</sup>, Ryan A. Pepper<sup>2</sup>, Thomas Kluyver<sup>1</sup
 
 `joommfutil` is a Python package that provides:
 
-- Typesystem for [JOOMMF](http://joommf.github.io) packages
+- Definitions of descriptors and the typesystem decorator used in [JOOMMF](http://joommf.github.io) packages
 
 It is available on all major operating systems (Windows, MacOS, Linux) and requires Python 3.6 or higher.
 
