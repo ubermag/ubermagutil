@@ -5,24 +5,25 @@ import numpy as np
 
 
 class Descriptor:
-    """Base descriptor class from which all descriptors in
+    """Descriptor base class from which all descriptors in
     `joommfutil.typesystem` are derived.
 
     Before setting the attribute value of a decorated class is
-    allowed, certain type and value checks are performed. If type or
-    value are not according to the decorator specification,
-    `TypeError` or `ValueError` are raised accordingly. If
-    `const=True` is passed, no value changes to the class attribute
-    are allowed after the initial assignment. Deleting attributes of a
-    decorated class is not allowed.
+    allowed, certain type and value checks are performed. If they are
+    not according to the specifications in the `__set__` method
+    (defined as a part of the derived class), `TypeError` or
+    `ValueError` are raised. If `const=True` is passed when the class
+    is instantiated, no value changes are allowed after the initial
+    assignment. Deleting attributes of a decorated class is never
+    allowed.
 
     Parameters
     ----------
     name : str
-        Decorated class attribute name (the default is None). `name`
-        must be a valid Python variable name string.
+        Decorated class attribute name (the default is None). It must
+        be a valid Python variable name string.
     const : bool, optional
-        If `const=True`, the attribute in the decorated class is
+        If `const=True`, the attribute of the decorated class is
         constant and its value cannot be changed after the first set.
 
     Example
@@ -177,7 +178,7 @@ class Typed(Descriptor):
 
     .. note::
 
-           Please note that this class was derived from
+           This class was derived from
            `joommfutil.typesystem.Descriptor` and inherits its
            functionality.
 
@@ -241,6 +242,14 @@ class Scalar(Descriptor):
     ValueError: Allowed only value > 0.
     >>> dc.myattribute
     10
+
+    .. note::
+
+           This class was derived from
+           `joommfutil.typesystem.Descriptor` and inherits its
+           functionality.
+
+    .. seealso:: :py:class:`~joommfutil.typesystem.Descriptor`
 
     """
     def __set__(self, instance, value):
@@ -322,6 +331,14 @@ class Vector(Descriptor):
     >>> dc.myattribute
     (10, 11, 12)
 
+    .. note::
+
+           This class was derived from
+           `joommfutil.typesystem.Descriptor` and inherits its
+           functionality.
+
+    .. seealso:: :py:class:`~joommfutil.typesystem.Descriptor`
+
     """
     def __set__(self, instance, value):
         if not isinstance(value, (list, tuple, np.ndarray)):
@@ -385,6 +402,14 @@ class Name(Descriptor):
     >>> dc.myattribute
     'newname'
 
+    .. note::
+
+           This class was derived from
+           `joommfutil.typesystem.Descriptor` and inherits its
+           functionality.
+
+    .. seealso:: :py:class:`~joommfutil.typesystem.Descriptor`
+
     """
     def __set__(self, instance, value):
         if not isinstance(value, str):
@@ -435,6 +460,14 @@ class InSet(Descriptor):
     >>> dc.myattribute
     'y'
 
+    .. note::
+
+           This class was derived from
+           `joommfutil.typesystem.Descriptor` and inherits its
+           functionality.
+
+    .. seealso:: :py:class:`~joommfutil.typesystem.Descriptor`
+
     """
     def __set__(self, instance, value):
         if value not in self.allowed_values:
@@ -476,6 +509,14 @@ class Subset(Descriptor):
     Traceback (most recent call last):
         ...
     ValueError: Allowed only subset of sample_set.
+
+    .. note::
+
+           This class was derived from
+           `joommfutil.typesystem.Descriptor` and inherits its
+           functionality.
+
+    .. seealso:: :py:class:`~joommfutil.typesystem.Descriptor`
 
     """
     def __set__(self, instance, value):
