@@ -69,9 +69,7 @@ class Descriptor:
             setattr(self, key, value)
 
     def __set__(self, instance, value):
-        """Set method
-
-        If `self.const=True`, changing the value of a decorated class
+        """If `self.const=True`, changing the value of a decorated class
         attribute after the initial set is not allowed.
 
         Raises
@@ -111,9 +109,7 @@ class Descriptor:
             instance.__dict__[self.name] = value
 
     def __delete__(self, instance):
-        """Delete method
-
-        Deleting the decorated class attribute is never allowed.
+        """Deleting the decorated class attribute is never allowed.
 
         Raises
         ------
@@ -144,10 +140,13 @@ class Descriptor:
 
 
 class Typed(Descriptor):
-    """Typed descriptor
+    """Descriptor allowing setting attributes only with values of a
+    certain type.
 
-    Descriptor allowing setting attributes with values of a certain
-    type.
+    Parameters
+    ----------
+    expected_type : type
+        Allowed type of value.
 
     Raises
     ------
@@ -176,6 +175,13 @@ class Typed(Descriptor):
        ...
     TypeError: Allowed only type(value) = <class 'str'>.
 
+    .. note::
+
+           Please note this method is a property and should be called
+           as ``field.value``, not ``field.value()``.
+
+    .. seealso:: :py:func:`~discretisedfield.Field.array`
+
     """
     def __set__(self, instance, value):
         if not isinstance(value, self.expected_type):
@@ -185,13 +191,18 @@ class Typed(Descriptor):
 
 
 class Scalar(Descriptor):
-    """Scalar descriptor
+    """Descriptor allowing setting attributes only with scalars
+    (`numbers.Real`).
 
-    Descriptor allowing setting attributes only with scalars
-    (`numbers.Real`). If it is necessary to more closely define the
-    allowed type, `expected_type` should be passed. In order to more
-    specifically define the allowed value `unsigned=True` or
-    `positive=True` can be passed.
+    Parameters
+    ----------
+    expected_type : int or float type, optional
+        Allowed type(value). It should be a subset of `numbers.Real`
+        (e.g. `int`, `float`).
+    positive : bool, optional
+        If `positive=True`, value must be positive (>0).
+    unsigned : bool, optional
+        If `unsigned=True`, value must be unsigned (>=0).
 
     Raises
     ------
@@ -248,49 +259,67 @@ class Scalar(Descriptor):
 
 
 class Vector(Descriptor):
-    """Vector descriptor
-
-    Descriptor allowing setting attributes only with vectors (`list`,
+    """Descriptor allowing setting attributes only with vectors (`list`,
     `tuple`, or `numpy.ndarray`) whose elements are of `numbers.Real`
-    type. To define the size (number of elements), `size` should be
-    passed.
+    type.
+
+    Parameters
+    ----------
+    component_type : int or float type, optional
+        Type of the vector components. It should be a subset of
+        `numbers.Real` (`int`, `float`).
+    size : int, optional
+        Size (dimension, number of elemnts) of the vector.
+    positive : bool, optional
+        If `positive=True`, values of all vector elements must be
+        positive (>0).
+    unsigned : bool, optional
+        If `unsigned=True`, values of all vector components must be
+        `value >= 0`.
 
     Raises
     ------
     TypeError
-        If the `type(value)` is neither `numbers.Real` nor as the
-        `expected_type` (if passed).
+        If the `type(value)` is not `list`, `tuple`, or
+        `numpy.ndarray` or if the type of vector components is neither
+        `numbers.Real` nor as the `expected_type` (if passed).
     ValueError
-        If `value < 0` and `unsigned=True` is passed or `value <= 0`
-        if `positive=True` is passed.
+        If vector component value is `value < 0` and `unsigned=True`
+        is passed or `value <= 0` if `positive=True` is passed.
 
     Example
     -------
-    1. Usage of the Scalar descriptor for defining a positive integer.
+    1. Usage of the Vector descriptor for defining a three-dimensional
+    vector composed of only positive integer components.
 
     >>> import joommfutil.typesystem as ts
     ...
-    >>> @ts.typesystem(myattribute=ts.Scalar(expected_type=int, positive=True))
+    >>> @ts.typesystem(myattribute=ts.Vector(size=3, component_type=int, 
+    ...                                      positive=True))
     ... class DecoratedClass:
     ...     def __init__(self, myattribute):
     ...         self.myattribute = myattribute
     ...
-    >>> dc = DecoratedClass(myattribute=5)
+    >>> dc = DecoratedClass(myattribute=(1, 2, 12))
     >>> dc.myattribute
-    5
-    >>> dc.myattribute = 10  # valid set
+    (1, 2, 12)
+    >>> dc.myattribute = (10, 11, 12)  # valid set
     >>> dc.myattribute
-    10
-    >>> dc.myattribute = 3.14  # invalid set
+    (10, 11, 12)
+    >>> dc.myattribute = (11, 12)  # invalid set
     Traceback (most recent call last):
-       ...
-    TypeError: Allowed only type(value) = <class 'int'>.
-    >>> dc.myattribute = 0  # invalid set
+        ...
+    ValueError: Allowed only len(value) == 3.
+    >>> dc.myattribute = (0, 1, 2)  # invalid set
     Traceback (most recent call last):
-       ...
-    ValueError: Allowed only value > 0.
+        ...
+    ValueError: Allowed only value[i] > 0.
+    >>> dc.myattribute = (1, 3.14, 2)  # invalid set
+    Traceback (most recent call last):
+        ...
+    TypeError: Allowed only type(value[i]) == <class 'int'>.
     >>> dc.myattribute
-    10
+    (10, 11, 12)
 
     """
     def __set__(self, instance, value):
@@ -302,21 +331,61 @@ class Vector(Descriptor):
         if hasattr(self, 'size'):
             if len(value) != self.size:
                 raise ValueError('Allowed only len(value) == '
-                                 '{}'.format(self.size))
-        if hasattr(self, 'unsigned'):
-            if self.unsigned and not all(i >= 0 for i in value):
-                raise ValueError('Allowed only value[.] >= 0.')
-        if hasattr(self, 'positive'):
-            if self.positive and not all(i > 0 for i in value):
-                raise ValueError('Allowed only value[.] > 0.')
+                                 '{}.'.format(self.size))
         if hasattr(self, 'component_type'):
             if not all(isinstance(i, self.component_type) for i in value):
-                raise ValueError('Allowed only type(value[.]) == '
-                                 '{}.'.format(self.component_type))
+                raise TypeError('Allowed only type(value[i]) == '
+                                '{}.'.format(self.component_type))
+        if hasattr(self, 'unsigned'):
+            if self.unsigned and not all(i >= 0 for i in value):
+                raise ValueError('Allowed only value[i] >= 0.')
+        if hasattr(self, 'positive'):
+            if self.positive and not all(i > 0 for i in value):
+                raise ValueError('Allowed only value[i] > 0.')
         super().__set__(instance, value)
 
 
 class Name(Descriptor):
+    """Descriptor allowing setting attributes only with strings
+    representing a valid Python variable name.
+
+    Raises
+    ------
+    TypeError
+        If the `type(value)` is not `str`.
+    ValueError
+        If the string passed does not begin with a letter or an
+        underscore, or if the passed string contains spaces.
+
+    Example
+    -------
+    1. Usage of the Name descriptor for defining a name attribute.
+
+    >>> import joommfutil.typesystem as ts
+    ...
+    >>> @ts.typesystem(myattribute=ts.Name())
+    ... class DecoratedClass:
+    ...     def __init__(self, myattribute):
+    ...         self.myattribute = myattribute
+    ...
+    >>> dc = DecoratedClass(myattribute='object_name')
+    >>> dc.myattribute
+    'object_name'
+    >>> dc.myattribute = 'newname'  # valid set
+    >>> dc.myattribute
+    'newname'
+    >>> dc.myattribute = '123newname'  # invalid set
+    Traceback (most recent call last):
+        ...
+    ValueError: String must start with a letter or an underscore.
+    >>> dc.myattribute = 'Nikola Tesla'  # invalid set
+    Traceback (most recent call last):
+        ...
+    ValueError: String must not contain spaces.
+    >>> dc.myattribute
+    'newname'
+
+    """
     def __set__(self, instance, value):
         if not isinstance(value, str):
             raise TypeError('Allowed only type(value) = str.')
@@ -329,10 +398,47 @@ class Name(Descriptor):
 
 
 class InSet(Descriptor):
+    """Descriptor allowing setting attributes only with a value from a
+    predefined set.
+
+    Parameters
+    ----------
+    allowed_values : set
+        Defines the set of allowed values.
+
+    Raises
+    ------
+    ValueError
+        If the value is not in the `allowed_values` set.
+
+    Example
+    -------
+    1. Usage of the InSet descriptor.
+
+    >>> import joommfutil.typesystem as ts
+    ...
+    >>> @ts.typesystem(myattribute=ts.InSet(allowed_values={'x', 'y'}))
+    ... class DecoratedClass:
+    ...     def __init__(self, myattribute):
+    ...         self.myattribute = myattribute
+    ...
+    >>> dc = DecoratedClass(myattribute='x')
+    >>> dc.myattribute
+    'x'
+    >>> dc.myattribute = 'y'  # valid set
+    >>> dc.myattribute
+    'y'
+    >>> dc.myattribute = 'z'  # invalid set
+    Traceback (most recent call last):
+        ...
+    ValueError: Allowed only value from set allowed_values.
+    >>> dc.myattribute
+    'y'
+
+    """
     def __set__(self, instance, value):
         if value not in self.allowed_values:
-            raise ValueError('Allowed only value from set'
-                             '{}.'.format(self.allowed_values))
+            raise ValueError(f'Allowed only value from set allowed_values.')
         super().__set__(instance, value)
 
 

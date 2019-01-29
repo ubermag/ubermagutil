@@ -120,7 +120,7 @@ def test_vector():
         dc.p = []
     with pytest.raises(ValueError):
         dc.r = ['a', 1, 3]
-    with pytest.raises(ValueError):
+    with pytest.raises(TypeError):
         dc.s = [1.1, 2, np.pi]
     with pytest.raises(ValueError):
         dc.t = np.array([])
