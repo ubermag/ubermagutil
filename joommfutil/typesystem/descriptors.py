@@ -188,7 +188,7 @@ class Typed(Descriptor):
     def __set__(self, instance, value):
         if not isinstance(value, self.expected_type):
             raise TypeError(f'Allowed only type(value) = '
-                            '{self.expected_type}.')
+                            f'{self.expected_type}.')
         super().__set__(instance, value)
 
 
@@ -258,7 +258,7 @@ class Scalar(Descriptor):
         if hasattr(self, 'expected_type'):
             if not isinstance(value, self.expected_type):
                 raise TypeError(f'Allowed only type(value) = '
-                                '{self.expected_type}.')
+                                f'{self.expected_type}.')
         if hasattr(self, 'unsigned'):
             if self.unsigned and value < 0:
                 raise ValueError('Allowed only value >= 0.')
@@ -352,7 +352,7 @@ class Vector(Descriptor):
         if hasattr(self, 'component_type'):
             if not all(isinstance(i, self.component_type) for i in value):
                 raise TypeError(f'Allowed only type(value[i]) == '
-                                '{self.component_type}.')
+                                f'{self.component_type}.')
         if hasattr(self, 'unsigned'):
             if self.unsigned and not all(i >= 0 for i in value):
                 raise ValueError('Allowed only value[i] >= 0.')
