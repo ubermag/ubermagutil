@@ -304,7 +304,7 @@ class Vector(Descriptor):
 
     >>> import joommfutil.typesystem as ts
     ...
-    >>> @ts.typesystem(myattribute=ts.Vector(size=3, component_type=int, 
+    >>> @ts.typesystem(myattribute=ts.Vector(size=3, component_type=int,
     ...                                      positive=True))
     ... class DecoratedClass:
     ...     def __init__(self, myattribute):
@@ -529,4 +529,3 @@ class Subset(Descriptor):
         if set(value) not in combs:
             raise ValueError('Allowed only subset of sample_set.')
         super().__set__(instance, set(value))
-        
