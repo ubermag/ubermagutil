@@ -2,21 +2,40 @@ from .descriptors import Descriptor
 
 
 def typesystem(**kwargs):
-    """Decorator for imposing typesystem.
+    """Decorator for imposing typesystem on a decorated class.
 
     A specific descriptor is associated to class attributes in the
     argument list.
 
     Examples
     --------
-    Simple class decorating.
+    1. Imposing typesystem on a class.
 
     >>> import joommfutil.typesystem as ts
-    >>> @ts.typesystem(a=ts.Scalar, b=ts.Typed(expected_type=str))
-    ... class A:
+    ...
+    >>> @ts.typesystem(a=ts.Scalar(const=True),
+    ...                b=ts.Typed(expected_type=str))
+    ... class DecoratedClass:
     ...     def __init__(self, a, b):
     ...         self.a = a
     ...         self.b = b
+    ...
+    >>> dc = DecoratedClass(a=3.14, b='joommf')
+    >>> dc.a
+    3.14
+    >>> dc.b
+    'joommf'
+    >>> dc.b = 5  # invalid set with int
+    Traceback (most recent call last):
+       ...
+    TypeError: Allowed only type(value) = <class 'str'>.
+    >>> dc.a = 101  # an attempt to change the constant attribute
+    Traceback (most recent call last):
+       ...
+    AttributeError: Changing attribute value is not allowed.
+    >>> dc.b = 'Nikola Tesla'
+    >>> dc.b
+    'Nikola Tesla'
 
     """
     def decorate(cls):
