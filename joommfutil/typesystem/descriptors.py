@@ -177,16 +177,17 @@ class Typed(Descriptor):
 
     .. note::
 
-           Please note this method is a property and should be called
-           as ``field.value``, not ``field.value()``.
+           Please note that this class was derived from
+           `joommfutil.typesystem.Descriptor` and inherits its
+           functionality.
 
-    .. seealso:: :py:func:`~discretisedfield.Field.array`
+    .. seealso:: :py:class:`~joommfutil.typesystem.Descriptor`
 
     """
     def __set__(self, instance, value):
         if not isinstance(value, self.expected_type):
-            raise TypeError('Allowed only type(value) = '
-                            '{}.'.format(self.expected_type))
+            raise TypeError(f'Allowed only type(value) = '
+                            '{self.expected_type}.')
         super().__set__(instance, value)
 
 
@@ -247,8 +248,8 @@ class Scalar(Descriptor):
             raise TypeError('Allowed only type(value) = numbers.Real.')
         if hasattr(self, 'expected_type'):
             if not isinstance(value, self.expected_type):
-                raise TypeError('Allowed only type(value) = '
-                                '{}.'.format(self.expected_type))
+                raise TypeError(f'Allowed only type(value) = '
+                                '{self.expected_type}.')
         if hasattr(self, 'unsigned'):
             if self.unsigned and value < 0:
                 raise ValueError('Allowed only value >= 0.')
@@ -330,12 +331,11 @@ class Vector(Descriptor):
             raise ValueError('Allowed only type(value[.]) == number.Real')
         if hasattr(self, 'size'):
             if len(value) != self.size:
-                raise ValueError('Allowed only len(value) == '
-                                 '{}.'.format(self.size))
+                raise ValueError(f'Allowed only len(value) == {self.size}.')
         if hasattr(self, 'component_type'):
             if not all(isinstance(i, self.component_type) for i in value):
-                raise TypeError('Allowed only type(value[i]) == '
-                                '{}.'.format(self.component_type))
+                raise TypeError(f'Allowed only type(value[i]) == '
+                                '{self.component_type}.')
         if hasattr(self, 'unsigned'):
             if self.unsigned and not all(i >= 0 for i in value):
                 raise ValueError('Allowed only value[i] >= 0.')
@@ -443,6 +443,41 @@ class InSet(Descriptor):
 
 
 class Subset(Descriptor):
+    """Descriptor allowing setting attributes only with a subset from a
+    predefined set.
+
+    A valid value can be any combination with repetitions of elements
+    from `sample_set`.
+
+    Parameters
+    ----------
+    sample_set : collections.Iterable
+        Defines the set of allowed values.
+
+    Raises
+    ------
+    ValueError
+        If value is not a combination of elements in `sample_set`.
+
+    Example
+    -------
+    1. Usage of the Subset descriptor.
+
+    >>> import joommfutil.typesystem as ts
+    ...
+    >>> @ts.typesystem(myattribute=ts.Subset(sample_set='xyz'))
+    ... class DecoratedClass:
+    ...     def __init__(self, myattribute):
+    ...         self.myattribute = myattribute
+    ...
+    >>> dc = DecoratedClass(myattribute='yx')
+    >>> dc.myattribute = 'zyyyyx'  # valid set
+    >>> dc.myattribute = 'a'  # invalid set
+    Traceback (most recent call last):
+        ...
+    ValueError: Allowed only subset of sample_set.
+
+    """
     def __set__(self, instance, value):
         if not isinstance(value, collections.Iterable):
             raise TypeError('value must be an iterable.')
@@ -451,5 +486,6 @@ class Subset(Descriptor):
             combs += list(itertools.combinations(self.sample_set, r=i))
         combs = map(set, combs)
         if set(value) not in combs:
-            raise ValueError('Allowed only value from set {}.'.format(combs))
+            raise ValueError('Allowed only subset of sample_set.')
         super().__set__(instance, set(value))
+        
