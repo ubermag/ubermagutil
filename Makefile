@@ -16,7 +16,7 @@ test-docs:
 	$(PYTHON) -m pytest --doctest-modules --ignore=$(PROJECT)/tests $(PROJECT)
 
 test-ipynb:
-	$(PYTHON) -m pytest --nbval $(IPYNBPATH)
+	$(PYTHON) -m pytest --nbval-lax $(IPYNBPATH)
 
 test-all: test-test test-coverage test-docs test-ipynb
 
