@@ -14,7 +14,7 @@ Marijan Beg<sup>1,2</sup>, Sergii Mamedov<sup>1</sup>, Ryan A. Pepper<sup>2</sup
 | Documentation | [![Documentation Status](https://readthedocs.org/projects/joommfutil/badge/?version=latest)](http://joommfutil.readthedocs.io/en/latest/?badge=latest) |
 | Binder | [![Binder](https://mybinder.org/badge.svg)](https://mybinder.org/v2/gh/joommf/joommfutil/master?filepath=index.ipynb) |
 | Dependecies | [![Requirements Status](https://requires.io/github/joommf/joommfutil/requirements.svg?branch=master)](https://requires.io/github/joommf/joommfutil/requirements/?branch=master) |
-| Downloads | https://anaconda.org/conda-forge/joommfutil/badges/downloads.svg |
+| Downloads | [![Downloads](https://anaconda.org/conda-forge/joommfutil/badges/downloads.svg)](https://anaconda.org/conda-forge/joommfutil) |
 | License | [![License](https://img.shields.io/badge/License-BSD%203--Clause-blue.svg)](https://opensource.org/licenses/BSD-3-Clause) |
 
 ## About
