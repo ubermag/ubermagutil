@@ -170,6 +170,8 @@ def test_subset():
         dc.c1 = 'a'  # Invalid set
     with pytest.raises(ValueError):
         dc.c1 = [1]  # Invalid set
+    with pytest.raises(TypeError):
+        dc.c1 = 1  # Invalid set
 
 
 def test_const():
