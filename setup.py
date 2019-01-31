@@ -13,6 +13,7 @@ setuptools.setup(
     author='Marijan Beg, Ryan A. Pepper, Thomas Kluyver, and Hans Fangohr',
     author_email='jupyteroommf@gmail.com',
     packages=setuptools.find_packages(),
+    include_package_data = True,
     install_requires=['numpy',
                       'pytest'],
     classifiers=['Development Status :: 3 - Alpha',
