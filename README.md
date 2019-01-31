@@ -6,7 +6,7 @@ Marijan Beg<sup>1,2</sup>, Sergii Mamedov<sup>1</sup>, Ryan A. Pepper<sup>2</sup
 
 | Description | Badge |
 | --- | --- |
-| Latest release | [![PyPI version](https://badge.fury.io/py/joommfutil.svg)](https://badge.fury.io/py/joommfutil) |
+| Release | [![PyPI version](https://badge.fury.io/py/joommfutil.svg)](https://badge.fury.io/py/joommfutil) |
 |                | [![Anaconda-Server Badge](https://anaconda.org/conda-forge/joommfutil/badges/version.svg)](https://anaconda.org/conda-forge/joommfutil) |
 | Build | [![Build Status](https://travis-ci.org/joommf/joommfutil.svg?branch=master)](https://travis-ci.org/joommf/joommfutil) |
 |       | [![Build status](https://ci.appveyor.com/api/projects/status/oukup0h6i6wxb3g1?svg=true)](https://ci.appveyor.com/project/marijanbeg/joommfutil) |
@@ -14,6 +14,7 @@ Marijan Beg<sup>1,2</sup>, Sergii Mamedov<sup>1</sup>, Ryan A. Pepper<sup>2</sup
 | Documentation | [![Documentation Status](https://readthedocs.org/projects/joommfutil/badge/?version=latest)](http://joommfutil.readthedocs.io/en/latest/?badge=latest) |
 | Binder | [![Binder](https://mybinder.org/badge.svg)](https://mybinder.org/v2/gh/joommf/joommfutil/master?filepath=index.ipynb) |
 | Dependecies | [![Requirements Status](https://requires.io/github/joommf/joommfutil/requirements.svg?branch=master)](https://requires.io/github/joommf/joommfutil/requirements/?branch=master) |
+| Downloads | https://anaconda.org/conda-forge/joommfutil/badges/downloads.svg |
 | License | [![License](https://img.shields.io/badge/License-BSD%203--Clause-blue.svg)](https://opensource.org/licenses/BSD-3-Clause) |
 
 ## About
