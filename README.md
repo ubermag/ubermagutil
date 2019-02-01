@@ -28,7 +28,7 @@ It is available on all major operating systems (Windows, MacOS, Linux) and requi
 
 ## Installation, testing, and upgrade
 
-We support installation using `conda` and `pip` package managers. Instructions can be found [here](...).
+We support installation using `conda` and `pip` package managers. Instructions can be found [here](https://joommfutil.readthedocs.io/en/latest/ipynb/installation-testing-upgrade.html).
 
 ## Binder
 
