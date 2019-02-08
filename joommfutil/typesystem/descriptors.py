@@ -484,7 +484,7 @@ class Subset(Descriptor):
 
     Parameters
     ----------
-    sample_set : collections.Iterable
+    sample_set : collections.abc.Iterable
         Defines the set of allowed values.
 
     Raises
@@ -520,7 +520,7 @@ class Subset(Descriptor):
 
     """
     def __set__(self, instance, value):
-        if not isinstance(value, collections.Iterable):
+        if not isinstance(value, collections.abc.Iterable):
             raise TypeError('value must be an iterable.')
         combs = []
         for i in range(0, len(self.sample_set)+1):
