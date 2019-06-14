@@ -8,13 +8,13 @@ Marijan Beg<sup>1,2</sup>, Sergii Mamedov<sup>1</sup>, Ryan A. Pepper<sup>2</sup
 | --- | --- |
 | Release | [![PyPI version](https://badge.fury.io/py/joommfutil.svg)](https://badge.fury.io/py/joommfutil) |
 |                | [![Anaconda-Server Badge](https://anaconda.org/conda-forge/joommfutil/badges/version.svg)](https://anaconda.org/conda-forge/joommfutil) |
-| Build | [![Build Status](https://travis-ci.org/joommf/joommfutil.svg?branch=master)](https://travis-ci.org/joommf/joommfutil) |
-|       | [![Build status](https://ci.appveyor.com/api/projects/status/oukup0h6i6wxb3g1?svg=true)](https://ci.appveyor.com/project/marijanbeg/joommfutil) |
-| Coverage | [![codecov](https://codecov.io/gh/joommf/joommfutil/branch/master/graph/badge.svg)](https://codecov.io/gh/joommf/joommfutil) |
+| Build | [![Build Status](https://travis-ci.org/ubermag/joommfutil.svg?branch=master)](https://travis-ci.org/ubermag/joommfutil) |
+|       | [![Build status](https://ci.appveyor.com/api/projects/status/oukup0h6i6wxb3g1?svg=true)](https://ci.appveyor.com/project/ubermag/joommfutil) |
+| Coverage | [![codecov](https://codecov.io/gh/ubermag/joommfutil/branch/master/graph/badge.svg)](https://codecov.io/gh/ubermag/joommfutil) |
 | Documentation | [![Documentation Status](https://readthedocs.org/projects/joommfutil/badge/?version=latest)](http://joommfutil.readthedocs.io/en/latest/?badge=latest) |
-| Binder | [![Binder](https://mybinder.org/badge.svg)](https://mybinder.org/v2/gh/joommf/joommfutil/master?filepath=index.ipynb) |
+| Binder | [![Binder](https://mybinder.org/badge.svg)](https://mybinder.org/v2/gh/ubermag/joommfutil/master?filepath=index.ipynb) |
 | Platforms | [![Platforms](https://anaconda.org/conda-forge/joommfutil/badges/platforms.svg)](https://anaconda.org/conda-forge/joommfutil) |
-| Dependecies | [![Requirements Status](https://requires.io/github/joommf/joommfutil/requirements.svg?branch=master)](https://requires.io/github/joommf/joommfutil/requirements/?branch=master) |
+| Dependecies | [![Requirements Status](https://requires.io/github/ubermag/joommfutil/requirements.svg?branch=master)](https://requires.io/github/ubermag/joommfutil/requirements/?branch=master) |
 | Downloads | [![Downloads](https://anaconda.org/conda-forge/joommfutil/badges/downloads.svg)](https://anaconda.org/conda-forge/joommfutil) |
 | License | [![License](https://img.shields.io/badge/License-BSD%203--Clause-blue.svg)](https://opensource.org/licenses/BSD-3-Clause) |
 
@@ -22,7 +22,7 @@ Marijan Beg<sup>1,2</sup>, Sergii Mamedov<sup>1</sup>, Ryan A. Pepper<sup>2</sup
 
 `joommfutil` is a Python package that provides:
 
-- Definitions of descriptors and the typesystem decorator used in [JOOMMF](http://joommf.github.io) packages
+- Definitions of descriptors and the typesystem decorator used in [Ubermag](http://ubermag.github.io) packages
 
 It is available on all major operating systems (Windows, MacOS, Linux) and requires Python 3.6 or higher.
 
@@ -32,7 +32,7 @@ We support installation using `conda` and `pip` package managers. Instructions c
 
 ## Binder
 
-`joommfutil` can be used in the cloud via Binder. This does not require you to have anything installed and no files will be created on your machine. To use `joommfutil` in the cloud, use this [link](https://mybinder.org/v2/gh/joommf/joommfutil/master?filepath=index.ipynb).
+`joommfutil` can be used in the cloud via Binder. This does not require you to have anything installed and no files will be created on your machine. To use `joommfutil` in the cloud, use this [link](https://mybinder.org/v2/gh/ubermag/joommfutil/master?filepath=index.ipynb).
 
 ## Documentation
 
@@ -40,7 +40,7 @@ Documentation for `joommfutil` is available [here](http://joommfutil.readthedocs
 
 ## Support
 
-If you require support on installation or usage of `joommfutil` or if you want to report a problem, you are welcome to raise an issue in our [joommf/help](https://github.com/joommf/help) repository.
+If you require support on installation or usage of `joommfutil` or if you want to report a problem, you are welcome to raise an issue in our [ubermag/help](https://github.com/ubermag/help) repository.
 
 ## License
 
