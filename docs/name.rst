@@ -1,5 +1,5 @@
-joommfutil.typesystem.Name
-==========================
+ubermagutil.typesystem.Name
+===========================
 
-.. autoclass:: joommfutil.typesystem.Name
+.. autoclass:: ubermagutil.typesystem.Name
    :members:

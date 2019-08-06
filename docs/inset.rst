@@ -1,5 +1,5 @@
-joommfutil.typesystem.InSet
-===========================
+ubermagutil.typesystem.InSet
+============================
 
-.. autoclass:: joommfutil.typesystem.InSet
+.. autoclass:: ubermagutil.typesystem.InSet
    :members:

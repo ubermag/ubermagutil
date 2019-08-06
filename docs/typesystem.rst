@@ -1,4 +1,4 @@
-joommutil.typesystem.typesystem
-===============================
+ubermagutil.typesystem.typesystem
+=================================
 
-.. autofunction:: joommfutil.typesystem.typesystem
+.. autofunction:: ubermagutil.typesystem.typesystem

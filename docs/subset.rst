@@ -1,5 +1,5 @@
-joommfutil.typesystem.SubSet
-============================
+ubermagutil.typesystem.SubSet
+=============================
 
-.. autoclass:: joommfutil.typesystem.Subset
+.. autoclass:: ubermagutil.typesystem.Subset
    :members:

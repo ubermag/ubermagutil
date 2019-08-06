@@ -1,5 +1,5 @@
-joommfutil.typesystem.Vector
-============================
+ubermagutil.typesystem.Vector
+=============================
 
-.. autoclass:: joommfutil.typesystem.Vector
+.. autoclass:: ubermagutil.typesystem.Vector
    :members:

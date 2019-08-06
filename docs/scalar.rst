@@ -1,5 +1,5 @@
-joommfutil.typesystem.Scalar
-============================
+ubermagutil.typesystem.Scalar
+=============================
 
-.. autoclass:: joommfutil.typesystem.Scalar
+.. autoclass:: ubermagutil.typesystem.Scalar
    :members:
