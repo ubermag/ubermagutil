@@ -11,7 +11,7 @@ Marijan Beg<sup>1,2</sup>, Thomas Kluyver<sup>1</sup>, and Hans Fangohr<sup>1,2<
 | Build | [![Build Status](https://travis-ci.org/ubermag/ubermagutil.svg?branch=master)](https://travis-ci.org/ubermag/ubermagutil) |
 |       | [![Build status](https://ci.appveyor.com/api/projects/status/sv9vl65olsl5rxim?svg=true)](https://ci.appveyor.com/project/marijanbeg/ubermagutil) |
 | Coverage | [![codecov](https://codecov.io/gh/ubermag/ubermagutil/branch/master/graph/badge.svg)](https://codecov.io/gh/ubermag/ubermagutil) |
-| Documentation | [![Documentation Status](https://readthedocs.org/projects/ubermagutil/badge/?version=latest)](http://ubermagutil.readthedocs.io/en/latest/?badge=latest) |
+| Documentation | [![Documentation Status](https://readthedocs.org/projects/ubermagutil/badge/?version=latest)](https://ubermagutil.readthedocs.io/en/latest/?badge=latest) |
 | Binder | [![Binder](https://mybinder.org/badge.svg)](https://mybinder.org/v2/gh/ubermag/ubermagutil/master?filepath=index.ipynb) |
 | Platforms | [![Platforms](https://anaconda.org/conda-forge/ubermagutil/badges/platforms.svg)](https://anaconda.org/conda-forge/ubermagutil) |
 | Dependecies | [![Requirements Status](https://requires.io/github/ubermag/ubermagutil/requirements.svg?branch=master)](https://requires.io/github/ubermag/ubermagutil/requirements/?branch=master) |
