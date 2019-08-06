@@ -6,7 +6,7 @@ import numpy as np
 
 class Descriptor:
     """Descriptor base class from which all descriptors in
-    `joommfutil.typesystem` are derived.
+    `ubermagutil.typesystem` are derived.
 
     Before setting the attribute value of a decorated class is
     allowed, certain type and value checks are performed. If they are
@@ -31,7 +31,7 @@ class Descriptor:
     1. Deriving a descriptor class from the base class `Descriptor`,
     which only allows positive integer values.
 
-    >>> import joommfutil.typesystem as ts
+    >>> import ubermagutil.typesystem as ts
     ...
     >>> class PositiveInt(ts.Descriptor):
     ...     def __set__(self, instance, value):
@@ -83,7 +83,7 @@ class Descriptor:
         -------
         1. Changing the value of a constant decorated class attribute.
 
-        >>> import joommfutil.typesystem as ts
+        >>> import ubermagutil.typesystem as ts
         ...
         >>> @ts.typesystem(myattribute=ts.Descriptor(const=True))
         ... class DecoratedClass:
@@ -121,7 +121,7 @@ class Descriptor:
         -------
         1. Deleting an attribute of a decorated class.
 
-        >>> import joommfutil.typesystem as ts
+        >>> import ubermagutil.typesystem as ts
         ...
         >>> @ts.typesystem(myattribute=ts.Descriptor)
         ... class DecoratedClass:
@@ -158,7 +158,7 @@ class Typed(Descriptor):
     -------
     1. Usage of the Typed descriptor.
 
-    >>> import joommfutil.typesystem as ts
+    >>> import ubermagutil.typesystem as ts
     ...
     >>> @ts.typesystem(myattribute=ts.Typed(expected_type=str))
     ... class DecoratedClass:
@@ -179,10 +179,10 @@ class Typed(Descriptor):
     .. note::
 
            This class was derived from
-           `joommfutil.typesystem.Descriptor` and inherits its
+           `ubermagutil.typesystem.Descriptor` and inherits its
            functionality.
 
-    .. seealso:: :py:class:`~joommfutil.typesystem.Descriptor`
+    .. seealso:: :py:class:`~ubermagutil.typesystem.Descriptor`
 
     """
     def __set__(self, instance, value):
@@ -219,7 +219,7 @@ class Scalar(Descriptor):
     -------
     1. Usage of the Scalar descriptor for defining a positive integer.
 
-    >>> import joommfutil.typesystem as ts
+    >>> import ubermagutil.typesystem as ts
     ...
     >>> @ts.typesystem(myattribute=ts.Scalar(expected_type=int, positive=True))
     ... class DecoratedClass:
@@ -246,10 +246,10 @@ class Scalar(Descriptor):
     .. note::
 
            This class was derived from
-           `joommfutil.typesystem.Descriptor` and inherits its
+           `ubermagutil.typesystem.Descriptor` and inherits its
            functionality.
 
-    .. seealso:: :py:class:`~joommfutil.typesystem.Descriptor`
+    .. seealso:: :py:class:`~ubermagutil.typesystem.Descriptor`
 
     """
     def __set__(self, instance, value):
@@ -302,7 +302,7 @@ class Vector(Descriptor):
     1. Usage of the Vector descriptor for defining a three-dimensional
     vector composed of only positive integer components.
 
-    >>> import joommfutil.typesystem as ts
+    >>> import ubermagutil.typesystem as ts
     ...
     >>> @ts.typesystem(myattribute=ts.Vector(size=3, component_type=int,
     ...                                      positive=True))
@@ -334,10 +334,10 @@ class Vector(Descriptor):
     .. note::
 
            This class was derived from
-           `joommfutil.typesystem.Descriptor` and inherits its
+           `ubermagutil.typesystem.Descriptor` and inherits its
            functionality.
 
-    .. seealso:: :py:class:`~joommfutil.typesystem.Descriptor`
+    .. seealso:: :py:class:`~ubermagutil.typesystem.Descriptor`
 
     """
     def __set__(self, instance, value):
@@ -378,7 +378,7 @@ class Name(Descriptor):
     -------
     1. Usage of the Name descriptor for defining a name attribute.
 
-    >>> import joommfutil.typesystem as ts
+    >>> import ubermagutil.typesystem as ts
     ...
     >>> @ts.typesystem(myattribute=ts.Name())
     ... class DecoratedClass:
@@ -405,10 +405,10 @@ class Name(Descriptor):
     .. note::
 
            This class was derived from
-           `joommfutil.typesystem.Descriptor` and inherits its
+           `ubermagutil.typesystem.Descriptor` and inherits its
            functionality.
 
-    .. seealso:: :py:class:`~joommfutil.typesystem.Descriptor`
+    .. seealso:: :py:class:`~ubermagutil.typesystem.Descriptor`
 
     """
     def __set__(self, instance, value):
@@ -440,7 +440,7 @@ class InSet(Descriptor):
     -------
     1. Usage of the InSet descriptor.
 
-    >>> import joommfutil.typesystem as ts
+    >>> import ubermagutil.typesystem as ts
     ...
     >>> @ts.typesystem(myattribute=ts.InSet(allowed_values={'x', 'y'}))
     ... class DecoratedClass:
@@ -463,10 +463,10 @@ class InSet(Descriptor):
     .. note::
 
            This class was derived from
-           `joommfutil.typesystem.Descriptor` and inherits its
+           `ubermagutil.typesystem.Descriptor` and inherits its
            functionality.
 
-    .. seealso:: :py:class:`~joommfutil.typesystem.Descriptor`
+    .. seealso:: :py:class:`~ubermagutil.typesystem.Descriptor`
 
     """
     def __set__(self, instance, value):
@@ -496,7 +496,7 @@ class Subset(Descriptor):
     -------
     1. Usage of the Subset descriptor.
 
-    >>> import joommfutil.typesystem as ts
+    >>> import ubermagutil.typesystem as ts
     ...
     >>> @ts.typesystem(myattribute=ts.Subset(sample_set='xyz'))
     ... class DecoratedClass:
@@ -513,10 +513,10 @@ class Subset(Descriptor):
     .. note::
 
            This class was derived from
-           `joommfutil.typesystem.Descriptor` and inherits its
+           `ubermagutil.typesystem.Descriptor` and inherits its
            functionality.
 
-    .. seealso:: :py:class:`~joommfutil.typesystem.Descriptor`
+    .. seealso:: :py:class:`~ubermagutil.typesystem.Descriptor`
 
     """
     def __set__(self, instance, value):

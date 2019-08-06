@@ -11,7 +11,7 @@ def typesystem(**kwargs):
     --------
     1. Imposing typesystem on a class.
 
-    >>> import joommfutil.typesystem as ts
+    >>> import ubermagutil.typesystem as ts
     ...
     >>> @ts.typesystem(a=ts.Scalar(const=True),
     ...                b=ts.Typed(expected_type=str))
