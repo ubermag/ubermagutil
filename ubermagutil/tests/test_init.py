@@ -1,11 +1,11 @@
-import joommfutil as ju
+import ubermagutil as uu
 
 
 def test_version():
-    assert isinstance(ju.__version__, str)
-    assert '.' in ju.__version__
+    assert isinstance(uu.__version__, str)
+    assert '.' in uu.__version__
 
 
 def test_dependencies():
-    assert isinstance(ju.__dependencies__, list)
-    assert len(ju.__dependencies__) > 0
+    assert isinstance(uu.__dependencies__, list)
+    assert len(uu.__dependencies__) > 0

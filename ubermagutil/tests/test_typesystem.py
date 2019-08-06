@@ -1,7 +1,7 @@
 import pytest
 import numbers
 import numpy as np
-import joommfutil.typesystem as ts
+import ubermagutil.typesystem as ts
 
 
 @ts.typesystem(a=ts.Typed(expected_type=int),
