@@ -1,4 +1,4 @@
-PROJECT=joommfutil
+PROJECT=ubermagutil
 IPYNBPATH=docs/ipynb/*.ipynb
 CODECOVTOKEN=54e51b25-3a19-438f-a491-55826e6da789
 PYTHON?=python3

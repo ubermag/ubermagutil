@@ -1,2 +1,2 @@
 [run]
-omit = joommfutil/tests/*
+omit = ubermagutil/tests/*
