@@ -9,7 +9,7 @@ Marijan Beg<sup>1,2</sup>, Thomas Kluyver<sup>1</sup>, and Hans Fangohr<sup>1,2<
 | Release | [![PyPI version](https://badge.fury.io/py/ubermagutil.svg)](https://badge.fury.io/py/ubermagutil) |
 |                | [![Anaconda-Server Badge](https://anaconda.org/conda-forge/ubermagutil/badges/version.svg)](https://anaconda.org/conda-forge/ubermagutil) |
 | Build | [![Build Status](https://travis-ci.org/ubermag/ubermagutil.svg?branch=master)](https://travis-ci.org/ubermag/ubermagutil) |
-|       | [![Build status](https://ci.appveyor.com/api/projects/status/oukup0h6i6wxb3g1?svg=true)](https://ci.appveyor.com/project/ubermag/ubermagutil) |
+|       | [![Build status](https://ci.appveyor.com/api/projects/status/sv9vl65olsl5rxim?svg=true)](https://ci.appveyor.com/project/marijanbeg/ubermagutil) |
 | Coverage | [![codecov](https://codecov.io/gh/ubermag/ubermagutil/branch/master/graph/badge.svg)](https://codecov.io/gh/ubermag/ubermagutil) |
 | Documentation | [![Documentation Status](https://readthedocs.org/projects/ubermagutil/badge/?version=latest)](http://ubermagutil.readthedocs.io/en/latest/?badge=latest) |
 | Binder | [![Binder](https://mybinder.org/badge.svg)](https://mybinder.org/v2/gh/ubermag/ubermagutil/master?filepath=index.ipynb) |
