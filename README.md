@@ -14,7 +14,6 @@ Marijan Beg<sup>1,2</sup>, Thomas Kluyver<sup>1</sup>, and Hans Fangohr<sup>1,2<
 | Documentation | [![Documentation Status](https://readthedocs.org/projects/ubermagutil/badge/?version=latest)](https://ubermagutil.readthedocs.io/en/latest/?badge=latest) |
 | Binder | [![Binder](https://mybinder.org/badge.svg)](https://mybinder.org/v2/gh/ubermag/ubermagutil/master?filepath=index.ipynb) |
 | Platforms | [![Platforms](https://anaconda.org/conda-forge/ubermagutil/badges/platforms.svg)](https://anaconda.org/conda-forge/ubermagutil) |
-| Dependecies | [![Requirements Status](https://requires.io/github/ubermag/ubermagutil/requirements.svg?branch=master)](https://requires.io/github/ubermag/ubermagutil/requirements/?branch=master) |
 | Downloads | [![Downloads](https://anaconda.org/conda-forge/ubermagutil/badges/downloads.svg)](https://anaconda.org/conda-forge/ubermagutil) |
 | License | [![License](https://img.shields.io/badge/License-BSD%203--Clause-blue.svg)](https://opensource.org/licenses/BSD-3-Clause) |
 
