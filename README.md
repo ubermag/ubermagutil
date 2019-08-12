@@ -12,7 +12,7 @@ Marijan Beg<sup>1,2</sup>, Thomas Kluyver<sup>1</sup>, and Hans Fangohr<sup>1,2<
 |       | [![Build status](https://ci.appveyor.com/api/projects/status/sv9vl65olsl5rxim?svg=true)](https://ci.appveyor.com/project/marijanbeg/ubermagutil) |
 | Coverage | [![codecov](https://codecov.io/gh/ubermag/ubermagutil/branch/master/graph/badge.svg)](https://codecov.io/gh/ubermag/ubermagutil) |
 | Documentation | [![Documentation Status](https://readthedocs.org/projects/ubermagutil/badge/?version=latest)](https://ubermagutil.readthedocs.io/en/latest/?badge=latest) |
-| Binder | [![Binder](https://mybinder.org/badge.svg)](https://mybinder.org/v2/gh/ubermag/ubermagutil/master?filepath=index.ipynb) |
+| Binder | [![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/ubermag/ubermagutil/master?filepath=docs%2Fipynb%2Findex.ipynb) |
 | Platforms | [![Platforms](https://anaconda.org/conda-forge/ubermagutil/badges/platforms.svg)](https://anaconda.org/conda-forge/ubermagutil) |
 | Downloads | [![Downloads](https://anaconda.org/conda-forge/ubermagutil/badges/downloads.svg)](https://anaconda.org/conda-forge/ubermagutil) |
 | License | [![License](https://img.shields.io/badge/License-BSD%203--Clause-blue.svg)](https://opensource.org/licenses/BSD-3-Clause) |
