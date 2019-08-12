@@ -6,5 +6,11 @@ API Reference
    :caption: Contents:
 
    typesystem
-   descriptors
+   descriptor
+   typed
+   scalar
+   vector
+   name
+   inset
+   subset
    

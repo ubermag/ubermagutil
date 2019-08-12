@@ -1,5 +1,5 @@
-ubermagutil.typesystem.InSet
-============================
+``ubermagutil.typesystem.InSet``
+================================
 
 .. autoclass:: ubermagutil.typesystem.InSet
    :members:

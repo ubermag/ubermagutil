@@ -1,5 +1,5 @@
-ubermagutil.typesystem.Name
-===========================
+``ubermagutil.typesystem.Name``
+===============================
 
 .. autoclass:: ubermagutil.typesystem.Name
    :members:

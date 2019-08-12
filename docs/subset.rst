@@ -1,5 +1,5 @@
-ubermagutil.typesystem.SubSet
-=============================
+``ubermagutil.typesystem.SubSet``
+=================================
 
 .. autoclass:: ubermagutil.typesystem.Subset
    :members:

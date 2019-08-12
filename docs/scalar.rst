@@ -1,5 +1,5 @@
-ubermagutil.typesystem.Scalar
-=============================
+``ubermagutil.typesystem.Scalar``
+=================================
 
 .. autoclass:: ubermagutil.typesystem.Scalar
    :members:
