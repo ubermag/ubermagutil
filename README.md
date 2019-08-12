@@ -7,7 +7,7 @@ Marijan Beg<sup>1,2</sup> and Hans Fangohr<sup>1,2</sup>
 | Description | Badge |
 | --- | --- |
 | Release | [![PyPI version](https://badge.fury.io/py/ubermagutil.svg)](https://badge.fury.io/py/ubermagutil) |
-|                | [![Anaconda-Server Badge](https://anaconda.org/conda-forge/ubermagutil/badges/version.svg)](https://anaconda.org/conda-forge/ubermagutil) |
+|         | [![Anaconda-Server Badge](https://anaconda.org/conda-forge/ubermagutil/badges/version.svg)](https://anaconda.org/conda-forge/ubermagutil) |
 | Build | [![Build Status](https://travis-ci.org/ubermag/ubermagutil.svg?branch=master)](https://travis-ci.org/ubermag/ubermagutil) |
 |       | [![Build status](https://ci.appveyor.com/api/projects/status/sv9vl65olsl5rxim?svg=true)](https://ci.appveyor.com/project/marijanbeg/ubermagutil) |
 | Coverage | [![codecov](https://codecov.io/gh/ubermag/ubermagutil/branch/master/graph/badge.svg)](https://codecov.io/gh/ubermag/ubermagutil) |
