@@ -6,12 +6,12 @@ with open('README.md', encoding='utf-8') as f:
 setuptools.setup(
     name='ubermagutil',
     version='0.1',
-    description='Python utilities package used across most of Ubermag packages.',
+    description=('Python utilities package used across '
+                 'most of Ubermag packages.'),
     long_description=long_description,
     long_description_content_type='text/markdown',
     url='https://ubermag.github.io',
-    author='Marijan Beg, Thomas Kluyver, and Hans Fangohr',
-    author_email='jupyteroommf@gmail.com',
+    author='Marijan Beg and Hans Fangohr',
     packages=setuptools.find_packages(),
     include_package_data = True,
     install_requires=['numpy',
