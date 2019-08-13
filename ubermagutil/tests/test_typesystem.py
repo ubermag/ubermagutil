@@ -39,7 +39,8 @@ import ubermagutil.typesystem as ts
                h1=ts.Parameter(descriptor=ts.Scalar(), const=True),
                i1=ts.Scalar(otherwise=tuple),
                j1=ts.Vector(size=3, otherwise=float),
-               k1=ts.Parameter(descriptor=ts.Scalar(), otherwise=tuple))
+               k1=ts.Parameter(descriptor=ts.Scalar(), otherwise=tuple),
+               l1=ts.Parameter())
 class DecoratedClass:
     def __init__(self, **kwargs):
         for key, value in kwargs.items():
@@ -306,6 +307,10 @@ def test_parameter():
         dc.g1 = {'validstring': (0, 0, 1), 'invalid string': (1, 1, 1)}
     with pytest.raises(ValueError):
         dc.g1 = {'validstring': (1, 2, 3), 'anothervalidstring': (1,)}
+
+    # No descriptor argument passed
+    with pytest.raises(AttributeError):
+        dc = DecoratedClass(l1=(0, 0, 1))
 
 
 def test_otherwise():
