@@ -205,6 +205,9 @@ class Scalar(Descriptor):
         If `positive=True`, value must be positive (>0).
     unsigned : bool, optional
         If `unsigned=True`, value must be unsigned (>=0).
+    otherwise : type
+        This type would also be accepted if specified. It has priority
+        over other descriptor specification.
 
     Raises
     ------
@@ -292,6 +295,9 @@ class Vector(Descriptor):
     unsigned : bool, optional
         If `unsigned=True`, values of all vector components must be
         `value >= 0`.
+    otherwise : type
+        This type would also be accepted if specified. It has priority
+        over other descriptor specification.
 
     Raises
     ------
@@ -554,6 +560,9 @@ class Parameter(Descriptor):
     ----------
     descriptor : ubermagutil.typesystem.Name or its derived class
         Accepted value, or if a dictionary is passed, allowed item.
+    otherwise : type
+        This type would also be accepted if specified. It has priority
+        over other descriptor specification.
 
     Raises
     ------
