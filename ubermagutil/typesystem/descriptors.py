@@ -253,18 +253,24 @@ class Scalar(Descriptor):
 
     """
     def __set__(self, instance, value):
-        if not isinstance(value, numbers.Real):
-            raise TypeError('Allowed only type(value) = numbers.Real.')
-        if hasattr(self, 'expected_type'):
-            if not isinstance(value, self.expected_type):
-                raise TypeError(f'Allowed only type(value) = '
-                                f'{self.expected_type}.')
-        if hasattr(self, 'unsigned'):
-            if self.unsigned and value < 0:
-                raise ValueError('Allowed only value >= 0.')
-        if hasattr(self, 'positive'):
-            if self.positive and value <= 0:
-                raise ValueError('Allowed only value > 0.')
+        try:
+            if not hasattr(self, 'otherwise'):
+                raise AttributeError('Attribute otherwise not defined.')
+            if not isinstance(value, self.otherwise):
+                raise TypeError('Allowed only type(value) = otherwise.')
+        except (AttributeError, TypeError):
+            if not isinstance(value, numbers.Real):
+                raise TypeError('Allowed only type(value) = numbers.Real.')
+            if hasattr(self, 'expected_type'):
+                if not isinstance(value, self.expected_type):
+                    raise TypeError(f'Allowed only type(value) = '
+                                    f'{self.expected_type}.')
+            if hasattr(self, 'unsigned'):
+                if self.unsigned and value < 0:
+                    raise ValueError('Allowed only value >= 0.')
+            if hasattr(self, 'positive'):
+                if self.positive and value <= 0:
+                    raise ValueError('Allowed only value > 0.')
         super().__set__(instance, value)
 
 
@@ -341,24 +347,31 @@ class Vector(Descriptor):
 
     """
     def __set__(self, instance, value):
-        if not isinstance(value, (list, tuple, np.ndarray)):
-            raise TypeError('Allowed only type(value) = '
-                            'list, tuple, np.ndarray.')
-        if not all(isinstance(i, numbers.Real) for i in value):
-            raise ValueError('Allowed only type(value[.]) == number.Real')
-        if hasattr(self, 'size'):
-            if len(value) != self.size:
-                raise ValueError(f'Allowed only len(value) == {self.size}.')
-        if hasattr(self, 'component_type'):
-            if not all(isinstance(i, self.component_type) for i in value):
-                raise TypeError(f'Allowed only type(value[i]) == '
-                                f'{self.component_type}.')
-        if hasattr(self, 'unsigned'):
-            if self.unsigned and not all(i >= 0 for i in value):
-                raise ValueError('Allowed only value[i] >= 0.')
-        if hasattr(self, 'positive'):
-            if self.positive and not all(i > 0 for i in value):
-                raise ValueError('Allowed only value[i] > 0.')
+        try:
+            if not hasattr(self, 'otherwise'):
+                raise AttributeError('Attribute otherwise not defined.')
+            if not isinstance(value, self.otherwise):
+                raise TypeError('Allowed only type(value) = otherwise.')
+        except (AttributeError, TypeError):
+            if not isinstance(value, (list, tuple, np.ndarray)):
+                raise TypeError('Allowed only type(value) = '
+                                'list, tuple, np.ndarray.')
+            if not all(isinstance(i, numbers.Real) for i in value):
+                raise ValueError('Allowed only type(value[.]) == number.Real')
+            if hasattr(self, 'size'):
+                if len(value) != self.size:
+                    raise ValueError(f'Allowed only len(value) '
+                                     f'== {self.size}.')
+            if hasattr(self, 'component_type'):
+                if not all(isinstance(i, self.component_type) for i in value):
+                    raise TypeError(f'Allowed only type(value[i]) == '
+                                    f'{self.component_type}.')
+            if hasattr(self, 'unsigned'):
+                if self.unsigned and not all(i >= 0 for i in value):
+                    raise ValueError('Allowed only value[i] >= 0.')
+            if hasattr(self, 'positive'):
+                if self.positive and not all(i > 0 for i in value):
+                    raise ValueError('Allowed only value[i] > 0.')
         super().__set__(instance, value)
 
 
@@ -529,3 +542,84 @@ class Subset(Descriptor):
         if set(value) not in combs:
             raise ValueError('Allowed only subset of sample_set.')
         super().__set__(instance, set(value))
+
+
+class Parameter(Descriptor):
+    """Descriptor allowing setting attributes with a value described as
+    `descriptor` or a dictionary. Dictionary keys are strings defined
+    with `ubermagutil.typesystem.Name` descriptor, and the items are
+    defined by the `descriptor`.
+
+    Parameters
+    ----------
+    descriptor : ubermagutil.typesystem.Name or its derived class
+        Accepted value, or if a dictionary is passed, allowed item.
+
+    Raises
+    ------
+    AttributeError
+        If `descriptor` argument is not passed.
+    ValueError
+        If an empty dictionary is passed.
+
+    Example
+    -------
+    1. Usage of the Property descriptor allowing scalars.
+
+    >>> import ubermagutil.typesystem as ts
+    ...
+    >>> @ts.typesystem(myattribute=ts.Parameter(descriptor=ts.Scalar()))
+    ... class DecoratedClass:
+    ...     def __init__(self, myattribute):
+    ...         self.myattribute = myattribute
+    ...
+    >>> dc = DecoratedClass(myattribute=-2)
+    >>> dc.myattribute
+    -2
+    >>> dc.myattribute = {'a': 1, 'b': -3}  # valid set
+    >>> dc.myattribute
+    {'a': 1, 'b': -3}
+    >>> dc.myattribute = {'a': 1, 'b': 'abc'}  # invalid set
+    Traceback (most recent call last):
+        ...
+    TypeError: Allowed only type(value) = numbers.Real.
+    >>> dc.myattribute = {'a b': 1, 'c': -3}  # invalid set
+    Traceback (most recent call last):
+        ...
+    ValueError: String must not contain spaces.
+    >>> dc.myattribute = {}  # invalid set
+    Traceback (most recent call last):
+        ...
+    ValueError: Dictionary must not be empty.
+    >>> dc.myattribute
+    {'a': 1, 'b': -3}
+
+    .. note::
+
+           This class was derived from
+           `ubermagutil.typesystem.Descriptor` and inherits its
+           functionality.
+
+    .. seealso:: :py:class:`~ubermagutil.typesystem.Descriptor`
+
+    """
+    def __set__(self, instance, value):
+        try:
+            if not hasattr(self, 'otherwise'):
+                raise AttributeError('Attribute otherwise not defined.')
+            if not isinstance(value, self.otherwise):
+                raise TypeError('Allowed only type(value) = otherwise.')
+        except (AttributeError, TypeError):
+            if not hasattr(self, 'descriptor'):
+                raise AttributeError('Parameter must have '
+                                     'descriptor attribute.')
+            if not isinstance(value, dict):
+                self.descriptor.__set__(self.descriptor, value)
+            else:
+                if value == {}:
+                    raise ValueError('Dictionary must not be empty.')
+                namedescriptor = Name()
+                for key, item in value.items():
+                    namedescriptor.__set__(namedescriptor, key)
+                    self.descriptor.__set__(self.descriptor, item)
+        super().__set__(instance, value)

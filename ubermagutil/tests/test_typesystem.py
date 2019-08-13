@@ -32,7 +32,14 @@ import ubermagutil.typesystem as ts
                a1=ts.InSet(allowed_values=[1, 2, '5']),
                b1=ts.InSet(allowed_values=[-1, 5], const=True),
                c1=ts.Subset(sample_set='xyz'),
-               d1=ts.Subset(sample_set='xyz', const=True))
+               d1=ts.Subset(sample_set='xyz', const=True),
+               e1=ts.Parameter(descriptor=ts.Scalar(expected_type=int)),
+               f1=ts.Parameter(descriptor=ts.Scalar(positive=True)),
+               g1=ts.Parameter(descriptor=ts.Vector(size=3)),
+               h1=ts.Parameter(descriptor=ts.Scalar(), const=True),
+               i1=ts.Scalar(otherwise=tuple),
+               j1=ts.Vector(size=3, otherwise=float),
+               k1=ts.Parameter(descriptor=ts.Scalar(), otherwise=tuple))
 class DecoratedClass:
     def __init__(self, **kwargs):
         for key, value in kwargs.items():
@@ -180,7 +187,8 @@ def test_subset():
 
 
 def test_const():
-    dc = DecoratedClass(v='a', w=3.5, x=(1e9,), y=[1, 2, -5])
+    dc = DecoratedClass(v='a', w=3.5, x=(1e9,), y=[1, 2, -5],
+                        h1={'r1': 1, 'r2': -3.14})
 
     # z value has not been set yet
     dc.z = 'var_name'
@@ -196,6 +204,8 @@ def test_const():
         dc.y = [1, 2, -5]
     with pytest.raises(AttributeError):
         dc.z = 'new_string'
+    with pytest.raises(AttributeError):
+        dc.h1 = {'r1': 5, 'r2': -3.14}
 
 
 def test_add_missing_argument():
@@ -214,3 +224,123 @@ def test_del_attribute():
         del dc.a
     with pytest.raises(AttributeError):
         del dc.j
+
+
+def test_parameter():
+    # Integer scalar allowed
+    dc = DecoratedClass(e1=5)
+    assert dc.e1 == 5
+
+    dc.e1 = -331
+    assert dc.e1 == -331
+
+    dc.e1 = {'mystring': 5}
+    assert dc.e1 == {'mystring': 5}
+
+    dc.e1 = {'element1': -1, 'element2': 3112}
+    assert dc.e1 == {'element1': -1, 'element2': 3112}
+
+    with pytest.raises(TypeError):
+        dc.e1 = -1.2
+    with pytest.raises(ValueError):
+        dc.e1 = {}
+    with pytest.raises(ValueError):
+        dc.e1 = {'string with spaces': 1}
+    with pytest.raises(TypeError):
+        dc.e1 = {'validstring': 1.2}
+    with pytest.raises(ValueError):
+        dc.e1 = {'validstring': 1, 'invalid string': 2}
+    with pytest.raises(TypeError):
+        dc.e1 = {'validstring': 1, 'anothervalidstring': 2.1}
+
+    assert dc.e1 == {'element1': -1, 'element2': 3112}
+
+    # Positive scalar allowed
+    dc = DecoratedClass(f1=1e-12)
+    assert dc.f1 == 1e-12
+
+    dc.f1 = 50e6
+    assert dc.f1 == 50e6
+
+    dc.f1 = {'mystring': 50e3}
+    assert dc.f1 == {'mystring': 50e3}
+
+    dc.f1 = {'element1': 1, 'element2': 3112.1}
+    assert dc.f1 == {'element1': 1, 'element2': 3112.1}
+
+    with pytest.raises(ValueError):
+        dc.f1 = -1.2
+    with pytest.raises(ValueError):
+        dc.f1 = {}
+    with pytest.raises(ValueError):
+        dc.f1 = {'string with spaces': 1}
+    with pytest.raises(TypeError):
+        dc.f1 = {'validstring': 'string'}
+    with pytest.raises(ValueError):
+        dc.f1 = {'validstring': 1, 'invalid string': 2}
+    with pytest.raises(ValueError):
+        dc.f1 = {'validstring': 1, 'anothervalidstring': -2.1}
+
+    # size 3 vector allowed
+    dc = DecoratedClass(g1=(0, 0, 1))
+    assert dc.g1 == (0, 0, 1)
+
+    dc.g1 = (1, 2, 1e5)
+    assert dc.g1 == (1, 2, 1e5)
+
+    dc.g1 = {'mystring': (1, -1.2, 1e-9)}
+    assert dc.g1 == {'mystring': (1, -1.2, 1e-9)}
+
+    dc.g1 = {'element1': (0, 0, 1), 'element2': (0, 0, -1)}
+    assert dc.g1 == {'element1': (0, 0, 1), 'element2': (0, 0, -1)}
+
+    with pytest.raises(ValueError):
+        dc.g1 = (1, 2)
+    with pytest.raises(ValueError):
+        dc.g1 = {}
+    with pytest.raises(ValueError):
+        dc.g1 = {'string with spaces': (0, 0, 1)}
+    with pytest.raises(TypeError):
+        dc.g1 = {'validstring': 'string'}
+    with pytest.raises(ValueError):
+        dc.g1 = {'validstring': (0, 0, 1), 'invalid string': (1, 1, 1)}
+    with pytest.raises(ValueError):
+        dc.g1 = {'validstring': (1, 2, 3), 'anothervalidstring': (1,)}
+
+
+def test_otherwise():
+    # Scalar, otherwise tuple
+    dc = DecoratedClass(i1=1)
+    assert dc.i1 == 1
+
+    dc.i1 = (1, 2, 1e5, 5)
+    assert dc.i1 == (1, 2, 1e5, 5)
+
+    with pytest.raises(TypeError):
+        dc.g1 = 'string'
+
+    # Size 3 vector, otherwise float
+    dc = DecoratedClass(j1=(1, 2, 3))
+    assert dc.j1 == (1, 2, 3)
+
+    dc.j1 = 1.2
+    assert dc.j1 == 1.2
+
+    with pytest.raises(TypeError):
+        dc.j1 = 'string'
+    with pytest.raises(TypeError):
+        dc.j1 = 5
+
+    # Size 3 vector, otherwise float
+    dc = DecoratedClass(k1=(1, 2, 3))
+    assert dc.k1 == (1, 2, 3)
+
+    dc.k1 = {'a': 1, 'b': 2}
+    assert dc.k1 == {'a': 1, 'b': 2}
+
+    with pytest.raises(TypeError):
+        dc.k1 = 'string'
+    with pytest.raises(TypeError):
+        dc.k1 = {'a': 1, 'b': [1, 2, 3]}
+    with pytest.raises(TypeError):
+        dc.k1 = [1, 2, 3]
