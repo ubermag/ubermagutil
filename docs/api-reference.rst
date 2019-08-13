@@ -10,6 +10,7 @@ API Reference
    typed
    scalar
    vector
+   parameter
    name
    inset
    subset
