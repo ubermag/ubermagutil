@@ -256,24 +256,22 @@ class Scalar(Descriptor):
 
     """
     def __set__(self, instance, value):
-        try:
-            if not hasattr(self, 'otherwise'):
-                raise AttributeError('Attribute otherwise not defined.')
-            if not isinstance(value, self.otherwise):
-                raise TypeError('Allowed only type(value) = otherwise.')
-        except (AttributeError, TypeError):
-            if not isinstance(value, numbers.Real):
-                raise TypeError('Allowed only type(value) = numbers.Real.')
-            if hasattr(self, 'expected_type'):
-                if not isinstance(value, self.expected_type):
-                    raise TypeError(f'Allowed only type(value) = '
-                                    f'{self.expected_type}.')
-            if hasattr(self, 'unsigned'):
-                if self.unsigned and value < 0:
-                    raise ValueError('Allowed only value >= 0.')
-            if hasattr(self, 'positive'):
-                if self.positive and value <= 0:
-                    raise ValueError('Allowed only value > 0.')
+        if hasattr(self, 'otherwise'):
+            if isinstance(value, self.otherwise):
+                super().__set__(instance, value)
+                return None
+        if not isinstance(value, numbers.Real):
+            raise TypeError('Allowed only type(value) = numbers.Real.')
+        if hasattr(self, 'expected_type'):
+            if not isinstance(value, self.expected_type):
+                raise TypeError(f'Allowed only type(value) = '
+                                f'{self.expected_type}.')
+        if hasattr(self, 'unsigned'):
+            if self.unsigned and value < 0:
+                raise ValueError('Allowed only value >= 0.')
+        if hasattr(self, 'positive'):
+            if self.positive and value <= 0:
+                raise ValueError('Allowed only value > 0.')
         super().__set__(instance, value)
 
 
@@ -353,31 +351,29 @@ class Vector(Descriptor):
 
     """
     def __set__(self, instance, value):
-        try:
-            if not hasattr(self, 'otherwise'):
-                raise AttributeError('Attribute otherwise not defined.')
-            if not isinstance(value, self.otherwise):
-                raise TypeError('Allowed only type(value) = otherwise.')
-        except (AttributeError, TypeError):
-            if not isinstance(value, (list, tuple, np.ndarray)):
-                raise TypeError('Allowed only type(value) = '
-                                'list, tuple, np.ndarray.')
-            if not all(isinstance(i, numbers.Real) for i in value):
-                raise ValueError('Allowed only type(value[.]) == number.Real')
-            if hasattr(self, 'size'):
-                if len(value) != self.size:
-                    raise ValueError(f'Allowed only len(value) '
-                                     f'== {self.size}.')
-            if hasattr(self, 'component_type'):
-                if not all(isinstance(i, self.component_type) for i in value):
-                    raise TypeError(f'Allowed only type(value[i]) == '
-                                    f'{self.component_type}.')
-            if hasattr(self, 'unsigned'):
-                if self.unsigned and not all(i >= 0 for i in value):
-                    raise ValueError('Allowed only value[i] >= 0.')
-            if hasattr(self, 'positive'):
-                if self.positive and not all(i > 0 for i in value):
-                    raise ValueError('Allowed only value[i] > 0.')
+        if hasattr(self, 'otherwise'):
+            if isinstance(value, self.otherwise):
+                super().__set__(instance, value)
+                return None
+        if not isinstance(value, (list, tuple, np.ndarray)):
+            raise TypeError('Allowed only type(value) = '
+                            'list, tuple, np.ndarray.')
+        if not all(isinstance(i, numbers.Real) for i in value):
+            raise ValueError('Allowed only type(value[.]) == number.Real')
+        if hasattr(self, 'size'):
+            if len(value) != self.size:
+                raise ValueError(f'Allowed only len(value) '
+                                 f'== {self.size}.')
+        if hasattr(self, 'component_type'):
+            if not all(isinstance(i, self.component_type) for i in value):
+                raise TypeError(f'Allowed only type(value[i]) == '
+                                f'{self.component_type}.')
+        if hasattr(self, 'unsigned'):
+            if self.unsigned and not all(i >= 0 for i in value):
+                raise ValueError('Allowed only value[i] >= 0.')
+        if hasattr(self, 'positive'):
+            if self.positive and not all(i > 0 for i in value):
+                raise ValueError('Allowed only value[i] > 0.')
         super().__set__(instance, value)
 
 
@@ -444,24 +440,23 @@ class Parameter(Descriptor):
 
     """
     def __set__(self, instance, value):
-        try:
-            if not hasattr(self, 'otherwise'):
-                raise AttributeError('Attribute otherwise not defined.')
-            if not isinstance(value, self.otherwise):
-                raise TypeError('Allowed only type(value) = otherwise.')
-        except (AttributeError, TypeError):
-            if not hasattr(self, 'descriptor'):
-                raise AttributeError('Parameter must have '
-                                     'descriptor attribute.')
-            if not isinstance(value, dict):
-                self.descriptor.__set__(self.descriptor, value)
-            else:
-                if value == {}:
-                    raise ValueError('Dictionary must not be empty.')
-                namedescriptor = Name()
-                for key, item in value.items():
-                    namedescriptor.__set__(namedescriptor, key)
-                    self.descriptor.__set__(self.descriptor, item)
+        if hasattr(self, 'otherwise'):
+            if isinstance(value, self.otherwise):
+                super().__set__(instance, value)
+                return None
+
+        if not hasattr(self, 'descriptor'):
+            raise AttributeError('Parameter must have '
+                                 'descriptor attribute.')
+        if not isinstance(value, dict):
+            self.descriptor.__set__(self.descriptor, value)
+        else:
+            if value == {}:
+                raise ValueError('Dictionary must not be empty.')
+            namedescriptor = Name()
+            for key, item in value.items():
+                namedescriptor.__set__(namedescriptor, key)
+                self.descriptor.__set__(self.descriptor, item)
         super().__set__(instance, value)
 
 
