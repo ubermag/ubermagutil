@@ -16,6 +16,7 @@ Marijan Beg<sup>1,2</sup> and Hans Fangohr<sup>1,2</sup>
 | Platforms | [![Platforms](https://anaconda.org/conda-forge/ubermagutil/badges/platforms.svg)](https://anaconda.org/conda-forge/ubermagutil) |
 | Downloads | [![Downloads](https://anaconda.org/conda-forge/ubermagutil/badges/downloads.svg)](https://anaconda.org/conda-forge/ubermagutil) |
 | License | [![License](https://img.shields.io/badge/License-BSD%203--Clause-blue.svg)](https://opensource.org/licenses/BSD-3-Clause) |
+| DOI | [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.3539490.svg)](https://doi.org/10.5281/zenodo.3539490) |
 
 ## About
 
@@ -51,7 +52,7 @@ If you use this package in your research, please cite it as:
 
 1. M. Beg, R. A. Pepper, and H. Fangohr. User interfaces for computational science: A domain specific language for OOMMF embedded in Python. [AIP Advances, 7, 56025](http://aip.scitation.org/doi/10.1063/1.4977225) (2017).
 
-2. DOI will be available soon
+2. M. Beg and H. Fangohr. ubermag/ubermagutil: Python utilities package used across most of Ubermag packages. Zenodo. http://doi.org/10.5281/zenodo.3539490 (2019).
 
 ## Acknowledgements
 
