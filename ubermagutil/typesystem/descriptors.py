@@ -447,6 +447,8 @@ class Dictionary(Descriptor):
         Accepted dictionary key type.
     value_descriptor : ubermagutil.typesystem.Descriptor or its derived class
         Accepted dictionary type.
+    allow_empty : bool, optional
+        If `allow_empty=True`, the value can be an empty dictionary.
     otherwise : type
         This type would also be accepted if specified. It has priority over
         other descriptor specification.
@@ -515,8 +517,13 @@ class Dictionary(Descriptor):
             msg = f'Cannot set {self.name} with {type(value)}.'
             raise TypeError(msg)
         if not value:
-            msg = f'Cannot set {self.name} with an empty dictionary.'
-            raise ValueError(msg)
+            if hasattr(self, 'allow_empty'):
+                if not self.allow_empty:
+                    msg = f'Cannot set {self.name} with an empty dictionary.'
+                    raise ValueError(msg)
+            else:
+                msg = f'Cannot set {self.name} with an empty dictionary.'
+                raise ValueError(msg)
         for key, val in value.items():
             self.key_descriptor.__set__(self.key_descriptor, key)
             self.value_descriptor.__set__(self.value_descriptor, val)

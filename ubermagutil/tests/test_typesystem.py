@@ -43,7 +43,10 @@ import ubermagutil.typesystem as ts
                l1=ts.Parameter(),
                m1=ts.Dictionary(key_descriptor=ts.Name(),
                                 value_descriptor=ts.Scalar()),
-               n1=ts.Dictionary(value_descriptor=ts.Scalar()))
+               n1=ts.Dictionary(value_descriptor=ts.Scalar()),
+               o1=ts.Dictionary(key_descriptor=ts.Name(),
+                                value_descriptor=ts.Scalar(),
+                                allow_empty=True))
 class DecoratedClass:
     def __init__(self, **kwargs):
         for key, value in kwargs.items():
@@ -161,10 +164,13 @@ def test_name():
 
 
 def test_dictionary():
-    dc = DecoratedClass(m1={'a': 1, 'b': -3})
+    dc = DecoratedClass(m1={'a': 1, 'b': -3}, o1={})
 
     dc.m1 = {'a': 15, 'b': -51}  # Valid set
     assert dc.m1 == {'a': 15, 'b': -51}
+
+    dc.o1 = {'a': 15, 'b': -51}  # Valid set
+    assert dc.o1 == {'a': 15, 'b': -51}
 
     with pytest.raises(TypeError):
         dc.m1 = 5
