@@ -1,5 +1,4 @@
 import numbers
-import itertools
 import collections
 import numpy as np
 
@@ -438,7 +437,7 @@ class Name(Descriptor):
 
 
 class Dictionary(Descriptor):
-    """Descriptor allowing setting attributes with a dictionary with keys
+    """Descriptor allowing setting attributes with a dictionary, which has keys
     defined by `key_descriptor` and values defined by `value_descriptor`.
 
     Parameters
@@ -446,7 +445,7 @@ class Dictionary(Descriptor):
     key_descriptor : ubermagutil.typesystem.Descriptor or its derived class
         Accepted dictionary key type.
     value_descriptor : ubermagutil.typesystem.Descriptor or its derived class
-        Accepted dictionary type.
+        Accepted dictionary value type.
     allow_empty : bool, optional
         If `allow_empty=True`, the value can be an empty dictionary.
     otherwise : type
@@ -455,14 +454,15 @@ class Dictionary(Descriptor):
 
     Raises
     ------
-    AttributeError
-        If `key_descriptor` or `value_descriptor` argument is not passed.
+    TypeError
+        If value passed is not a dictionary.
     ValueError
-        If an empty dictionary is passed.
+        If an empty dictionary is passed or a dictionary with invalid keys or
+        values.
 
     Example
     -------
-    1. Usage of the Dictionary descriptor allowing keys defined by
+    1. The usage of Dictionary descriptor allowing keys defined by
     `ubermagutil.typesystem.Name` and values by
     `ubermagutil.typesystem.Scalar`.
 
@@ -508,11 +508,6 @@ class Dictionary(Descriptor):
             if isinstance(value, self.otherwise):
                 super().__set__(instance, value)
                 return None
-        if not hasattr(self, 'key_descriptor') or \
-        not hasattr(self, 'value_descriptor'):
-            msg = ('Dictionary descriptor must have key_descriptor '
-                   'and value_descriptor attributes.')
-            raise AttributeError(msg)
         if not isinstance(value, dict):
             msg = f'Cannot set {self.name} with {type(value)}.'
             raise TypeError(msg)
@@ -532,28 +527,21 @@ class Dictionary(Descriptor):
 
 class Parameter(Descriptor):
     """Descriptor allowing setting attributes with a value described as
-    `descriptor` or a dictionary. Dictionary keys are strings defined with
-    `ubermagutil.typesystem.Name` descriptor, and the items are defined by
-    `descriptor`.
+    `descriptor` or a dictionary. If a dictionary is passed, dictionary keys are
+    strings defined by `ubermagutil.typesystem.Name` descriptor, and the values
+    are defined by `descriptor`.
 
     Parameters
     ----------
     descriptor : ubermagutil.typesystem.Descriptor or its derived class
-        Accepted value, or if a dictionary is passed, allowed item type.
+        Accepted value, or if a dictionary is passed, allowed value type.
     otherwise : type
         This type would also be accepted if specified. It has priority over
         other descriptor specification.
 
-    Raises
-    ------
-    AttributeError
-        If `descriptor` argument is not passed.
-    ValueError
-        If an empty dictionary is passed.
-
     Example
     -------
-    1. Usage of the Property descriptor allowing scalars.
+    1. The usage of Property descriptor allowing scalars.
 
     >>> import ubermagutil.typesystem as ts
     ...
@@ -596,9 +584,6 @@ class Parameter(Descriptor):
             if isinstance(value, self.otherwise):
                 super().__set__(instance, value)
                 return None
-        if not hasattr(self, 'descriptor'):
-            msg = 'Parameter must have descriptor attribute.'
-            raise AttributeError(msg)
         if isinstance(value, dict):
             dictdescriptor = Dictionary(key_descriptor=Name(),
                                         value_descriptor=self.descriptor)
@@ -610,7 +595,7 @@ class Parameter(Descriptor):
 
 class InSet(Descriptor):
     """Descriptor allowing setting attributes only with a value from a
-    predefined set.
+    predefined set defined by `allowed_values` set.
 
     Parameters
     ----------
@@ -624,7 +609,7 @@ class InSet(Descriptor):
 
     Example
     -------
-    1. Usage of the InSet descriptor.
+    1. The usage of InSet descriptor.
 
     >>> import ubermagutil.typesystem as ts
     ...
@@ -708,10 +693,7 @@ class Subset(Descriptor):
         if not isinstance(value, collections.abc.Iterable):
             msg = f'Cannot set {self.name} with {type(value)}.'
             raise TypeError(msg)
-        combs = []
-        for i in range(0, len(self.sample_set)+1):
-            combs += list(itertools.combinations(self.sample_set, r=i))
-        if set(value) not in map(set, combs):
+        if not set(value).issubset(self.sample_set):
             msg = f'Cannot set {self.name} with {value}.'
             raise ValueError(msg)
         super().__set__(instance, set(value))
