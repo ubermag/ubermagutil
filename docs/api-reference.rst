@@ -10,8 +10,8 @@ API Reference
    typed
    scalar
    vector
+   dictionary
    parameter
    name
    inset
    subset
-   
