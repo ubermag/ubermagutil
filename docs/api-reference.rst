@@ -13,5 +13,4 @@ API Reference
    dictionary
    parameter
    name
-   inset
    subset
