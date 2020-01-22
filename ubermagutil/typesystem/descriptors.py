@@ -8,28 +8,27 @@ class Descriptor:
     """Descriptor base class from which all descriptors in
     `ubermagutil.typesystem` are derived.
 
-    Before setting the attribute value of a decorated class is
-    allowed, certain type and value checks are performed. If they are
-    not according to the specifications in the `__set__` method
-    (defined as a part of the derived class), `TypeError` or
-    `ValueError` are raised. If `const=True` is passed when the class
-    is instantiated, no value changes are allowed after the initial
-    assignment. Deleting attributes of a decorated class is never
-    allowed.
+    Before setting the attribute value of a decorated class is allowed, certain
+    type and value checks are performed. If they are not according to the
+    specifications in the `__set__` method (defined in the derived class),
+    `TypeError` or `ValueError` is raised. If `const=True` is passed when the
+    class is instantiated, no value changes are allowed after the initial
+    assignment. Deleting attributes of a decorated class is never allowed.
 
     Parameters
     ----------
     name : str
-        Decorated class attribute name (the default is None). It must
-        be a valid Python variable name string.
+        Attribute name (the default is None). It must be a valid Python
+        variable name.
+
     const : bool, optional
         If `const=True`, the attribute of the decorated class is
         constant and its value cannot be changed after the first set.
 
     Example
     -------
-    1. Deriving a descriptor class from the base class `Descriptor`,
-    which only allows positive integer values.
+    1. Deriving a descriptor class from the base class `Descriptor`, which only
+    allows positive integer values.
 
     >>> import ubermagutil.typesystem as ts
     ...
@@ -55,18 +54,18 @@ class Descriptor:
     >>> dc.myattribute = -1  # invalid set - negative value
     Traceback (most recent call last):
        ...
-    ValueError: Allowed only value >= 0.
+    ValueError: ...
     >>> dc.myattribute = 3.14  # invalid set - float value
     Traceback (most recent call last):
        ...
-    TypeError: Allowed only type(value) == int.
+    TypeError: ...
     >>> dc.myattribute  # value has not beed affected by invalid sets
     101
 
     """
-    def __init__(self, name=None, **opts):
+    def __init__(self, name=None, **kwargs):
         self.name = name
-        for key, value in opts.items():
+        for key, value in kwargs.items():
             setattr(self, key, value)
 
     def __set__(self, instance, value):
@@ -76,8 +75,7 @@ class Descriptor:
         Raises
         ------
         AttributeError
-            If changing the value of a decorated class attribute is
-            attempted.
+            If changing the value of a decorated class attribute is attempted.
 
         Example
         -------
@@ -96,16 +94,16 @@ class Descriptor:
         >>> dc.myattribute = 'Jane Doe'
         Traceback (most recent call last):
            ...
-        AttributeError: Changing attribute value is not allowed.
+        AttributeError: ...
 
         """
         if hasattr(self, 'const'):
-            if not self.const or \
-               (self.name not in instance.__dict__ and self.const):
+            if (self.name not in instance.__dict__ and self.const) or \
+                not self.const:
                 instance.__dict__[self.name] = value
             else:
-                raise AttributeError('Changing attribute value '
-                                     'is not allowed.')
+                msg = f'Changing {self.name} not allowed.'
+                raise AttributeError(msg)
         else:
             instance.__dict__[self.name] = value
 
@@ -134,15 +132,16 @@ class Descriptor:
         >>> del dc.myattribute
         Traceback (most recent call last):
            ...
-        AttributeError: Deleting attribute is not allowed.
+        AttributeError: ...
 
         """
-        raise AttributeError('Deleting attribute is not allowed.')
+        msg = f'Deleting {self.name} not allowed.'
+        raise AttributeError(msg)
 
 
 class Typed(Descriptor):
-    """Descriptor allowing setting attributes only with values of a
-    certain type.
+    """Descriptor allowing setting attributes only with values of a certain
+    type.
 
     Parameters
     ----------
@@ -152,11 +151,11 @@ class Typed(Descriptor):
     Raises
     ------
     TypeError
-        If `type(value)` is not the same as the `expected_type`.
+        If `type(value) != expected_type`.
 
     Example
     -------
-    1. Usage of the Typed descriptor.
+    1. Usage of Typed descriptor.
 
     >>> import ubermagutil.typesystem as ts
     ...
@@ -174,21 +173,20 @@ class Typed(Descriptor):
     >>> dc.myattribute = 3.14  # invalid set
     Traceback (most recent call last):
        ...
-    TypeError: Allowed only type(value) = <class 'str'>.
+    TypeError: ...
 
     .. note::
 
-           This class was derived from
-           `ubermagutil.typesystem.Descriptor` and inherits its
-           functionality.
+           This class was derived from `ubermagutil.typesystem.Descriptor` and
+           inherits its functionality.
 
     .. seealso:: :py:class:`~ubermagutil.typesystem.Descriptor`
 
     """
     def __set__(self, instance, value):
         if not isinstance(value, self.expected_type):
-            raise TypeError(f'Allowed only type(value) = '
-                            f'{self.expected_type}.')
+            msg = f'Cannot set {self.name} with {type(value)}.'
+            raise TypeError(msg)
         super().__set__(instance, value)
 
 
@@ -206,17 +204,17 @@ class Scalar(Descriptor):
     unsigned : bool, optional
         If `unsigned=True`, value must be unsigned (>=0).
     otherwise : type
-        This type would also be accepted if specified. It has priority
-        over other descriptor specification.
+        This type would also be accepted if specified. It has priority over
+        other descriptor specification.
 
     Raises
     ------
     TypeError
-        If the `type(value)` is neither `numbers.Real` nor as the
-        `expected_type` (if passed).
+        If `type(value)` is neither `numbers.Real` nor `expected_type` (if
+        passed).
     ValueError
-        If `value < 0` and `unsigned=True` is passed or `value <= 0`
-        if `positive=True` is passed.
+        If `value < 0` and `unsigned=True` is passed or `value <= 0` and
+        `positive=True` is passed.
 
     Example
     -------
@@ -238,19 +236,18 @@ class Scalar(Descriptor):
     >>> dc.myattribute = 3.14  # invalid set
     Traceback (most recent call last):
        ...
-    TypeError: Allowed only type(value) = <class 'int'>.
+    TypeError: ...
     >>> dc.myattribute = 0  # invalid set
     Traceback (most recent call last):
        ...
-    ValueError: Allowed only value > 0.
-    >>> dc.myattribute
+    ValueError: ...
+    >>> dc.myattribute  # the value was not affected by invalid sets
     10
 
     .. note::
 
-           This class was derived from
-           `ubermagutil.typesystem.Descriptor` and inherits its
-           functionality.
+           This class was derived from `ubermagutil.typesystem.Descriptor` and
+           inherits its functionality.
 
     .. seealso:: :py:class:`~ubermagutil.typesystem.Descriptor`
 
@@ -259,58 +256,60 @@ class Scalar(Descriptor):
         if hasattr(self, 'otherwise'):
             if isinstance(value, self.otherwise):
                 super().__set__(instance, value)
-                return None
+                return None  # prevent it going further
         if not isinstance(value, numbers.Real):
-            raise TypeError('Allowed only type(value) = numbers.Real.')
+            msg = f'Cannot set {self.name} with {type(value)}.'
+            raise TypeError(msg)
         if hasattr(self, 'expected_type'):
             if not isinstance(value, self.expected_type):
-                raise TypeError(f'Allowed only type(value) = '
-                                f'{self.expected_type}.')
+                msg = f'Cannot set {self.name} with {type(value)}.'
+                raise TypeError(msg)
         if hasattr(self, 'unsigned'):
             if self.unsigned and value < 0:
-                raise ValueError('Allowed only value >= 0.')
+                msg = f'Cannot set {self.name} with value = {value} < 0.'
+                raise ValueError(msg)
         if hasattr(self, 'positive'):
             if self.positive and value <= 0:
-                raise ValueError('Allowed only value > 0.')
+                msg = f'Cannot set {self.name} with value = {value} <= 0.'
+                raise ValueError(msg)
         super().__set__(instance, value)
 
 
 class Vector(Descriptor):
     """Descriptor allowing setting attributes only with vectors (`list`,
-    `tuple`, or `numpy.ndarray`) whose elements are of `numbers.Real`
-    type.
+    `tuple`, or `numpy.ndarray`) whose elements are of `numbers.Real` type.
 
     Parameters
     ----------
     component_type : int or float type, optional
-        Type of the vector components. It should be a subset of
-        `numbers.Real` (`int`, `float`).
+        Type of the vector components. It should be a subset of `numbers.Real`
+        (`int`, `float`).
     size : int, optional
-        Size (dimension, number of elemnts) of the vector.
+        Size (length, number of elements) of the vector.
     positive : bool, optional
-        If `positive=True`, values of all vector elements must be
-        positive (>0).
+        If `positive=True`, values of all vector elements must be positive
+        (>0).
     unsigned : bool, optional
-        If `unsigned=True`, values of all vector components must be
-        `value >= 0`.
+        If `unsigned=True`, values of all vector components must be unsigned
+        (>=0).
     otherwise : type
-        This type would also be accepted if specified. It has priority
-        over other descriptor specification.
+        This type would also be accepted if specified. It has priority over
+        other descriptor specification.
 
     Raises
     ------
     TypeError
-        If the `type(value)` is not `list`, `tuple`, or
-        `numpy.ndarray` or if the type of vector components is neither
-        `numbers.Real` nor as the `expected_type` (if passed).
+        If the `type(value)` is not `list`, `tuple`, or `numpy.ndarray` or if
+        the type of vector components is neither `numbers.Real` nor
+        `expected_type` (if passed).
     ValueError
-        If vector component value is `value < 0` and `unsigned=True`
-        is passed or `value <= 0` if `positive=True` is passed.
+        If vector component value is `value < 0` and `unsigned=True` or `value <=
+        0` and `positive=True`.
 
     Example
     -------
-    1. Usage of the Vector descriptor for defining a three-dimensional
-    vector composed of only positive integer components.
+    1. Usage of the Vector descriptor for defining a three-dimensional vector
+    composed of only positive integer components.
 
     >>> import ubermagutil.typesystem as ts
     ...
@@ -329,23 +328,22 @@ class Vector(Descriptor):
     >>> dc.myattribute = (11, 12)  # invalid set
     Traceback (most recent call last):
         ...
-    ValueError: Allowed only len(value) == 3.
+    ValueError: ...
     >>> dc.myattribute = (0, 1, 2)  # invalid set
     Traceback (most recent call last):
         ...
-    ValueError: Allowed only value[i] > 0.
+    ValueError: ...
     >>> dc.myattribute = (1, 3.14, 2)  # invalid set
     Traceback (most recent call last):
         ...
-    TypeError: Allowed only type(value[i]) == <class 'int'>.
-    >>> dc.myattribute
+    TypeError: ...
+    >>> dc.myattribute  # the value was not affected by invalid sets
     (10, 11, 12)
 
     .. note::
 
-           This class was derived from
-           `ubermagutil.typesystem.Descriptor` and inherits its
-           functionality.
+           This class was derived from `ubermagutil.typesystem.Descriptor` and
+           inherits its functionality.
 
     .. seealso:: :py:class:`~ubermagutil.typesystem.Descriptor`
 
@@ -356,18 +354,19 @@ class Vector(Descriptor):
                 super().__set__(instance, value)
                 return None
         if not isinstance(value, (list, tuple, np.ndarray)):
-            raise TypeError('Allowed only type(value) = '
-                            'list, tuple, np.ndarray.')
+            msg = f'Cannot set {self.name} with {type(value)}.'
+            raise TypeError(msg)
         if not all(isinstance(i, numbers.Real) for i in value):
-            raise ValueError('Allowed only type(value[.]) == number.Real')
+            msg = 'Allowed only type(value[i]) == number.Real.'
+            raise TypeError(msg)
         if hasattr(self, 'size'):
             if len(value) != self.size:
-                raise ValueError(f'Allowed only len(value) '
-                                 f'== {self.size}.')
+                msg = f'Cannot set {self.name} with length {len(value)} value.'
+                raise ValueError(msg)
         if hasattr(self, 'component_type'):
             if not all(isinstance(i, self.component_type) for i in value):
-                raise TypeError(f'Allowed only type(value[i]) == '
-                                f'{self.component_type}.')
+                msg = f'Allowed only type(value[i]) == {self.component_type}.'
+                raise TypeError(msg)
         if hasattr(self, 'unsigned'):
             if self.unsigned and not all(i >= 0 for i in value):
                 raise ValueError('Allowed only value[i] >= 0.')
@@ -377,19 +376,166 @@ class Vector(Descriptor):
         super().__set__(instance, value)
 
 
-class Parameter(Descriptor):
-    """Descriptor allowing setting attributes with a value described as
-    `descriptor` or a dictionary. Dictionary keys are strings defined
-    with `ubermagutil.typesystem.Name` descriptor, and the items are
-    defined by the `descriptor`.
+class Name(Descriptor):
+    """Descriptor allowing setting attributes only with strings representing a
+    valid Python variable name.
+
+    Raises
+    ------
+    TypeError
+        If the `type(value)` is not `str`.
+    ValueError
+        If the string passed does not begin with a letter or an underscore, or
+        if the passed string contains spaces.
+
+    Example
+    -------
+    1. Usage of the Name descriptor for defining a name attribute.
+
+    >>> import ubermagutil.typesystem as ts
+    ...
+    >>> @ts.typesystem(myattribute=ts.Name())
+    ... class DecoratedClass:
+    ...     def __init__(self, myattribute):
+    ...         self.myattribute = myattribute
+    ...
+    >>> dc = DecoratedClass(myattribute='object_name')
+    >>> dc.myattribute
+    'object_name'
+    >>> dc.myattribute = 'newname'  # valid set
+    >>> dc.myattribute
+    'newname'
+    >>> dc.myattribute = '123newname'  # invalid set
+    Traceback (most recent call last):
+        ...
+    ValueError: ...
+    >>> dc.myattribute = 'Nikola Tesla'  # invalid set
+    Traceback (most recent call last):
+        ...
+    ValueError: ...
+    >>> dc.myattribute  # the value was not affected by invalid sets
+    'newname'
+
+    .. note::
+
+           This class was derived from `ubermagutil.typesystem.Descriptor` and
+           inherits its functionality.
+
+    .. seealso:: :py:class:`~ubermagutil.typesystem.Descriptor`
+
+    """
+    def __set__(self, instance, value):
+        if not isinstance(value, str):
+            msg = f'Cannot set {self.name} with {type(value)}.'
+            raise TypeError(msg)
+        if not (value[0].isalpha() or value.startswith('_')):
+            msg = 'String must start with a letter or an underscore.'
+            raise ValueError(msg)
+        if any(i.isspace() for i in value):
+            msg = 'Whitespace characters not allowed.'
+            raise ValueError(msg)
+        super().__set__(instance, value)
+
+
+class Dictionary(Descriptor):
+    """Descriptor allowing setting attributes with a dictionary with keys
+    defined by `key_descriptor` and values defined by `value_descriptor`.
 
     Parameters
     ----------
-    descriptor : ubermagutil.typesystem.Name or its derived class
-        Accepted value, or if a dictionary is passed, allowed item.
+    key_descriptor : ubermagutil.typesystem.Descriptor or its derived class
+        Accepted dictionary key type.
+    value_descriptor : ubermagutil.typesystem.Descriptor or its derived class
+        Accepted dictionary type.
     otherwise : type
-        This type would also be accepted if specified. It has priority
-        over other descriptor specification.
+        This type would also be accepted if specified. It has priority over
+        other descriptor specification.
+
+    Raises
+    ------
+    AttributeError
+        If `key_descriptor` or `value_descriptor` argument is not passed.
+    ValueError
+        If an empty dictionary is passed.
+
+    Example
+    -------
+    1. Usage of the Dictionary descriptor allowing keys defined by
+    `ubermagutil.typesystem.Name` and values by
+    `ubermagutil.typesystem.Scalar`.
+
+    >>> import ubermagutil.typesystem as ts
+    ...
+    >>> @ts.typesystem(myattribute=ts.Dictionary(key_descriptor=ts.Name(),
+    ...                                          value_descriptor=ts.Scalar()))
+    ... class DecoratedClass:
+    ...     def __init__(self, myattribute):
+    ...         self.myattribute = myattribute
+    ...
+    >>> dc = DecoratedClass(myattribute={'a': 1, 'b': -1.1})
+    >>> dc.myattribute
+    {'a': 1, 'b': -1.1}
+    >>> dc.myattribute = {'a': 1, 'b': -3}  # valid set
+    >>> dc.myattribute
+    {'a': 1, 'b': -3}
+    >>> dc.myattribute = {1: 1, 'b': 3}  # invalid set
+    Traceback (most recent call last):
+        ...
+    TypeError: ...
+    >>> dc.myattribute = {'a': 1, 'c': 'd'}  # invalid set
+    Traceback (most recent call last):
+        ...
+    TypeError: ...
+    >>> dc.myattribute = {}  # invalid set
+    Traceback (most recent call last):
+        ...
+    ValueError: ...
+    >>> dc.myattribute  # the value was not affected by invalid sets
+    {'a': 1, 'b': -3}
+
+    .. note::
+
+           This class was derived from `ubermagutil.typesystem.Descriptor` and
+           inherits its functionality.
+
+    .. seealso:: :py:class:`~ubermagutil.typesystem.Descriptor`
+
+    """
+    def __set__(self, instance, value):
+        if hasattr(self, 'otherwise'):
+            if isinstance(value, self.otherwise):
+                super().__set__(instance, value)
+                return None
+        if not hasattr(self, 'key_descriptor') or \
+        not hasattr(self, 'value_descriptor'):
+            msg = ('Dictionary descriptor must have key_descriptor '
+                   'and value_descriptor attributes.')
+            raise AttributeError(msg)
+        if not isinstance(value, dict):
+            msg = f'Cannot set {self.name} with {type(value)}.'
+            raise TypeError(msg)
+        if not value:
+            msg = f'Cannot set {self.name} with an empty dictionary.'
+            raise ValueError(msg)
+        for key, val in value.items():
+            self.key_descriptor.__set__(self.key_descriptor, key)
+            self.value_descriptor.__set__(self.value_descriptor, val)
+        super().__set__(instance, value)
+
+
+class Parameter(Descriptor):
+    """Descriptor allowing setting attributes with a value described as
+    `descriptor` or a dictionary. Dictionary keys are strings defined with
+    `ubermagutil.typesystem.Name` descriptor, and the items are defined by
+    `descriptor`.
+
+    Parameters
+    ----------
+    descriptor : ubermagutil.typesystem.Descriptor or its derived class
+        Accepted value, or if a dictionary is passed, allowed item type.
+    otherwise : type
+        This type would also be accepted if specified. It has priority over
+        other descriptor specification.
 
     Raises
     ------
@@ -418,23 +564,22 @@ class Parameter(Descriptor):
     >>> dc.myattribute = {'a': 1, 'b': 'abc'}  # invalid set
     Traceback (most recent call last):
         ...
-    TypeError: Allowed only type(value) = numbers.Real.
+    TypeError: ...
     >>> dc.myattribute = {'a b': 1, 'c': -3}  # invalid set
     Traceback (most recent call last):
         ...
-    ValueError: String must not contain spaces.
+    ValueError: ...
     >>> dc.myattribute = {}  # invalid set
     Traceback (most recent call last):
         ...
-    ValueError: Dictionary must not be empty.
-    >>> dc.myattribute
+    ValueError: ...
+    >>> dc.myattribute  # the value was not affected by invalid sets
     {'a': 1, 'b': -3}
 
     .. note::
 
-           This class was derived from
-           `ubermagutil.typesystem.Descriptor` and inherits its
-           functionality.
+           This class was derived from `ubermagutil.typesystem.Descriptor` and
+           inherits its functionality.
 
     .. seealso:: :py:class:`~ubermagutil.typesystem.Descriptor`
 
@@ -444,79 +589,15 @@ class Parameter(Descriptor):
             if isinstance(value, self.otherwise):
                 super().__set__(instance, value)
                 return None
-
         if not hasattr(self, 'descriptor'):
-            raise AttributeError('Parameter must have '
-                                 'descriptor attribute.')
-        if not isinstance(value, dict):
-            self.descriptor.__set__(self.descriptor, value)
+            msg = 'Parameter must have descriptor attribute.'
+            raise AttributeError(msg)
+        if isinstance(value, dict):
+            dictdescriptor = Dictionary(key_descriptor=Name(),
+                                        value_descriptor=self.descriptor)
+            dictdescriptor.__set__(dictdescriptor, value)
         else:
-            if value == {}:
-                raise ValueError('Dictionary must not be empty.')
-            namedescriptor = Name()
-            for key, item in value.items():
-                namedescriptor.__set__(namedescriptor, key)
-                self.descriptor.__set__(self.descriptor, item)
-        super().__set__(instance, value)
-
-
-class Name(Descriptor):
-    """Descriptor allowing setting attributes only with strings
-    representing a valid Python variable name.
-
-    Raises
-    ------
-    TypeError
-        If the `type(value)` is not `str`.
-    ValueError
-        If the string passed does not begin with a letter or an
-        underscore, or if the passed string contains spaces.
-
-    Example
-    -------
-    1. Usage of the Name descriptor for defining a name attribute.
-
-    >>> import ubermagutil.typesystem as ts
-    ...
-    >>> @ts.typesystem(myattribute=ts.Name())
-    ... class DecoratedClass:
-    ...     def __init__(self, myattribute):
-    ...         self.myattribute = myattribute
-    ...
-    >>> dc = DecoratedClass(myattribute='object_name')
-    >>> dc.myattribute
-    'object_name'
-    >>> dc.myattribute = 'newname'  # valid set
-    >>> dc.myattribute
-    'newname'
-    >>> dc.myattribute = '123newname'  # invalid set
-    Traceback (most recent call last):
-        ...
-    ValueError: String must start with a letter or an underscore.
-    >>> dc.myattribute = 'Nikola Tesla'  # invalid set
-    Traceback (most recent call last):
-        ...
-    ValueError: String must not contain spaces.
-    >>> dc.myattribute
-    'newname'
-
-    .. note::
-
-           This class was derived from
-           `ubermagutil.typesystem.Descriptor` and inherits its
-           functionality.
-
-    .. seealso:: :py:class:`~ubermagutil.typesystem.Descriptor`
-
-    """
-    def __set__(self, instance, value):
-        if not isinstance(value, str):
-            raise TypeError('Allowed only type(value) = str.')
-        if not (value[0].isalpha() or value.startswith('_')):
-            raise ValueError('String must start with '
-                             'a letter or an underscore.')
-        if ' ' in value:
-            raise ValueError('String must not contain spaces.')
+            self.descriptor.__set__(self.descriptor, value)
         super().__set__(instance, value)
 
 
@@ -554,22 +635,22 @@ class InSet(Descriptor):
     >>> dc.myattribute = 'z'  # invalid set
     Traceback (most recent call last):
         ...
-    ValueError: Allowed only value from set allowed_values.
-    >>> dc.myattribute
+    ValueError: ...
+    >>> dc.myattribute  # the value was not affected by invalid sets
     'y'
 
     .. note::
 
-           This class was derived from
-           `ubermagutil.typesystem.Descriptor` and inherits its
-           functionality.
+           This class was derived from `ubermagutil.typesystem.Descriptor` and
+           inherits its functionality.
 
     .. seealso:: :py:class:`~ubermagutil.typesystem.Descriptor`
 
     """
     def __set__(self, instance, value):
         if value not in self.allowed_values:
-            raise ValueError(f'Allowed only value from set allowed_values.')
+            msg = f'Cannot set {self.name} with {value}.'
+            raise ValueError(msg)
         super().__set__(instance, value)
 
 
@@ -606,24 +687,24 @@ class Subset(Descriptor):
     >>> dc.myattribute = 'a'  # invalid set
     Traceback (most recent call last):
         ...
-    ValueError: Allowed only subset of sample_set.
+    ValueError: ...
 
     .. note::
 
-           This class was derived from
-           `ubermagutil.typesystem.Descriptor` and inherits its
-           functionality.
+           This class was derived from `ubermagutil.typesystem.Descriptor` and
+           inherits its functionality.
 
     .. seealso:: :py:class:`~ubermagutil.typesystem.Descriptor`
 
     """
     def __set__(self, instance, value):
         if not isinstance(value, collections.abc.Iterable):
-            raise TypeError('value must be an iterable.')
+            msg = f'Cannot set {self.name} with {type(value)}.'
+            raise TypeError(msg)
         combs = []
         for i in range(0, len(self.sample_set)+1):
             combs += list(itertools.combinations(self.sample_set, r=i))
-        combs = map(set, combs)
-        if set(value) not in combs:
-            raise ValueError('Allowed only subset of sample_set.')
+        if set(value) not in map(set, combs):
+            msg = f'Cannot set {self.name} with {value}.'
+            raise ValueError(msg)
         super().__set__(instance, set(value))

@@ -40,7 +40,10 @@ import ubermagutil.typesystem as ts
                i1=ts.Scalar(otherwise=tuple),
                j1=ts.Vector(size=3, otherwise=float),
                k1=ts.Parameter(descriptor=ts.Scalar(), otherwise=tuple),
-               l1=ts.Parameter())
+               l1=ts.Parameter(),
+               m1=ts.Dictionary(key_descriptor=ts.Name(),
+                                value_descriptor=ts.Scalar()),
+               n1=ts.Dictionary(value_descriptor=ts.Scalar()))
 class DecoratedClass:
     def __init__(self, **kwargs):
         for key, value in kwargs.items():
@@ -131,7 +134,7 @@ def test_vector():
         dc.o = (9, -3)
     with pytest.raises(ValueError):
         dc.p = []
-    with pytest.raises(ValueError):
+    with pytest.raises(TypeError):
         dc.r = ['a', 1, 3]
     with pytest.raises(TypeError):
         dc.s = [1.1, 2, np.pi]
@@ -155,6 +158,22 @@ def test_name():
         dc.u = '-a'
     with pytest.raises(ValueError):
         dc.u = 'val name'
+
+
+def test_dictionary():
+    dc = DecoratedClass(m1={'a': 1, 'b': -3})
+
+    dc.m1 = {'a': 15, 'b': -51}  # Valid set
+    assert dc.m1 == {'a': 15, 'b': -51}
+
+    with pytest.raises(TypeError):
+        dc.m1 = 5
+
+    with pytest.raises(ValueError):
+        dc.m1 = {}
+
+    with pytest.raises(AttributeError):
+        dc.n1 = {'a': 15, 'b': -51}
 
 
 def test_inset():

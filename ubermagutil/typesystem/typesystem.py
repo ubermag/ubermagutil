@@ -28,11 +28,11 @@ def typesystem(**kwargs):
     >>> dc.b = 5  # invalid set with int
     Traceback (most recent call last):
        ...
-    TypeError: Allowed only type(value) = <class 'str'>.
+    TypeError: Cannot set b with <class 'int'>.
     >>> dc.a = 101  # an attempt to change the constant attribute
     Traceback (most recent call last):
        ...
-    AttributeError: Changing attribute value is not allowed.
+    AttributeError: Changing a not allowed.
     >>> dc.b = 'Nikola Tesla'
     >>> dc.b
     'Nikola Tesla'
