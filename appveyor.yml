@@ -1,12 +1,12 @@
 environment:
   matrix:
-    - PYTHON_VERSION: 3.7
+    - PYTHON_VERSION: 3.8
       MINICONDA: C:\Miniconda3-x64
 
 platform:
   - x64
 
-build: off
+build: false
 
 install:
   - "set PATH=%MINICONDA%;%MINICONDA%\\Scripts;%PATH%"
@@ -14,7 +14,7 @@ install:
   - conda update -q conda
   - "conda create -q -n test-environment python=%PYTHON_VERSION%"
   - activate test-environment
-  - python -m pip install --upgrade pip pytest nbval .
+  - python -m pip install --upgrade pip nbval .
 
 test_script:
   - python -c "import ubermagutil as uu; import sys; sys.exit(uu.test())"
