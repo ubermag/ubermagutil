@@ -29,10 +29,10 @@ import ubermagutil.typesystem as ts
                x=ts.Vector(positive=True, unsigned=True, const=True),
                y=ts.Vector(size=3, component_type=int, const=True),
                z=ts.Name(const=True),
-               a1=ts.InSet(allowed_values=[1, 2, '5']),
-               b1=ts.InSet(allowed_values=[-1, 5], const=True),
-               c1=ts.Subset(sample_set='xyz'),
-               d1=ts.Subset(sample_set='xyz', const=True),
+               a1=ts.Subset(sample_set=set([1, 2, '5']), unpack=False),
+               b1=ts.Subset(sample_set=set([-1, 5]), unpack=False, const=True),
+               c1=ts.Subset(sample_set='xyz', unpack=True),
+               d1=ts.Subset(sample_set='xyz', unpack=True, const=True),
                e1=ts.Parameter(descriptor=ts.Scalar(expected_type=int)),
                f1=ts.Parameter(descriptor=ts.Scalar(positive=True)),
                g1=ts.Parameter(descriptor=ts.Vector(size=3)),
@@ -190,19 +190,17 @@ def test_dictionary():
     with pytest.raises(AttributeError):
         dc.n1 = {'a': 15, 'b': -51}
 
-def test_inset():
-    dc = DecoratedClass(a1=1, b1=5)
+
+def test_subset():
+    dc = DecoratedClass(a1=1, b1=5, c1='xy', d1=[])
 
     dc.a1 = '5'  # Valid set
+
     with pytest.raises(AttributeError):
         dc.b1 = -1  # const == True
 
     with pytest.raises(ValueError):
         dc.a1 = -1  # Invalid set
-
-
-def test_subset():
-    dc = DecoratedClass(c1='xy', d1=[])
 
     # Valid sets
     dc.c1 = 'x'

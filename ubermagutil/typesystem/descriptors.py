@@ -17,7 +17,7 @@ class Descriptor:
     Parameters
     ----------
     name : str
-        Attribute name (the default is None). It must be a valid Python
+        Attribute name (the default is `None`). It must be a valid Python
         variable name.
 
     const : bool, optional
@@ -255,7 +255,7 @@ class Scalar(Descriptor):
         if hasattr(self, 'otherwise'):
             if isinstance(value, self.otherwise):
                 super().__set__(instance, value)
-                return None  # prevent it going further
+                return None
         if not isinstance(value, numbers.Real):
             msg = f'Cannot set {self.name} with {type(value)}.'
             raise TypeError(msg)
@@ -352,11 +352,11 @@ class Vector(Descriptor):
             if isinstance(value, self.otherwise):
                 super().__set__(instance, value)
                 return None
-        if not isinstance(value, (list, tuple, np.ndarray)):
+        if not isinstance(value, (tuple, list, np.ndarray)):
             msg = f'Cannot set {self.name} with {type(value)}.'
             raise TypeError(msg)
         if not all(isinstance(i, numbers.Real) for i in value):
-            msg = 'Allowed only type(value[i]) == number.Real.'
+            msg = 'Allowed only type(value[i]) == numbers.Real.'
             raise TypeError(msg)
         if hasattr(self, 'size'):
             if len(value) != self.size:
@@ -593,75 +593,21 @@ class Parameter(Descriptor):
         super().__set__(instance, value)
 
 
-class InSet(Descriptor):
-    """Descriptor allowing setting attributes only with a value from a
-    predefined set defined by `allowed_values` set.
-
-    Parameters
-    ----------
-    allowed_values : set
-        Defines the set of allowed values.
-
-    Raises
-    ------
-    ValueError
-        If the value is not in the `allowed_values` set.
-
-    Example
-    -------
-    1. The usage of InSet descriptor.
-
-    >>> import ubermagutil.typesystem as ts
-    ...
-    >>> @ts.typesystem(myattribute=ts.InSet(allowed_values={'x', 'y'}))
-    ... class DecoratedClass:
-    ...     def __init__(self, myattribute):
-    ...         self.myattribute = myattribute
-    ...
-    >>> dc = DecoratedClass(myattribute='x')
-    >>> dc.myattribute
-    'x'
-    >>> dc.myattribute = 'y'  # valid set
-    >>> dc.myattribute
-    'y'
-    >>> dc.myattribute = 'z'  # invalid set
-    Traceback (most recent call last):
-        ...
-    ValueError: ...
-    >>> dc.myattribute  # the value was not affected by invalid sets
-    'y'
-
-    .. note::
-
-           This class was derived from `ubermagutil.typesystem.Descriptor` and
-           inherits its functionality.
-
-    .. seealso:: :py:class:`~ubermagutil.typesystem.Descriptor`
-
-    """
-    def __set__(self, instance, value):
-        if value not in self.allowed_values:
-            msg = f'Cannot set {self.name} with {value}.'
-            raise ValueError(msg)
-        super().__set__(instance, value)
-
-
 class Subset(Descriptor):
-    """Descriptor allowing setting attributes only with a subset from a
+    """Descriptor allowing setting attributes only with a subset of a
     predefined set.
 
-    A valid value can be any combination with repetitions of elements
-    from `sample_set`.
-
     Parameters
     ----------
-    sample_set : collections.abc.Iterable
+    sample_set : any type
         Defines the set of allowed values.
+    unpack : bool
+        If `True`, value is unpack as `set(value)`.
 
     Raises
     ------
     ValueError
-        If value is not a combination of elements in `sample_set`.
+        If value is not a subset `sample_set`.
 
     Example
     -------
@@ -669,7 +615,7 @@ class Subset(Descriptor):
 
     >>> import ubermagutil.typesystem as ts
     ...
-    >>> @ts.typesystem(myattribute=ts.Subset(sample_set='xyz'))
+    >>> @ts.typesystem(myattribute=ts.Subset(sample_set='xyz', unpack=True))
     ... class DecoratedClass:
     ...     def __init__(self, myattribute):
     ...         self.myattribute = myattribute
@@ -690,10 +636,14 @@ class Subset(Descriptor):
 
     """
     def __set__(self, instance, value):
-        if not isinstance(value, collections.abc.Iterable):
-            msg = f'Cannot set {self.name} with {type(value)}.'
-            raise TypeError(msg)
-        if not set(value).issubset(self.sample_set):
-            msg = f'Cannot set {self.name} with {value}.'
-            raise ValueError(msg)
-        super().__set__(instance, set(value))
+        if self.unpack:
+            val = set(value)
+            if not val.issubset(self.sample_set):
+                msg = f'Cannot set {self.name} with {value}.'
+                raise ValueError(msg)
+        else:
+            val = value
+            if val not in self.sample_set:
+                msg = f'Cannot set {self.name} with {value}.'
+                raise ValueError(msg)
+        super().__set__(instance, val)

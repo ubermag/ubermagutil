@@ -1,3 +1,3 @@
 from .descriptors import Descriptor, Typed, Scalar, Vector, \
-    Name, Dictionary, InSet, Subset, Parameter
+    Name, Dictionary, Parameter, Subset
 from .typesystem import typesystem
