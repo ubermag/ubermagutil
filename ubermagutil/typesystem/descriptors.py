@@ -98,7 +98,7 @@ class Descriptor:
         """
         if hasattr(self, 'const'):
             if (self.name not in instance.__dict__ and self.const) or \
-                not self.const:
+              not self.const:
                 instance.__dict__[self.name] = value
             else:
                 msg = f'Changing {self.name} not allowed.'
@@ -302,8 +302,8 @@ class Vector(Descriptor):
         the type of vector components is neither `numbers.Real` nor
         `expected_type` (if passed).
     ValueError
-        If vector component value is `value < 0` and `unsigned=True` or `value <=
-        0` and `positive=True`.
+        If vector component value is `value < 0` and `unsigned=True` or
+        `value <= 0` and `positive=True`.
 
     Example
     -------
@@ -527,9 +527,9 @@ class Dictionary(Descriptor):
 
 class Parameter(Descriptor):
     """Descriptor allowing setting attributes with a value described as
-    `descriptor` or a dictionary. If a dictionary is passed, dictionary keys are
-    strings defined by `ubermagutil.typesystem.Name` descriptor, and the values
-    are defined by `descriptor`.
+    `descriptor` or a dictionary. If a dictionary is passed, dictionary keys
+    are strings defined by `ubermagutil.typesystem.Name` descriptor, and the
+    values are defined by `descriptor`.
 
     Parameters
     ----------
@@ -636,6 +636,10 @@ class Subset(Descriptor):
 
     """
     def __set__(self, instance, value):
+        if hasattr(self, 'otherwise'):
+            if isinstance(value, self.otherwise):
+                super().__set__(instance, value)
+                return None
         if self.unpack:
             val = set(value)
             if not val.issubset(self.sample_set):

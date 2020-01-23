@@ -2,10 +2,10 @@ from .descriptors import Descriptor
 
 
 def typesystem(**kwargs):
-    """Decorator for imposing typesystem on a decorated class.
+    """Decorator for imposing typesystem on a class.
 
-    A specific descriptor is associated to class attributes in the
-    argument list.
+    A specific descriptor is associated to class attributes in the argument
+    list.
 
     Examples
     --------
@@ -20,30 +20,29 @@ def typesystem(**kwargs):
     ...         self.a = a
     ...         self.b = b
     ...
-    >>> dc = DecoratedClass(a=3.14, b='joommf')
+    >>> dc = DecoratedClass(a=30, b='Mihajlo Pupin')
     >>> dc.a
-    3.14
+    30
     >>> dc.b
-    'joommf'
-    >>> dc.b = 5  # invalid set with int
+    'Mihajlo Pupin'
+    >>> dc.b = 5.1  # invalid set with float
     Traceback (most recent call last):
        ...
-    TypeError: Cannot set b with <class 'int'>.
+    TypeError: ...
     >>> dc.a = 101  # an attempt to change the constant attribute
     Traceback (most recent call last):
        ...
-    AttributeError: Changing a not allowed.
-    >>> dc.b = 'Nikola Tesla'
+    AttributeError: ...
+    >>> dc.b = 'Nikola Tesla'  # valid set
     >>> dc.b
     'Nikola Tesla'
 
     """
     def decorate(cls):
         for key, value in kwargs.items():
-            if isinstance(value, (Descriptor)):
-                value.name = key
+            if isinstance(value, Descriptor):
+                setattr(value, 'name', key)
                 setattr(cls, key, value)
-            else:
-                setattr(cls, key, value(key))
         return cls
+
     return decorate
