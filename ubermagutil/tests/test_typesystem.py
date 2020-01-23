@@ -11,7 +11,7 @@ import ubermagutil.typesystem as ts
                s1=ts.Scalar(),
                s2=ts.Scalar(expected_type=float),
                s3=ts.Scalar(positive=True),
-               s4=ts.Scalar(unsigned=True),
+               s4=ts.Scalar(unsigned=True, otherwise=str),
                s5=ts.Scalar(expected_type=int, positive=True),
                s6=ts.Scalar(expected_type=numbers.Real, positive=False),
                s7c=ts.Scalar(expected_type=float, unsigned=True, const=True),
@@ -30,8 +30,11 @@ import ubermagutil.typesystem as ts
                                 allow_empty=True),
                d2=ts.Dictionary(key_descriptor=ts.Scalar(),
                                 value_descriptor=ts.Vector(size=3),
-                                otherwise=str),
-               d3c=ts.Dictionary(key_descriptor=ts.Name(),
+                                otherwise=str,
+                                allow_empty=False),
+               d3=ts.Dictionary(key_descriptor=ts.Name(),
+                                value_descriptor=ts.Scalar()),
+               d4c=ts.Dictionary(key_descriptor=ts.Name(),
                                  value_descriptor=ts.Typed(expected_type=str),
                                  const=True),
                ss1=ts.Subset(sample_set=set([1, 2, '5']), unpack=False),
@@ -82,6 +85,7 @@ def test_scalar():
     dc.s2 = -5.2
     dc.s3 = 1e-11
     dc.s4 = 101
+    dc.s4 = 'ubermag'
     dc.s5 = 20
     dc.s6 = -500
     dc.s7c = 3.14
@@ -105,6 +109,7 @@ def test_scalar():
         del dc.s2  # delete attribute
 
     # Is value affected?
+    assert dc.s4 == 'ubermag'
     assert dc.s5 == 20
 
 
@@ -181,7 +186,8 @@ def test_dictionary():
     dc.d1 = {}
     dc.d2 = {1: (1, 2, -3), -11: (0, 0, 0)}
     dc.d2 = 'ubermag'
-    dc.d3c = {'r1': 'a b c', 'r2': 'University of Southampton'}
+    dc.d3 = {'a': -1e-9, 'b': 1e6}
+    dc.d4c = {'r1': 'Southampton', 'r2': 'Hamburg'}
 
     # Exceptions
     with pytest.raises(TypeError):
@@ -190,8 +196,10 @@ def test_dictionary():
         dc.d1 = {'a': 15, 'b': [1, 2, 3]}
     with pytest.raises(ValueError):
         dc.d2 = {}  # empty dictionary
+    with pytest.raises(ValueError):
+        dc.d3 = {}  # empty dictionary
     with pytest.raises(AttributeError):
-        dc.d3c = {'r1': 'Southampton', 'r2': 'Hamburg'}  # const attribute
+        dc.d4c = {'r1': 'Hamburg', 'r2': 'London'}  # const attribute
     with pytest.raises(AttributeError):
         del dc.d2  # delete attribute
 
