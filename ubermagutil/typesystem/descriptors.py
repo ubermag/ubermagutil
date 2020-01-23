@@ -39,7 +39,7 @@ class Descriptor:
     ...            raise ValueError('Allowed only value >= 0.')
     ...        super().__set__(instance, value)
     ...
-    >>> @ts.typesystem(myattribute=PositiveInt)
+    >>> @ts.typesystem(myattribute=PositiveInt())
     ... class DecoratedClass:
     ...     def __init__(self, myattribute):
     ...         self.myattribute = myattribute
@@ -120,7 +120,7 @@ class Descriptor:
 
         >>> import ubermagutil.typesystem as ts
         ...
-        >>> @ts.typesystem(myattribute=ts.Descriptor)
+        >>> @ts.typesystem(myattribute=ts.Descriptor())
         ... class DecoratedClass:
         ...     def __init__(self, myattribute):
         ...         self.myattribute = myattribute

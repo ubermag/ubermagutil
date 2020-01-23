@@ -107,6 +107,7 @@ def test_scalar():
     # Is value affected?
     assert dc.s5 == 20
 
+
 def test_vector():
     dc = DecoratedClass()
 
@@ -143,6 +144,7 @@ def test_vector():
 
     # Is value affected?
     assert dc.v5 == (-5,)
+
 
 def test_name():
     dc = DecoratedClass(n1='var_name')
