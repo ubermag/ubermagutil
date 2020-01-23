@@ -260,5 +260,7 @@ def test_subset():
         del dc.ss3  # delete attribute
 
     # Is value affected?
+    assert dc.ss1 == '5'
+    assert dc.ss2 == -1
     assert dc.ss3 == 3.14
     assert dc.ss4c == set('abc')
