@@ -1,8 +1,8 @@
 # ubermagutil
-Marijan Beg<sup>1,2</sup> and Hans Fangohr<sup>1,2</sup>
+Marijan Beg<sup>1,2</sup> and Hans Fangohr<sup>2,1</sup>
 
-<sup>1</sup> *European XFEL GmbH, Holzkoppel 4, 22869 Schenefeld, Germany*  
-<sup>2</sup> *Faculty of Engineering and Physical Sciences, University of Southampton, Southampton SO17 1BJ, United Kingdom*  
+<sup>1</sup> *Faculty of Engineering and Physical Sciences, University of Southampton, Southampton SO17 1BJ, United Kingdom* 
+<sup>2</sup> *European XFEL GmbH, Holzkoppel 4, 22869 Schenefeld, Germany*  
 
 | Description | Badge |
 | --- | --- |
@@ -56,4 +56,4 @@ If you use this package in your research, please cite it as:
 
 ## Acknowledgements
 
-Developed as a part of [OpenDreamKit](http://opendreamkit.org/) – Horizon 2020 European Research Infrastructure project (676541).
+Developed as a part of [OpenDreamKit](http://opendreamkit.org/) – Horizon 2020 European Research Infrastructure project (676541) and EPSRC Programme grant on [Skyrmionics](http://www.skyrmions.ac.uk) (EP/N032128/1).
