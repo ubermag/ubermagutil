@@ -10,7 +10,7 @@ API Reference
    typed
    scalar
    vector
+   name
    dictionary
    parameter
-   name
    subset
