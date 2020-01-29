@@ -19,16 +19,17 @@ si_prefixes = collections.OrderedDict({'y': 1e-24,  # yocto
                                        'Z': 1e21,   # zetta
                                        'Y': 1e24})  # yotta
 
+rsi_prefixes = {v : k for k, v in si_prefixes.items()}
+
 
 def si_multiplier(value):
     if value == 0:
-        prefix = ''
+        multiplier = 1
         reduced_value = value
     else:
-        for p, m in reversed(si_prefixes.items()):
-            reduced_value = value / m
+        for prefix, multiplier in reversed(si_prefixes.items()):
+            reduced_value = value / multiplier
             if 1 <= reduced_value < 1e3:
-                prefix = p
                 break
 
-    return reduced_value, prefix
+    return reduced_value, multiplier
