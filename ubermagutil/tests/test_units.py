@@ -27,3 +27,8 @@ def test_multiplier():
     assert uu.si_multiplier(50)[1] == 1
     assert (uu.si_multiplier(500)[0] - 500) < tol
     assert uu.si_multiplier(500)[1] == 1
+
+
+def test_si_max_multiplier():
+    values = (5e-10, 6e-09, 4e-09)
+    assert uu.si_max_multiplier(values) == 1e-9

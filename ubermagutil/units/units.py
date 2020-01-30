@@ -33,3 +33,6 @@ def si_multiplier(value):
                 break
 
     return reduced_value, multiplier
+
+def si_max_multiplier(values):
+    return max(list(zip(*list(map(si_multiplier, values))))[1])
