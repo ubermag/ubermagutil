@@ -1,4 +1,5 @@
 import numbers
+import keyword
 import collections
 import numpy as np
 
@@ -427,11 +428,8 @@ class Name(Descriptor):
         if not isinstance(value, str):
             msg = f'Cannot set {self.name} with {type(value)}.'
             raise TypeError(msg)
-        if not (value[0].isalpha() or value.startswith('_')):
-            msg = 'String must start with a letter or an underscore.'
-            raise ValueError(msg)
-        if any(i.isspace() for i in value):
-            msg = 'Whitespace characters not allowed.'
+        if not value.isidentifier() or keyword.iskeyword(value):
+            msg = f'{value} is not a valid variable name.'
             raise ValueError(msg)
         super().__set__(instance, value)
 

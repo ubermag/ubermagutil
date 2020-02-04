@@ -158,7 +158,7 @@ def test_name():
     dc.n1 = 'a1'
     dc.n1 = 'some_name'
     dc.n1 = 'a1a'
-    dc.n2c = 'var-name'
+    dc.n2c = 'var_name123_2'
 
     # Exceptions
     with pytest.raises(TypeError):
@@ -168,7 +168,9 @@ def test_name():
     with pytest.raises(ValueError):
         dc.n1 = '-a'
     with pytest.raises(ValueError):
-        dc.n1 = 'val name'
+        dc.n1 = 'var name'
+    with pytest.raises(ValueError):
+        dc.n1 = 'var-name'
     with pytest.raises(AttributeError):
         dc.n2c = 'ubermag'  # const attribute
     with pytest.raises(AttributeError):
