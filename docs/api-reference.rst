@@ -5,12 +5,5 @@ API Reference
    :maxdepth: 2
    :caption: Contents:
 
-   typesystem
-   descriptor
-   typed
-   scalar
-   vector
-   name
-   dictionary
-   parameter
-   subset
+   typesystem-api
+   units-api
