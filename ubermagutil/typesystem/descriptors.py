@@ -6,29 +6,31 @@ import numpy as np
 
 class Descriptor:
     """Descriptor base class from which all descriptors in
-    `ubermagutil.typesystem` are derived.
+    ``ubermagutil.typesystem`` are derived.
 
     Before setting the attribute value of a decorated class is allowed, certain
     type and value checks are performed. If they are not according to the
-    specifications in the `__set__` method (defined in the derived class),
-    `TypeError` or `ValueError` is raised. If `const=True` is passed when the
-    class is instantiated, no value changes are allowed after the initial
+    specifications in the ``__set__`` method (defined in the derived class),
+    ``TypeError`` or ``ValueError`` is raised. If ``const=True`` is passed when
+    the class is instantiated, no value changes are allowed after the initial
     assignment. Deleting attributes of a decorated class is never allowed.
 
     Parameters
     ----------
     name : str
-        Attribute name (the default is `None`). It must be a valid Python
-        variable name.
+
+        Attribute name. It must be a valid Python variable name. Defaults to
+        ``None``.
 
     const : bool, optional
-        If `const=True`, the attribute of the decorated class is
-        constant and its value cannot be changed after the first set.
+
+        If ``const=True``, the attribute of the decorated class is constant and
+        its value cannot be changed after the first set.
 
     Example
     -------
-    1. Deriving a descriptor class from the base class `Descriptor`, which only
-    allows positive integer values.
+    1. Deriving a descriptor class from the base class ``Descriptor``, which
+    only allows positive integer values.
 
     >>> import ubermagutil.typesystem as ts
     ...
@@ -69,12 +71,13 @@ class Descriptor:
             setattr(self, key, value)
 
     def __set__(self, instance, value):
-        """If `self.const=True`, changing the value of a decorated class
+        """If ``self.const=True``, changing the value of a decorated class
         attribute after the initial set is not allowed.
 
         Raises
         ------
         AttributeError
+
             If changing the value of a decorated class attribute is attempted.
 
         Example
@@ -108,11 +111,13 @@ class Descriptor:
             instance.__dict__[self.name] = value
 
     def __delete__(self, instance):
-        """Deleting the decorated class attribute is never allowed.
+        """Deleting the decorated class attribute is never allowed and
+        ``AttributeError`` is raised.
 
         Raises
         ------
         AttributeError
+
             If deleting decorated class attribute is attempted.
 
         Example
@@ -151,11 +156,12 @@ class Typed(Descriptor):
     Raises
     ------
     TypeError
-        If `type(value) != expected_type`.
+
+        If ``type(value) != expected_type``.
 
     Example
     -------
-    1. Usage of Typed descriptor.
+    1. Usage of ``Typed`` descriptor.
 
     >>> import ubermagutil.typesystem as ts
     ...
@@ -177,8 +183,8 @@ class Typed(Descriptor):
 
     .. note::
 
-           This class was derived from `ubermagutil.typesystem.Descriptor` and
-           inherits its functionality.
+           This class was derived from ``ubermagutil.typesystem.Descriptor``
+           and inherits its functionality.
 
     .. seealso:: :py:class:`~ubermagutil.typesystem.Descriptor`
 
@@ -192,33 +198,43 @@ class Typed(Descriptor):
 
 class Scalar(Descriptor):
     """Descriptor allowing setting attributes only with scalars
-    (`numbers.Real`).
+    (``numbers.Real``).
 
     Parameters
     ----------
     expected_type : int or float type, optional
-        Allowed type(value). It should be a subset of `numbers.Real`
-        (e.g. `int`, `float`).
+
+        Allowed type of ``value``. It should be a subset of ``numbers.Real``
+        (e.g. ``int`` or ``float``).
+
     positive : bool, optional
-        If `positive=True`, value must be positive (>0).
+
+        If ``positive=True``, value must be positive (>0).
+
     unsigned : bool, optional
-        If `unsigned=True`, value must be unsigned (>=0).
+
+        If ``unsigned=True``, value must be unsigned (>=0).
+
     otherwise : type
+
         This type would also be accepted if specified. It has priority over
         other descriptor specification.
 
     Raises
     ------
     TypeError
-        If `type(value)` is neither `numbers.Real` nor `expected_type` (if
-        passed).
+
+        If ``type(value)`` is neither ``numbers.Real`` nor ``expected_type``
+        (if passed).
+
     ValueError
-        If `value < 0` and `unsigned=True` is passed or `value <= 0` and
-        `positive=True` is passed.
+
+        If ``value < 0`` and ``unsigned=True`` is passed or ``value <= 0`` and
+        ``positive=True`` is passed.
 
     Example
     -------
-    1. Usage of the Scalar descriptor for defining a positive integer.
+    1. Usage of ``Scalar`` descriptor for defining a positive integer.
 
     >>> import ubermagutil.typesystem as ts
     ...
@@ -246,8 +262,8 @@ class Scalar(Descriptor):
 
     .. note::
 
-           This class was derived from `ubermagutil.typesystem.Descriptor` and
-           inherits its functionality.
+           This class was derived from ``ubermagutil.typesystem.Descriptor``
+           and inherits its functionality.
 
     .. seealso:: :py:class:`~ubermagutil.typesystem.Descriptor`
 
@@ -276,40 +292,53 @@ class Scalar(Descriptor):
 
 
 class Vector(Descriptor):
-    """Descriptor allowing setting attributes only with vectors (`list`,
-    `tuple`, or `numpy.ndarray`) whose elements are of `numbers.Real` type.
+    """Descriptor allowing setting attributes only with vectors (``list``,
+    ``tuple``, or ``numpy.ndarray``), whose elements are of ``numbers.Real``
+    type.
 
     Parameters
     ----------
     component_type : int or float type, optional
-        Type of the vector components. It should be a subset of `numbers.Real`
-        (`int`, `float`).
+
+        Type of the vector components. It should be a subset of
+        ``numbers.Real`` (``int``, ``float``).
+
     size : int, optional
+
         Size (length, number of elements) of the vector.
+
     positive : bool, optional
-        If `positive=True`, values of all vector elements must be positive
+
+        If ``positive=True``, values of all vector elements must be positive
         (>0).
+
     unsigned : bool, optional
-        If `unsigned=True`, values of all vector components must be unsigned
+
+        If ``unsigned=True``, values of all vector components must be unsigned
         (>=0).
+
     otherwise : type
+
         This type would also be accepted if specified. It has priority over
         other descriptor specification.
 
     Raises
     ------
     TypeError
-        If the `type(value)` is not `list`, `tuple`, or `numpy.ndarray` or if
-        the type of vector components is neither `numbers.Real` nor
-        `expected_type` (if passed).
+
+        If the ``type(value)`` is not ``list``, ``tuple``, or ``numpy.ndarray``
+        or if the type of vector components is neither ``numbers.Real`` nor
+        ``expected_type`` (if passed).
+
     ValueError
-        If vector component value is `value < 0` and `unsigned=True` or
-        `value <= 0` and `positive=True`.
+
+        If vector component value is ``value < 0`` and ``unsigned=True`` or
+        ``value <= 0`` and ``positive=True``.
 
     Example
     -------
-    1. Usage of the Vector descriptor for defining a three-dimensional vector
-    composed of only positive integer components.
+    1. Usage of ``Vector`` descriptor for defining a three-dimensional vector,
+    whose components myattribute positive integer components.
 
     >>> import ubermagutil.typesystem as ts
     ...
@@ -342,8 +371,8 @@ class Vector(Descriptor):
 
     .. note::
 
-           This class was derived from `ubermagutil.typesystem.Descriptor` and
-           inherits its functionality.
+           This class was derived from ``ubermagutil.typesystem.Descriptor``
+           and inherits its functionality.
 
     .. seealso:: :py:class:`~ubermagutil.typesystem.Descriptor`
 
@@ -378,19 +407,22 @@ class Vector(Descriptor):
 
 class Name(Descriptor):
     """Descriptor allowing setting attributes only with strings representing a
-    valid Python variable name.
+    valid Python identifier which is not also a keyword. In other words, it
+    allows valid Python variable names.
 
     Raises
     ------
     TypeError
-        If the `type(value)` is not `str`.
+
+        If the ``type(value)`` is not ``str``.
+
     ValueError
-        If the string passed does not begin with a letter or an underscore, or
-        if the passed string contains spaces.
+
+        If the string is not a valid identifier or it is a Python keyword.
 
     Example
     -------
-    1. Usage of the Name descriptor for defining a name attribute.
+    1. Usage of ``Name`` descriptor.
 
     >>> import ubermagutil.typesystem as ts
     ...
@@ -418,8 +450,8 @@ class Name(Descriptor):
 
     .. note::
 
-           This class was derived from `ubermagutil.typesystem.Descriptor` and
-           inherits its functionality.
+           This class was derived from ``ubermagutil.typesystem.Descriptor``
+           and inherits its functionality.
 
     .. seealso:: :py:class:`~ubermagutil.typesystem.Descriptor`
 
@@ -436,33 +468,43 @@ class Name(Descriptor):
 
 class Dictionary(Descriptor):
     """Descriptor allowing setting attributes with a dictionary, which has keys
-    defined by `key_descriptor` and values defined by `value_descriptor`.
+    defined by ``key_descriptor`` and values defined by ``value_descriptor``.
 
     Parameters
     ----------
     key_descriptor : ubermagutil.typesystem.Descriptor or its derived class
+
         Accepted dictionary key type.
+
     value_descriptor : ubermagutil.typesystem.Descriptor or its derived class
+
         Accepted dictionary value type.
+
     allow_empty : bool, optional
-        If `allow_empty=True`, the value can be an empty dictionary.
+
+        If ``allow_empty=True``, the value can be an empty dictionary.
+
     otherwise : type
+
         This type would also be accepted if specified. It has priority over
         other descriptor specification.
 
     Raises
     ------
     TypeError
+
         If value passed is not a dictionary.
+
     ValueError
+
         If an empty dictionary is passed or a dictionary with invalid keys or
         values.
 
     Example
     -------
-    1. The usage of Dictionary descriptor allowing keys defined by
-    `ubermagutil.typesystem.Name` and values by
-    `ubermagutil.typesystem.Scalar`.
+    1. The usage of ``Dictionary`` descriptor allowing keys defined by
+    ``ubermagutil.typesystem.Name`` and values by
+    ``ubermagutil.typesystem.Scalar``.
 
     >>> import ubermagutil.typesystem as ts
     ...
@@ -495,8 +537,8 @@ class Dictionary(Descriptor):
 
     .. note::
 
-           This class was derived from `ubermagutil.typesystem.Descriptor` and
-           inherits its functionality.
+           This class was derived from ``ubermagutil.typesystem.Descriptor``
+           and inherits its functionality.
 
     .. seealso:: :py:class:`~ubermagutil.typesystem.Descriptor`
 
@@ -525,21 +567,24 @@ class Dictionary(Descriptor):
 
 class Parameter(Descriptor):
     """Descriptor allowing setting attributes with a value described as
-    `descriptor` or a dictionary. If a dictionary is passed, dictionary keys
-    are strings defined by `ubermagutil.typesystem.Name` descriptor, and the
-    values are defined by `descriptor`.
+    ``descriptor`` or a dictionary. If a dictionary is passed, dictionary keys
+    are strings defined by ``ubermagutil.typesystem.Name`` descriptor, and the
+    values are defined by ``descriptor``.
 
     Parameters
     ----------
     descriptor : ubermagutil.typesystem.Descriptor or its derived class
+
         Accepted value, or if a dictionary is passed, allowed value type.
+
     otherwise : type
+
         This type would also be accepted if specified. It has priority over
         other descriptor specification.
 
     Example
     -------
-    1. The usage of Property descriptor allowing scalars.
+    1. The usage of ``Property`` descriptor allowing scalars.
 
     >>> import ubermagutil.typesystem as ts
     ...
@@ -571,8 +616,8 @@ class Parameter(Descriptor):
 
     .. note::
 
-           This class was derived from `ubermagutil.typesystem.Descriptor` and
-           inherits its functionality.
+           This class was derived from ``ubermagutil.typesystem.Descriptor``
+           and inherits its functionality.
 
     .. seealso:: :py:class:`~ubermagutil.typesystem.Descriptor`
 
@@ -598,18 +643,22 @@ class Subset(Descriptor):
     Parameters
     ----------
     sample_set : any type
+
         Defines the set of allowed values.
+
     unpack : bool
-        If `True`, value is unpack as `set(value)`.
+
+        If ``True``, ``value`` is unpacked as ``set(value)``.
 
     Raises
     ------
     ValueError
-        If value is not a subset `sample_set`.
+
+        If value is not a subset ``sample_set``.
 
     Example
     -------
-    1. Usage of the Subset descriptor.
+    1. Usage of ``Subset`` descriptor.
 
     >>> import ubermagutil.typesystem as ts
     ...
@@ -627,8 +676,8 @@ class Subset(Descriptor):
 
     .. note::
 
-           This class was derived from `ubermagutil.typesystem.Descriptor` and
-           inherits its functionality.
+           This class was derived from ``ubermagutil.typesystem.Descriptor``
+           and inherits its functionality.
 
     .. seealso:: :py:class:`~ubermagutil.typesystem.Descriptor`
 

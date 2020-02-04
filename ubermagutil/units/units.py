@@ -18,7 +18,6 @@ si_prefixes = collections.OrderedDict({'y': 1e-24,  # yocto
                                        'E': 1e18,   # exa
                                        'Z': 1e21,   # zetta
                                        'Y': 1e24})  # yotta
-
 rsi_prefixes = {v : k for k, v in si_prefixes.items()}
 
 
