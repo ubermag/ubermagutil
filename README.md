@@ -54,7 +54,7 @@ If you use this package, please cite it as:
 
 1. M. Beg, R. A. Pepper, and H. Fangohr. User interfaces for computational science: A domain specific language for OOMMF embedded in Python. [*AIP Advances* **7**, 56025 (2017)](http://aip.scitation.org/doi/10.1063/1.4977225).
 
-2. M. Beg and H. Fangohr. ubermag/ubermagutil: Python utilities package used across most of Ubermag packages. Zenodo. [DOI: 10.5281/zenodo.3539490](http://doi.org/10.5281/zenodo.3539490) (2020).
+2. M. Beg and H. Fangohr. ubermag/ubermagutil: Python utilities package used across most of Ubermag packages. Zenodo. DOI: [10.5281/zenodo.3539490](http://doi.org/10.5281/zenodo.3539490) (2020).
 
 ## Acknowledgements
 
