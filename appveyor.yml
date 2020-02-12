@@ -20,4 +20,4 @@ test_script:
   - python -c "import ubermagutil as uu; import sys; sys.exit(uu.test())"
   - python -m pytest -v --doctest-modules --ignore=ubermagutil\tests ubermagutil
   - python -m pytest -v --nbval docs\ipynb\
-  - python -m pycodestyle --filename=*.py
+  - python -m pycodestyle --filename=*.py .
