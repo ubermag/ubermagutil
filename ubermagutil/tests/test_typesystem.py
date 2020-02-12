@@ -24,7 +24,8 @@ import ubermagutil.typesystem as ts
                v7=ts.Vector(size=3, component_type=float),
                v8c=ts.Vector(size=2, component_type=int, const=True),
                n1=ts.Name(),
-               n2c=ts.Name(const=True),
+               n2=ts.Name(allowed_char=':'),
+               n3c=ts.Name(const=True),
                d1=ts.Dictionary(key_descriptor=ts.Name(),
                                 value_descriptor=ts.Scalar(),
                                 allow_empty=True),
@@ -158,7 +159,9 @@ def test_name():
     dc.n1 = 'a1'
     dc.n1 = 'some_name'
     dc.n1 = 'a1a'
-    dc.n2c = 'var_name123_2'
+    dc.n2 = 'r1:r2'
+    dc.n2 = 'r1r2'
+    dc.n3c = 'var_name123_2'
 
     # Exceptions
     with pytest.raises(TypeError):
@@ -171,10 +174,12 @@ def test_name():
         dc.n1 = 'var name'
     with pytest.raises(ValueError):
         dc.n1 = 'var-name'
+    with pytest.raises(ValueError):
+        dc.n2 = 'r1-r2'
     with pytest.raises(AttributeError):
-        dc.n2c = 'ubermag'  # const attribute
+        dc.n3c = 'ubermag'  # const attribute
     with pytest.raises(AttributeError):
-        del dc.n2c  # delete attribute
+        del dc.n3c  # delete attribute
 
     # Is value affected?
     assert dc.n1 == 'a1a'

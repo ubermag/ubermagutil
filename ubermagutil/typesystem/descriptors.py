@@ -406,9 +406,18 @@ class Vector(Descriptor):
 
 
 class Name(Descriptor):
-    """Descriptor allowing setting attributes only with strings representing a
-    valid Python identifier which is not also a keyword. In other words, it
-    allows valid Python variable names.
+    """Python identifier descriptor.
+
+    It allows setting attributes only with strings representing a valid Python
+    identifier which is not also a keyword. In other words, it allows valid
+    Python variable names. If ``allowed_char`` is passed, value is first split
+    at that character and then individual parts of the string checked.
+
+    Parameters
+    ----------
+    allowed_char : (1,) str
+
+        Character allowed in ``value``.
 
     Raises
     ------
@@ -460,9 +469,14 @@ class Name(Descriptor):
         if not isinstance(value, str):
             msg = f'Cannot set {self.name} with {type(value)}.'
             raise TypeError(msg)
-        if not value.isidentifier() or keyword.iskeyword(value):
-            msg = f'{value} is not a valid variable name.'
-            raise ValueError(msg)
+        if hasattr(self, 'allowed_char'):
+            tmp_value = value.split(self.allowed_char)
+        else:
+            tmp_value = [value]
+        for s in tmp_value:
+            if not s.isidentifier() or keyword.iskeyword(s):
+                msg = f'{s} is not a valid variable name.'
+                raise ValueError(msg)
         super().__set__(instance, value)
 
 
