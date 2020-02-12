@@ -32,7 +32,10 @@ We support installation using `conda` and `pip` package managers. Instructions c
 
 ## Binder
 
-This package can be used in the cloud via Binder. This does not require you to have anything installed and no files will be created on your machine. To access Binder, use this [link](https://mybinder.org/v2/gh/ubermag/ubermagutil/master?filepath=docs%2Fipynb%2Findex.ipynb).
+This package can be used in the cloud via Binder. This does not require you to
+have anything installed and no files will be created on your machine. To access
+Binder, use this
+[link](https://mybinder.org/v2/gh/ubermag/ubermagutil/master?urlpath=lab/tree/docs/ipynb/index.ipynb).
 
 ## Documentation
 
