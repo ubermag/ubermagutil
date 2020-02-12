@@ -20,30 +20,29 @@ Marijan Beg<sup>1,2</sup> and Hans Fangohr<sup>2,1</sup>
 
 ## About
 
-`ubermagutil` is a Python package that provides:
+`ubermagutil` is a Python package used across [Ubermag](http://ubermag.github.io) packages that provides:
 
-- Descriptors and the typesystem decorator used in [Ubermag](http://ubermag.github.io) packages
+- Definition of the typesystem 
+
+- Conversion of units
 
 It is available on all major operating systems (Windows, MacOS, Linux) and requires Python 3.6 or higher.
 
+## Documentation
+
+APIs and tutorials as Jupyter notebooks are available.
+
 ## Installation, testing, and upgrade
 
-We support installation using `conda` and `pip` package managers. Instructions can be found [here](https://ubermagutil.readthedocs.io/en/latest/ipynb/00-tutorial-installation-testing-upgrade.html).
+We support installation using `conda` and `pip` package managers. Instructions can be found in documentation.
 
 ## Binder
 
-This package can be used in the cloud via Binder. This does not require you to
-have anything installed and no files will be created on your machine. To access
-Binder, use this
-[link](https://mybinder.org/v2/gh/ubermag/ubermagutil/master?urlpath=lab/tree/docs/ipynb/index.ipynb).
-
-## Documentation
-
-Documentation is available [here](https://ubermagutil.readthedocs.io/en/latest/), where APIs and tutorials as Jupyter notebooks are available.
+This package can be used in the cloud via Binder. This does not require to have anything installed and no files will be created on your machine. To access Binder, use the Binder badge in the table above.
 
 ## Support
 
-If you require support or have any questions, you are welcome to raise an issue in our [ubermag/help](https://github.com/ubermag/help) repository.
+If you require support or have any questions, please raise an issue in [ubermag/help](https://github.com/ubermag/help) repository.
 
 ## License
 
