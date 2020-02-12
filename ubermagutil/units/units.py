@@ -66,7 +66,6 @@ def si_multiplier(value):
         else:
             return None
 
-    return multiplier
 
 def si_max_multiplier(values):
     """Determines maximum SI multiplier for a list of values.
