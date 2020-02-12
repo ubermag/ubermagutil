@@ -20,21 +20,21 @@ Marijan Beg<sup>1,2</sup> and Hans Fangohr<sup>2,1</sup>
 
 ## About
 
-`ubermagutil` is a Python package used across [Ubermag](http://ubermag.github.io) packages that provides:
+`ubermagutil` is a Python package used across [Ubermag](http://ubermag.github.io) that provides:
 
-- Definition of the typesystem 
+- Definition of the type-system 
 
 - Conversion of units
 
-It is available on all major operating systems (Windows, MacOS, Linux) and requires Python 3.6 or higher.
+It is available on all major operating systems (Windows, MacOS, and Linux) and requires Python 3.6 or higher.
 
 ## Documentation
 
-APIs and tutorials as Jupyter notebooks are available.
+APIs and tutorials as Jupyter notebooks are available as a part of documentation.
 
 ## Installation, testing, and upgrade
 
-We support installation using `conda` and `pip` package managers. Instructions can be found in documentation.
+We support installation using `conda` and `pip` package managers. Instructions can be found in the documentation.
 
 ## Binder
 
@@ -54,8 +54,12 @@ If you use this package in your research, please cite it as:
 
 1. M. Beg, R. A. Pepper, and H. Fangohr. User interfaces for computational science: A domain specific language for OOMMF embedded in Python. [AIP Advances, 7, 56025](http://aip.scitation.org/doi/10.1063/1.4977225) (2017).
 
-2. M. Beg and H. Fangohr. ubermag/ubermagutil: Python utilities package used across most of Ubermag packages. Zenodo. http://doi.org/10.5281/zenodo.3539490 (2019).
+2. M. Beg and H. Fangohr. ubermag/ubermagutil: Python utilities package used across most of Ubermag packages. Zenodo. [DOI: 10.5281/zenodo.3539490](http://doi.org/10.5281/zenodo.3539490) (2020).
 
 ## Acknowledgements
 
-Developed as a part of [OpenDreamKit](http://opendreamkit.org/) – Horizon 2020 European Research Infrastructure project (676541) and EPSRC Programme grant on [Skyrmionics](http://www.skyrmions.ac.uk) (EP/N032128/1).
+Developed as a part of:
+
+- [OpenDreamKit](http://opendreamkit.org/) – Horizon 2020 European Research Infrastructure project (676541)
+
+- EPSRC Programme grant on [Skyrmionics](http://www.skyrmions.ac.uk) (EP/N032128/1).
