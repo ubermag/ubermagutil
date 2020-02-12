@@ -18,5 +18,6 @@ install:
 
 test_script:
   - python -c "import ubermagutil as uu; import sys; sys.exit(uu.test())"
-  - python -m pytest --nbval docs\ipynb\
   - python -m pytest --doctest-modules --ignore=ubermagutil\tests ubermagutil
+  - python -m pytest --nbval docs\ipynb\
+  - python -m pycodestyle --filename=*.py
