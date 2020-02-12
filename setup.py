@@ -13,7 +13,7 @@ setuptools.setup(
     url='https://ubermag.github.io',
     author='Marijan Beg and Hans Fangohr',
     packages=setuptools.find_packages(),
-    include_package_data = True,
+    include_package_data=True,
     install_requires=['numpy',
                       'pytest'],
     classifiers=['Development Status :: 3 - Alpha',

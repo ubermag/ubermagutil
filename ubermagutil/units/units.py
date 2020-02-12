@@ -9,7 +9,7 @@ si_prefixes = collections.OrderedDict({'y': 1e-24,  # yocto
                                        'n': 1e-9,   # nano
                                        'u': 1e-6,   # micro
                                        'm': 1e-3,   # mili
-                                       '' : 1,      # no prefix
+                                       '':  1,      # no prefix
                                        'k': 1e3,    # kilo
                                        'M': 1e6,    # mega
                                        'G': 1e9,    # giga
@@ -18,7 +18,7 @@ si_prefixes = collections.OrderedDict({'y': 1e-24,  # yocto
                                        'E': 1e18,   # exa
                                        'Z': 1e21,   # zetta
                                        'Y': 1e24})  # yotta
-rsi_prefixes = {v : k for k, v in si_prefixes.items()}
+rsi_prefixes = {v: k for k, v in si_prefixes.items()}
 
 
 def si_multiplier(value):

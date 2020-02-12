@@ -15,7 +15,7 @@ def test_multiplier():
     assert uu.si_multiplier(5) == 1
     assert uu.si_multiplier(50) == 1
     assert uu.si_multiplier(500) == 1
-    assert uu.si_multiplier(5e30) == None
+    assert uu.si_multiplier(5e30) is None
 
 
 def test_si_max_multiplier():
