@@ -223,7 +223,7 @@ def test_parameter():
     dc.p3 = np.pi
     dc.p4 = np.pi  # otherwise float
     dc.p4 = (1, 2, 3)
-    dc.p5c = {'a': 1.1, 'b': 2e-3}
+    dc.p5c = {'a': 1.1, 'b': 2e-3, 'a:b': 3e-6}
 
     # Exceptions
     with pytest.raises(AttributeError):

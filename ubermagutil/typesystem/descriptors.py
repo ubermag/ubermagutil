@@ -642,7 +642,7 @@ class Parameter(Descriptor):
                 super().__set__(instance, value)
                 return None
         if isinstance(value, dict):
-            dictdescriptor = Dictionary(key_descriptor=Name(),
+            dictdescriptor = Dictionary(key_descriptor=Name(allowed_char=':'),
                                         value_descriptor=self.descriptor)
             dictdescriptor.__set__(dictdescriptor, value)
         else:
