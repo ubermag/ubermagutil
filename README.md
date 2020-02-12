@@ -20,11 +20,11 @@ Marijan Beg<sup>1,2</sup> and Hans Fangohr<sup>2,1</sup>
 
 ## About
 
-`ubermagutil` is a Python package used across [Ubermag](http://ubermag.github.io) that provides:
+`ubermagutil` is a Python package used across [Ubermag](http://ubermag.github.io). It provides:
 
-- Definition of the type-system 
+- definition of the type-system and
 
-- Conversion of units
+- conversion of units.
 
 It is available on all major operating systems (Windows, MacOS, and Linux) and requires Python 3.6 or higher.
 
@@ -42,7 +42,7 @@ This package can be used in the cloud via Binder. This does not require to have 
 
 ## Support
 
-If you require support or have any questions, please raise an issue in [ubermag/help](https://github.com/ubermag/help) repository.
+If you require support, have questions, want to report a bug, or want to suggest an improvement, please raise an issue in [ubermag/help](https://github.com/ubermag/help) repository.
 
 ## License
 
@@ -50,9 +50,9 @@ Licensed under the BSD 3-Clause "New" or "Revised" License. For details, please 
 
 ## How to cite
 
-If you use this package in your research, please cite it as:
+If you use this package, please cite it as:
 
-1. M. Beg, R. A. Pepper, and H. Fangohr. User interfaces for computational science: A domain specific language for OOMMF embedded in Python. [AIP Advances, 7, 56025](http://aip.scitation.org/doi/10.1063/1.4977225) (2017).
+1. M. Beg, R. A. Pepper, and H. Fangohr. User interfaces for computational science: A domain specific language for OOMMF embedded in Python. [*AIP Advances*, **7**, 56025 (2017)](http://aip.scitation.org/doi/10.1063/1.4977225).
 
 2. M. Beg and H. Fangohr. ubermag/ubermagutil: Python utilities package used across most of Ubermag packages. Zenodo. [DOI: 10.5281/zenodo.3539490](http://doi.org/10.5281/zenodo.3539490) (2020).
 
