@@ -7,3 +7,4 @@ API Reference
 
    typesystem-api
    units-api
+   inherit_docs-api
