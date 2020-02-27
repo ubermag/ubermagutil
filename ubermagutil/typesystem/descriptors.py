@@ -151,7 +151,12 @@ class Typed(Descriptor):
     Parameters
     ----------
     expected_type : type
+
         Allowed type of value.
+
+    allow_none : bool
+
+        If ``True``, the value can be set with ``None``.
 
     Raises
     ------
@@ -190,6 +195,10 @@ class Typed(Descriptor):
 
     """
     def __set__(self, instance, value):
+        if hasattr(self, 'allow_none'):
+            if self.allow_none and value is None:
+                super().__set__(instance, value)
+                return None
         if not isinstance(value, self.expected_type):
             msg = f'Cannot set {self.name} with {type(value)}.'
             raise TypeError(msg)

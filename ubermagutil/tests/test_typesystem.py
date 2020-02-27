@@ -6,7 +6,7 @@ import ubermagutil.typesystem as ts
 
 @ts.typesystem(t1=ts.Typed(expected_type=int),
                t2=ts.Typed(expected_type=numbers.Real),
-               t3=ts.Typed(expected_type=str),
+               t3=ts.Typed(expected_type=str, allow_none=True),
                t4c=ts.Typed(expected_type=list, const=True),
                s1=ts.Scalar(),
                s2=ts.Scalar(expected_type=float),
@@ -60,6 +60,7 @@ def test_typed():
     dc.t1 = -999
     dc.t2 = 3.1e6
     dc.t3 = ''
+    dc.t3 = None
     dc.t4c = []
 
     # Exceptions
@@ -75,7 +76,7 @@ def test_typed():
         del dc.t1  # delete attribute
 
     # Is value affected?
-    assert dc.t3 == ''
+    assert dc.t3 is None
 
 
 def test_scalar():
