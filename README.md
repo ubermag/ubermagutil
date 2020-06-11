@@ -1,5 +1,5 @@
 # ubermagutil
-Marijan Beg<sup>1,2</sup> and Hans Fangohr<sup>2,1</sup>
+Marijan Beg<sup>1,2</sup> and Hans Fangohr<sup>1,2</sup>
 
 <sup>1</sup> *Faculty of Engineering and Physical Sciences, University of Southampton, Southampton SO17 1BJ, United Kingdom*  
 <sup>2</sup> *European XFEL GmbH, Holzkoppel 4, 22869 Schenefeld, Germany*  
@@ -22,23 +22,25 @@ Marijan Beg<sup>1,2</sup> and Hans Fangohr<sup>2,1</sup>
 
 `ubermagutil` is a Python package used across [Ubermag](http://ubermag.github.io). It provides:
 
-- definition of the type-system and
+- definition of type-system descriptors and decorators,
 
-- conversion of units.
+- operations on units, and
+
+- documentation inheritance decorators.
 
 It is available on all major operating systems (Windows, MacOS, and Linux) and requires Python 3.6 or higher.
 
 ## Documentation
 
-APIs and tutorials as Jupyter notebooks are available as a part of documentation.
+APIs and tutorials are available as a part of documentation. To access documentation, use the documentation badge in the table above.
 
 ## Installation, testing, and upgrade
 
-We support installation using `conda` and `pip` package managers. Instructions can be found in the documentation.
+We recommend installation using `conda` package manager. In addition, we support installation using `pip` and the use via Docker. Instructions can be found in the documentation.
 
 ## Binder
 
-This package can be used in the cloud via Binder. This does not require to have anything installed and no files will be created on your machine. To access Binder, use the Binder badge in the table above.
+This package can be used in the cloud via Binder. To access Binder, use the Binder badge in the table above.
 
 ## Support
 
@@ -57,8 +59,6 @@ If you use this package, please cite it as:
 2. M. Beg and H. Fangohr. ubermag/ubermagutil: Python utilities package used across Ubermag. Zenodo. DOI: [10.5281/zenodo.3539490](http://doi.org/10.5281/zenodo.3539490) (2020).
 
 ## Acknowledgements
-
-Developed as a part of:
 
 - [OpenDreamKit](http://opendreamkit.org/) – Horizon 2020 European Research Infrastructure project (676541)
 
