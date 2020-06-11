@@ -6,6 +6,7 @@ def test_multiplier():
     assert uu.si_multiplier(1e-9) == 1e-9
     assert uu.si_multiplier(50e-9) == 1e-9
     assert uu.si_multiplier(100e-9) == 1e-9
+    assert uu.si_multiplier(-100e-9) == 1e-9
     assert uu.si_multiplier(1001e-9) == 1e-6
     assert uu.si_multiplier(0) == 1
     assert uu.si_multiplier(1e3) == 1e3
