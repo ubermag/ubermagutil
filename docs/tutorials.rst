@@ -1,14 +1,34 @@
 Tutorials
 =========
 
+**General information**:
+
 .. toctree::
    :maxdepth: 1
-   :numbered:
-   :caption: Contents:
 
-   ipynb/00-tutorial-installation-testing-upgrade
-   ipynb/01-tutorial-imposing-typesystem
-   ipynb/02-tutorial-constant-attributes
-   ipynb/03-tutorial-parameter-descriptor
-   ipynb/04-tutorial-otherwise-type
-   ipynb/05-tutorial-other
+   ipynb/installation-testing-update
+   ipynb/other
+
+**Typesystem:**
+
+.. toctree::
+   :maxdepth: 1
+
+   ipynb/imposing-typesystem
+   ipynb/constant-attributes
+   ipynb/parameter-descriptor
+   ipynb/otherwise-type
+
+**Inheriting doc-string:**
+
+.. toctree::
+  :maxdepth: 1
+
+  ipynb/inherit-docs
+
+**SI prefix:**
+
+.. toctree::
+  :maxdepth: 1
+
+  ipynb/si-prefix
