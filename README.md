@@ -22,21 +22,21 @@ Marijan Beg<sup>1,2</sup> and Hans Fangohr<sup>1,2</sup>
 
 `ubermagutil` is a Python package used across [Ubermag](http://ubermag.github.io). It provides:
 
-- definition of type-system descriptors and decorators,
+- definition of typesystem descriptors and decorators,
 
-- operations on units, and
+- documentation inheritance decorators, and
 
-- documentation inheritance decorators.
+- determining SI prefixes.
 
-It is available on all major operating systems (Windows, MacOS, and Linux) and requires Python 3.6 or higher.
+It is available on Windows, MacOS, and Linux. It requires Python 3.6+.
 
 ## Documentation
 
-APIs and tutorials are available as a part of documentation. To access documentation, use the documentation badge in the table above.
+APIs and tutorials are available in documentation. To access them, use the documentation badge in the table above.
 
 ## Installation, testing, and upgrade
 
-We recommend installation using `conda` package manager. In addition, we support installation using `pip` and the use via Docker. Instructions can be found in the documentation.
+We recommend installation using `conda` package manager. Instructions can be found in the documentation.
 
 ## Binder
 
