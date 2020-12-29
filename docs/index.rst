@@ -17,6 +17,7 @@
     ipynb/otherwise-type
     ipynb/si-prefix
     ipynb/inherit-docs
+    ipynb/hysteresis
     ipynb/other
 
 API Reference
