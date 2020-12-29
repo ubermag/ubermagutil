@@ -1,22 +1,21 @@
 import setuptools
 
-with open('README.md', encoding='utf-8') as f:
+with open('README.md', 'r', encoding='utf-8') as f:
     long_description = f.read()
 
 setuptools.setup(
     name='ubermagutil',
     version='0.2.6',
-    description=('Python utilities package used across '
-                 'most of Ubermag packages.'),
+    description='Utility package used across Ubermag.',
+    author='Marijan Beg and Hans Fangohr',
     long_description=long_description,
     long_description_content_type='text/markdown',
     url='https://ubermag.github.io',
-    author='Marijan Beg and Hans Fangohr',
     packages=setuptools.find_packages(),
     include_package_data=True,
-    python_requires='>=3.6',
-    install_requires=['numpy>=1.18',
-                      'pytest>=5.4'],
+    python_requires='>=3.8',
+    install_requires=['numpy>=1.19',
+                      'pytest>=6.2'],
     classifiers=['Development Status :: 5 - Production/Stable',
                  'Intended Audience :: Education',
                  'Intended Audience :: Developers',
