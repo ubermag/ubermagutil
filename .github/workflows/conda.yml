@@ -1,4 +1,4 @@
-name: workflow
+name: conda
 
 on:
   push:
@@ -6,7 +6,7 @@ on:
     - cron: '0 0 1 * *'  # run once-a-month
 
 jobs:
-  workflow:
+  conda:
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
