@@ -1,3 +1,5 @@
+"""Main package"""
+
 import pytest
 import pkg_resources
 from .inherit_docs import inherit_docs
@@ -7,4 +9,16 @@ __dependencies__ = pkg_resources.require(__name__)
 
 
 def test():
-    return pytest.main(["-v", "--pyargs", "ubermagutil"])  # pragma: no cover
+    """Run all package tests.
+
+    Examples
+    --------
+    1. Run all tests.
+
+    >>> import ubermagutil as uu
+    ...
+    >>> # uu.test()
+
+    """
+    return pytest.main(['-v', '--pyargs',
+                    'discretisedfield', '-l'])  # pragma: no cover
