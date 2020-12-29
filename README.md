@@ -8,6 +8,7 @@ Marijan Beg<sup>1,2</sup> and Hans Fangohr<sup>1,2,3</sup>
 | Description | Badge |
 | --- | --- |
 | Tests | [![workflow](https://github.com/ubermag/ubermagutil/workflows/workflow/badge.svg)](https://github.com/ubermag/ubermagutil/actions?query=workflow%3Aworkflow) |
+|       | [![conda](https://github.com/ubermag/ubermagutil/workflows/conda/badge.svg)](https://github.com/ubermag/ubermagutil/actions?query=workflow%3Aconda) |
 | Releases | [![PyPI version](https://badge.fury.io/py/ubermagutil.svg)](https://badge.fury.io/py/ubermagutil) |
 |          | [![Anaconda-Server Badge](https://anaconda.org/conda-forge/ubermagutil/badges/version.svg)](https://anaconda.org/conda-forge/ubermagutil) |
 | Coverage | [![codecov](https://codecov.io/gh/ubermag/ubermagutil/branch/master/graph/badge.svg?token=PFdiNjYmWJ)](https://codecov.io/gh/ubermag/ubermagutil) |
