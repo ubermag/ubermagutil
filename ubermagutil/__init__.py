@@ -21,4 +21,4 @@ def test():
 
     """
     return pytest.main(['-v', '--pyargs',
-                    'discretisedfield', '-l'])  # pragma: no cover
+                        'ubermagutil', '-l'])  # pragma: no cover
