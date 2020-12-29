@@ -27,7 +27,7 @@ jobs:
         environment-file: binder/environment.yml
 
     - name: Install testing packages
-      run: python -m pip install --upgrade pip nbval
+      run: python -m pip install --upgrade pip pytest-cov nbval pycodestyle
 
-    - name: Jupyter notebook tests
-      run: python -m pytest -v --nbval-lax notebooks/*.ipynb
+    - name: Test all
+      run: make test-all
