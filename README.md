@@ -1,18 +1,19 @@
 # ubermagutil
-Marijan Beg<sup>1,2</sup> and Hans Fangohr<sup>1,2</sup>
+Marijan Beg<sup>1,2</sup> and Hans Fangohr<sup>1,2,3</sup>
 
 <sup>1</sup> *Faculty of Engineering and Physical Sciences, University of Southampton, Southampton SO17 1BJ, United Kingdom*  
 <sup>2</sup> *European XFEL GmbH, Holzkoppel 4, 22869 Schenefeld, Germany*  
+<sup>3</sup> *Max Planck Institute for the Structure and Dynamics of Matter, Luruper Chaussee 149, 22761 Hamburg, Germany*   
 
 | Description | Badge |
 | --- | --- |
+| Tests | [![workflow](https://github.com/ubermag/ubermagutil/workflows/workflow/badge.svg)](https://github.com/ubermag/ubermagutil/actions?query=workflow%3Aworkflow) |
 | Releases | [![PyPI version](https://badge.fury.io/py/ubermagutil.svg)](https://badge.fury.io/py/ubermagutil) |
 |          | [![Anaconda-Server Badge](https://anaconda.org/conda-forge/ubermagutil/badges/version.svg)](https://anaconda.org/conda-forge/ubermagutil) |
-| Builds | [![Build Status](https://travis-ci.org/ubermag/ubermagutil.svg?branch=master)](https://travis-ci.org/ubermag/ubermagutil) |
-|        | [![Build status](https://ci.appveyor.com/api/projects/status/sv9vl65olsl5rxim?svg=true)](https://ci.appveyor.com/project/marijanbeg/ubermagutil) |
-| Coverage | [![codecov](https://codecov.io/gh/ubermag/ubermagutil/branch/master/graph/badge.svg)](https://codecov.io/gh/ubermag/ubermagutil) |
+| Coverage | [![codecov](https://codecov.io/gh/ubermag/ubermagutil/branch/master/graph/badge.svg?token=PFdiNjYmWJ)](https://codecov.io/gh/ubermag/ubermagutil) |
 | Documentation | [![Documentation Status](https://readthedocs.org/projects/ubermagutil/badge/?version=latest)](https://ubermagutil.readthedocs.io/en/latest/?badge=latest) |
-| Binder | [![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/ubermag/ubermagutil/master?urlpath=lab/tree/docs/ipynb/index.ipynb) |
+| YouTube | [![YouTube](https://img.shields.io/badge/YouTube-ubermag-blue)](https://www.youtube.com/channel/UC7MSqVQSMFV42R1jAYmKGLg) |
+| Binder | [![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/ubermag/ubermagutil/HEAD?urlpath=lab/tree/docs/ipynb/index.ipynb) |
 | Platforms | [![Platforms](https://anaconda.org/conda-forge/ubermagutil/badges/platforms.svg)](https://anaconda.org/conda-forge/ubermagutil) |
 | Downloads | [![Downloads](https://anaconda.org/conda-forge/ubermagutil/badges/downloads.svg)](https://anaconda.org/conda-forge/ubermagutil) |
 | License | [![License](https://img.shields.io/badge/License-BSD%203--Clause-blue.svg)](https://opensource.org/licenses/BSD-3-Clause) |
@@ -20,19 +21,21 @@ Marijan Beg<sup>1,2</sup> and Hans Fangohr<sup>1,2</sup>
 
 ## About
 
-`ubermagutil` is a Python package used across [Ubermag](http://ubermag.github.io). It provides:
+`ubermagutil` is a Python package used across [Ubermag](http://ubermag.github.io), providing:
 
 - definition of typesystem descriptors and decorators,
 
-- documentation inheritance decorators, and
+- documentation inheritance decorators,
 
-- determining SI prefixes.
+- determining SI prefixes, and
 
-It is available on Windows, MacOS, and Linux. It requires Python 3.6+.
+- various convenience functions.
+
+It is available on Windows, MacOS, and Linux. It requires Python 3.8+.
 
 ## Documentation
 
-APIs and tutorials are available in documentation. To access them, use the documentation badge in the table above.
+APIs and tutorials are available in the documentation. To access the documentation, use the badge in the table above.
 
 ## Installation, testing, and upgrade
 
@@ -40,11 +43,24 @@ We recommend installation using `conda` package manager. Instructions can be fou
 
 ## Binder
 
-This package can be used in the cloud via Binder. To access Binder, use the Binder badge in the table above.
+This package can be used in the cloud via Binder. To access Binder, use the badge in the table above.
+
+## YouTube
+
+YouTube video tutorials are available on the [Ubermag channel](https://www.youtube.com/channel/UC7MSqVQSMFV42R1jAYmKGLg).
 
 ## Support
 
 If you require support, have questions, want to report a bug, or want to suggest an improvement, please raise an issue in [ubermag/help](https://github.com/ubermag/help) repository.
+
+## Contributions
+
+All contributions are welcome, however small they are. If you would like to contribute, please fork the repository and create a pull request. If you are not sure how to contribute, please contact us by raising an issue in [ubermag/help](https://github.com/ubermag/help) repository, and we are going to help you get started and assist you on the way.
+
+**Contributors**:
+
+- Thomas Kluyver ([@takluyver](https://github.com/takluyver)), European XFEL, Germany
+- Natalie Downing ([@gamdow](https://github.com/gamdow)), University of Southampton, United Kingdom
 
 ## License
 
@@ -52,14 +68,12 @@ Licensed under the BSD 3-Clause "New" or "Revised" License. For details, please 
 
 ## How to cite
 
-If you use this package, please cite it as:
+1. M. Beg, R. A. Pepper, and H. Fangohr. User interfaces for computational science: A domain specific language for OOMMF embedded in Python. [*AIP Advances* **7**, 56025](http://aip.scitation.org/doi/10.1063/1.4977225) (2017).
 
-1. M. Beg, R. A. Pepper, and H. Fangohr. User interfaces for computational science: A domain specific language for OOMMF embedded in Python. [*AIP Advances* **7**, 56025 (2017)](http://aip.scitation.org/doi/10.1063/1.4977225).
-
-2. M. Beg and H. Fangohr. ubermag/ubermagutil: Python utilities package used across Ubermag. Zenodo. DOI: [10.5281/zenodo.3539490](http://doi.org/10.5281/zenodo.3539490) (2020).
+2. M. Beg and H. Fangohr. ubermagutil: Utility package used across Ubermag. DOI: [10.5281/zenodo.3539490](http://doi.org/10.5281/zenodo.3539490) (2020).
 
 ## Acknowledgements
 
 - [OpenDreamKit](http://opendreamkit.org/) – Horizon 2020 European Research Infrastructure project (676541)
 
-- EPSRC Programme grant on [Skyrmionics](http://www.skyrmions.ac.uk) (EP/N032128/1).
+- EPSRC Programme Grant on [Skyrmionics](http://www.skyrmions.ac.uk) (EP/N032128/1)
