@@ -51,7 +51,7 @@ def hysteresis_values(vmin, vmax, step):
     rtol = 1e-3
     rem = (vmax - vmin) % step
     if rtol*step < rem < step - rtol*step:
-        msg = 'Value range cannot be divided into steps.'
+        msg = 'Value range cannot be divided into integer number of steps.'
         raise ValueError(msg)
 
     return list(np.concatenate([np.arange(vmax, vmin, -step),
