@@ -1,5 +1,4 @@
 """Main package"""
-
 import pytest
 import pkg_resources
 from .inherit_docs import inherit_docs
