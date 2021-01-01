@@ -5,9 +5,9 @@ with open('README.md', 'r', encoding='utf-8') as f:
 
 setuptools.setup(
     name='ubermagutil',
-    version='0.2.7',
+    version='0.3',
     description='Utility package used across Ubermag.',
-    author='Marijan Beg and Hans Fangohr',
+    author='Marijan Beg, Martin Lang, and Hans Fangohr',
     long_description=long_description,
     long_description_content_type='text/markdown',
     url='https://ubermag.github.io',
