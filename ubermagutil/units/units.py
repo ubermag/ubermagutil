@@ -22,7 +22,7 @@ rsi_prefixes = {v: k for k, v in si_prefixes.items()}
 
 
 def si_multiplier(value):
-    """Determines SI multiplier.
+    """Compute SI multiplier.
 
     SI multiplier of :math:`x` is considered to be a value :math:`m=10^{n}`,
     for :math:`n = ..., -6, -3, 0, 3, 6,...`, for which :math:`1 \\le x/m
@@ -68,7 +68,7 @@ def si_multiplier(value):
 
 
 def si_max_multiplier(values):
-    """Determines maximum SI multiplier for a list of values.
+    """Compute maximum SI multiplier for a list of values.
 
     SI multiplier is computed for all elements of ``values`` using
     ``ubermagutil.units.si_multiplier`` and the largest one is returned.
