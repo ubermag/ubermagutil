@@ -5,4 +5,4 @@ channels:
 
 dependencies:
   - python==3.8
-  - ubermagutil==0.4
+  - ubermagutil==0.4.1
