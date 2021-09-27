@@ -1,5 +1,5 @@
 PROJECT=ubermagutil
-IPYNBPATH=docs/ipynb/*.ipynb
+IPYNBPATH=docs/*.ipynb
 PYTHON?=python
 
 test-unittests:
