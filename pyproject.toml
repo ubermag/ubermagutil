@@ -12,10 +12,10 @@ requires-python = ">=3.8"
 license = {file = "LICENSE"}
 
 authors = [
-  {name = "Marijan Beg"},
-  {name = "Martin Lang"},
-  {name = "Samuel Holt"},
-  {name = "Hans Fangohr"}
+    {name = "Marijan Beg"},
+    {name = "Martin Lang"},
+    {name = "Samuel Holt"},
+    {name = "Hans Fangohr"}
 ]
 
 classifiers = [
@@ -35,27 +35,38 @@ classifiers = [
 ]
 
 dependencies = [
-  "numpy>=1.19",
-  "pytest>=6.2"
+    "numpy>=1.19",
+    "pytest>=6.2"
 ]
 
-# [project.optional-dependencies]
-# test = [...]
+[project.optional-dependencies]
+dev = [
+    "build",
+    "pre-commit",
+    "twine"
+]
+test = [
+    "nbval",
+    "pytest",
+    "pytest-cov"
+]
 
 [project.urls]
 homepage = "https://ubermag.github.io"
 documentation = "https://ubermag.github.io/documentation/ubermagutil"
 repository = "https://github.com/ubermag/ubermagutil"
 
+
+
 # to define additional information we use a custom table
 # we need to own the entry for tool.NAME on PyPI
 # see: https://www.python.org/dev/peps/pep-0518/#tool-table
 [tool.ubermag]
-doi = "10.5281/zenodo.3539489"
+doi = "10.5281/zenodo.3539489
 copyright_holder = "Marijan Beg and Hans Fangohr"
 contributors = [
-  "Thomas Kluyver",
-  "Natalie Downing"
+    "Thomas Kluyver",
+    "Natalie Downing"
 ]
 about = """
 - definition of typesystem descriptors and decorators,
