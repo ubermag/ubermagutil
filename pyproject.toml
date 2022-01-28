@@ -80,3 +80,7 @@ about = """
 
 [tool.coverage.run]
 omit = ["ubermagutil/tests/*"]
+
+[tool.isort]
+skip_gitignore = true  # ignores files listed in .gitignore
+# known_first_party = [""]
