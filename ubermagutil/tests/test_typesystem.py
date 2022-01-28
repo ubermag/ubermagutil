@@ -1,6 +1,8 @@
-import pytest
 import numbers
+
 import numpy as np
+import pytest
+
 import ubermagutil.typesystem as ts
 
 

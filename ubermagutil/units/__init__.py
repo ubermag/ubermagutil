@@ -1,2 +1,2 @@
 """SI multiplier utility"""
-from .units import si_prefixes, rsi_prefixes, si_multiplier, si_max_multiplier
+from .units import rsi_prefixes, si_max_multiplier, si_multiplier, si_prefixes
