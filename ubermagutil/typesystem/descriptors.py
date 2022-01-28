@@ -1,6 +1,7 @@
-import numbers
-import keyword
 import collections
+import keyword
+import numbers
+
 import numpy as np
 
 

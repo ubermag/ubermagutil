@@ -1,6 +1,5 @@
 import collections
 
-
 si_prefixes = collections.OrderedDict({'y': 1e-24,  # yocto
                                        'z': 1e-21,  # zepto
                                        'a': 1e-18,  # atto

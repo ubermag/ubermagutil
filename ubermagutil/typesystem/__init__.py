@@ -1,4 +1,4 @@
 """Typesystem utility"""
-from .descriptors import Descriptor, Typed, Scalar, Vector, \
-    Name, Dictionary, Parameter, Subset
+from .descriptors import (Descriptor, Dictionary, Name, Parameter, Scalar,
+                          Subset, Typed, Vector)
 from .typesystem import typesystem
