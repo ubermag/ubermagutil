@@ -1,7 +1,7 @@
 from .descriptors import Descriptor
 
 
-def typesystem(**kwargs):
+def typesystem(**kwargs):  # noqa: D401
     """Decorator for imposing typesystem on a class.
 
     A specific descriptor is associated to class attributes in the argument

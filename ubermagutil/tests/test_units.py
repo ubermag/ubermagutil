@@ -2,7 +2,6 @@ import ubermagutil.units as uu
 
 
 def test_multiplier():
-    tol = 1e-6
     assert uu.si_multiplier(1e-9) == 1e-9
     assert uu.si_multiplier(50e-9) == 1e-9
     assert uu.si_multiplier(100e-9) == 1e-9

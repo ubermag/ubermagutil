@@ -1,8 +1,9 @@
+"""Additional tools."""
 import numpy as np
 
 
 def hysteresis_values(vmin, vmax, step):
-    """Generates hysteresis values.
+    """Generate hysteresis values.
 
     Given ``vmin``, ``vmax``, and ``step``, hysteresis loop values are
     generated and ``list`` is returned. The first and the last values in the
@@ -50,9 +51,9 @@ def hysteresis_values(vmin, vmax, step):
     """
     rtol = 1e-3
     rem = (vmax - vmin) % step
-    if rtol*step < rem < step - rtol*step:
+    if rtol * step < rem < step - rtol * step:
         msg = 'Value range cannot be divided into integer number of steps.'
         raise ValueError(msg)
 
     return list(np.concatenate([np.arange(vmax, vmin, -step),
-                                np.arange(vmin, vmax+rtol*step, step)]))
+                                np.arange(vmin, vmax + rtol * step, step)]))

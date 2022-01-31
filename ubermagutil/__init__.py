@@ -1,6 +1,7 @@
-"""Main package"""
-import pytest
+"""Main package."""
 import pkg_resources
+import pytest
+
 from .inherit_docs import inherit_docs
 from .tools import hysteresis_values
 
