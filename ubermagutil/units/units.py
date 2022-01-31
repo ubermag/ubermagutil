@@ -9,7 +9,7 @@ si_prefixes = collections.OrderedDict({'y': 1e-24,  # yocto
                                        'n': 1e-9,   # nano
                                        'u': 1e-6,   # micro
                                        'm': 1e-3,   # mili
-                                       '':  1,      # no prefix
+                                       '': 1,       # no prefix
                                        'k': 1e3,    # kilo
                                        'M': 1e6,    # mega
                                        'G': 1e9,    # giga
