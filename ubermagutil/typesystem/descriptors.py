@@ -102,8 +102,7 @@ class Descriptor:
 
         """
         if hasattr(self, 'const'):
-            if (self.name not in instance.__dict__ and self.const) or \
-              not self.const:
+            if not self.const or self.name not in instance.__dict__:
                 instance.__dict__[self.name] = value
             else:
                 msg = f'Changing {self.name} not allowed.'
