@@ -1,3 +1,4 @@
+"""SI multiplier utility."""
 import collections
 
 si_prefixes = collections.OrderedDict({'y': 1e-24,  # yocto
@@ -21,10 +22,10 @@ rsi_prefixes = {v: k for k, v in si_prefixes.items()}
 
 
 def si_multiplier(value):
-    """Compute SI multiplier.
+    r"""Compute SI multiplier.
 
     SI multiplier of :math:`x` is considered to be a value :math:`m=10^{n}`,
-    for :math:`n = ..., -6, -3, 0, 3, 6,...`, for which :math:`1 \\le x/m
+    for :math:`n = ..., -6, -3, 0, 3, 6,...`, for which :math:`1 \le x/m
     < 10^{3}`.
 
     Parameters

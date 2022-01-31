@@ -2,7 +2,7 @@ import types
 
 
 def inherit_docs(cls):
-    """Copies missing docstrings from parent classes.
+    """Copy missing docstrings from parent classes.
 
     Example
     -------

@@ -1,8 +1,9 @@
+"""Additional tools."""
 import numpy as np
 
 
 def hysteresis_values(vmin, vmax, step):
-    """Generates hysteresis values.
+    """Generate hysteresis values.
 
     Given ``vmin``, ``vmax``, and ``step``, hysteresis loop values are
     generated and ``list`` is returned. The first and the last values in the

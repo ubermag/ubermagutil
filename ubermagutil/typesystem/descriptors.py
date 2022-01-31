@@ -1,4 +1,3 @@
-import collections
 import keyword
 import numbers
 
@@ -66,6 +65,7 @@ class Descriptor:
     101
 
     """
+
     def __init__(self, name=None, **kwargs):
         self.name = name
         for key, value in kwargs.items():
@@ -195,6 +195,7 @@ class Typed(Descriptor):
     .. seealso:: :py:class:`~ubermagutil.typesystem.Descriptor`
 
     """
+
     def __set__(self, instance, value):
         if hasattr(self, 'allow_none'):
             if self.allow_none and value is None:
@@ -387,6 +388,7 @@ class Vector(Descriptor):
     .. seealso:: :py:class:`~ubermagutil.typesystem.Descriptor`
 
     """
+
     def __set__(self, instance, value):
         if hasattr(self, 'otherwise'):
             if isinstance(value, self.otherwise):
@@ -475,6 +477,7 @@ class Name(Descriptor):
     .. seealso:: :py:class:`~ubermagutil.typesystem.Descriptor`
 
     """
+
     def __set__(self, instance, value):
         if not isinstance(value, str):
             msg = f'Cannot set {self.name} with {type(value)}.'
@@ -567,6 +570,7 @@ class Dictionary(Descriptor):
     .. seealso:: :py:class:`~ubermagutil.typesystem.Descriptor`
 
     """
+
     def __set__(self, instance, value):
         if hasattr(self, 'otherwise'):
             if isinstance(value, self.otherwise):
@@ -646,6 +650,7 @@ class Parameter(Descriptor):
     .. seealso:: :py:class:`~ubermagutil.typesystem.Descriptor`
 
     """
+
     def __set__(self, instance, value):
         if hasattr(self, 'otherwise'):
             if isinstance(value, self.otherwise):
@@ -706,6 +711,7 @@ class Subset(Descriptor):
     .. seealso:: :py:class:`~ubermagutil.typesystem.Descriptor`
 
     """
+
     def __set__(self, instance, value):
         if hasattr(self, 'otherwise'):
             if isinstance(value, self.otherwise):

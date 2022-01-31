@@ -1,4 +1,4 @@
-"""Main package"""
+"""Main package."""
 import pkg_resources
 import pytest
 
