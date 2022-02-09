@@ -1,9 +1,10 @@
 """Tasks to test and release the package."""
-from invoke import Collection, task
-import iniconfig
 import os
+
+import iniconfig
 import tomli
 import yaml
+from invoke import Collection, task
 
 PYTHON = 'python'
 PROJECT = 'ubermagutil'
