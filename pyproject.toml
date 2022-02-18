@@ -42,6 +42,7 @@ dependencies = [
 [project.optional-dependencies]
 dev = [
     "build",
+    "invoke",
     "pre-commit",
     "twine"
 ]

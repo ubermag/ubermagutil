@@ -13,13 +13,13 @@
 | --- | --- |
 | Tests | [![Build status](https://github.com/ubermag/ubermagutil/workflows/workflow/badge.svg)](https://github.com/ubermag/ubermagutil/actions?query=workflow%3Aworkflow) |
 |       | [![conda](https://github.com/ubermag/ubermagutil/workflows/conda/badge.svg)](https://github.com/ubermag/ubermagutil/actions?query=workflow%3Aconda) |
-|       | [![pre-commit.ci status](https://results.pre-commit.ci/badge/github/ubermag/ubermagutil/master.svg)](https://results.pre-commit.ci/latest/github/ubermag/ubermagutil/master)
+| Linting | [![pre-commit.ci status](https://results.pre-commit.ci/badge/github/ubermag/ubermagutil/master.svg)](https://results.pre-commit.ci/latest/github/ubermag/ubermagutil/master)
 | Releases | [![PyPI version](https://badge.fury.io/py/ubermagutil.svg)](https://badge.fury.io/py/ubermagutil) |
 |          | [![Anaconda-Server Badge](https://anaconda.org/conda-forge/ubermagutil/badges/version.svg)](https://anaconda.org/conda-forge/ubermagutil) |
 | Coverage | [![codecov](https://codecov.io/gh/ubermag/ubermagutil/branch/master/graph/badge.svg?token=hcK4fofmrL)](https://codecov.io/gh/ubermag/ubermagutil) |
 | Documentation | [![Documentation](https://img.shields.io/badge/Docs-ubermag.github.io-blue)](https://ubermag.github.io/documentation/ubermagutil.html) |
 | YouTube | [![YouTube](https://img.shields.io/badge/YouTube-ubermag-blue)](https://www.youtube.com/channel/UC7MSqVQSMFV42R1jAYmKGLg) |
-| Binder | [![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/ubermag/ubermagutil/stable?urlpath=lab/tree/docs/index.ipynb) |
+| Binder | [![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/ubermag/ubermagutil/latest?urlpath=lab/tree/docs) |
 | Platforms | [![Platforms](https://anaconda.org/conda-forge/ubermagutil/badges/platforms.svg)](https://anaconda.org/conda-forge/ubermagutil) |
 | Downloads | [![Downloads](https://anaconda.org/conda-forge/ubermagutil/badges/downloads.svg)](https://anaconda.org/conda-forge/ubermagutil) |
 | License | [![License](https://img.shields.io/badge/License-BSD%203--Clause-blue.svg)](https://opensource.org/licenses/BSD-3-Clause) |
@@ -75,7 +75,7 @@ Licensed under the BSD 3-Clause "New" or "Revised" License. For details, please 
 
 ## How to cite
 
-1. M. Beg, M. Lang, and H. Fangohr. Ubermag: Towards more effective micromagnetic workflows. [*IEEE Transactions on Magnetics*](https://doi.org/10.1109/TMAG.2021.3078896) (2021).
+1. M. Beg, M. Lang, and H. Fangohr. Ubermag: Towards more effective micromagnetic workflows. [*IEEE Transactions on Magnetics* **58**, 7300205](https://doi.org/10.1109/TMAG.2021.3078896) (2022).
 
 2. M. Beg, R. A. Pepper, and H. Fangohr. User interfaces for computational science: A domain specific language for OOMMF embedded in Python. [*AIP Advances* **7**, 56025](http://aip.scitation.org/doi/10.1063/1.4977225) (2017).
 
