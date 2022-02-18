@@ -1,4 +1,4 @@
-"""Main package."""
+"""Utilities used across Ubermag."""
 import pkg_resources
 import pytest
 
