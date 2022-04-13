@@ -25,10 +25,10 @@ def test_inherit_docs():
         def root(self):
             return self.a**0.5
 
-    assert A.__init__.__doc__ == 'Docstring 1.'
-    assert A.square.__doc__ == 'Docstring 2.'
-    assert A.root.__doc__ == 'Docstring 3.'
+    assert A.__init__.__doc__ == "Docstring 1."
+    assert A.square.__doc__ == "Docstring 2."
+    assert A.root.__doc__ == "Docstring 3."
 
-    assert B.__init__.__doc__ == 'Docstring 1.'
-    assert B.square.__doc__ == 'Docstring 2.'
-    assert B.root.__doc__ == 'Docstring 3.'
+    assert B.__init__.__doc__ == "Docstring 1."
+    assert B.square.__doc__ == "Docstring 2."
+    assert B.root.__doc__ == "Docstring 3."

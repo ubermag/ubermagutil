@@ -38,10 +38,11 @@ def typesystem(**kwargs):  # noqa: D401
     'Nikola Tesla'
 
     """
+
     def decorate(cls):
         for key, value in kwargs.items():
             if isinstance(value, Descriptor):
-                setattr(value, 'name', key)
+                setattr(value, "name", key)
                 setattr(cls, key, value)
         return cls
 

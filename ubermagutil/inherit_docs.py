@@ -31,15 +31,16 @@ def inherit_docs(cls):
         if isinstance(v, types.FunctionType) and not v.__doc__:
             for parent in cls.__bases__:
                 parentv = getattr(parent, k, None)
-                if parentv and getattr(parentv, '__doc__', None):
+                if parentv and getattr(parentv, "__doc__", None):
                     v.__doc__ = parentv.__doc__
                     break
         elif isinstance(v, property) and not v.fget.__doc__:
             for parent in cls.__bases__:
                 parentv = getattr(parent, k, None)
-                if parentv and getattr(parentv.fget, '__doc__', None):
-                    newprop = property(fget=v.fget, fset=v.fset, fdel=v.fdel,
-                                       doc=parentv.fget.__doc__)
+                if parentv and getattr(parentv.fget, "__doc__", None):
+                    newprop = property(
+                        fget=v.fget, fset=v.fset, fdel=v.fdel, doc=parentv.fget.__doc__
+                    )
                     setattr(cls, k, newprop)
                     break
 

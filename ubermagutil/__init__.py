@@ -20,5 +20,4 @@ def test():
     >>> # uu.test()
 
     """
-    return pytest.main(['-v', '--pyargs',
-                        'ubermagutil', '-l'])  # pragma: no cover
+    return pytest.main(["-v", "--pyargs", "ubermagutil", "-l"])  # pragma: no cover
