@@ -101,11 +101,11 @@ class Descriptor:
         AttributeError: ...
 
         """
-        if hasattr(self, 'const'):
+        if hasattr(self, "const"):
             if not self.const or self.name not in instance.__dict__:
                 instance.__dict__[self.name] = value
             else:
-                msg = f'Changing {self.name} not allowed.'
+                msg = f"Changing {self.name} not allowed."
                 raise AttributeError(msg)
         else:
             instance.__dict__[self.name] = value
@@ -140,7 +140,7 @@ class Descriptor:
         AttributeError: ...
 
         """
-        msg = f'Deleting {self.name} not allowed.'
+        msg = f"Deleting {self.name} not allowed."
         raise AttributeError(msg)
 
 
@@ -196,12 +196,12 @@ class Typed(Descriptor):
     """
 
     def __set__(self, instance, value):
-        if hasattr(self, 'allow_none'):
+        if hasattr(self, "allow_none"):
             if self.allow_none and value is None:
                 super().__set__(instance, value)
                 return None
         if not isinstance(value, self.expected_type):
-            msg = f'Cannot set {self.name} with {type(value)}.'
+            msg = f"Cannot set {self.name} with {type(value)}."
             raise TypeError(msg)
         super().__set__(instance, value)
 
@@ -278,25 +278,26 @@ class Scalar(Descriptor):
     .. seealso:: :py:class:`~ubermagutil.typesystem.Descriptor`
 
     """
+
     def __set__(self, instance, value):
-        if hasattr(self, 'otherwise'):
+        if hasattr(self, "otherwise"):
             if isinstance(value, self.otherwise):
                 super().__set__(instance, value)
                 return None
         if not isinstance(value, numbers.Real):
-            msg = f'Cannot set {self.name} with {type(value)}.'
+            msg = f"Cannot set {self.name} with {type(value)}."
             raise TypeError(msg)
-        if hasattr(self, 'expected_type'):
+        if hasattr(self, "expected_type"):
             if not isinstance(value, self.expected_type):
-                msg = f'Cannot set {self.name} with {type(value)}.'
+                msg = f"Cannot set {self.name} with {type(value)}."
                 raise TypeError(msg)
-        if hasattr(self, 'unsigned'):
+        if hasattr(self, "unsigned"):
             if self.unsigned and value < 0:
-                msg = f'Cannot set {self.name} with value = {value} < 0.'
+                msg = f"Cannot set {self.name} with value = {value} < 0."
                 raise ValueError(msg)
-        if hasattr(self, 'positive'):
+        if hasattr(self, "positive"):
             if self.positive and value <= 0:
-                msg = f'Cannot set {self.name} with value = {value} <= 0.'
+                msg = f"Cannot set {self.name} with value = {value} <= 0."
                 raise ValueError(msg)
         super().__set__(instance, value)
 
@@ -389,30 +390,30 @@ class Vector(Descriptor):
     """
 
     def __set__(self, instance, value):
-        if hasattr(self, 'otherwise'):
+        if hasattr(self, "otherwise"):
             if isinstance(value, self.otherwise):
                 super().__set__(instance, value)
                 return None
         if not isinstance(value, (tuple, list, np.ndarray)):
-            msg = f'Cannot set {self.name} with {type(value)}.'
+            msg = f"Cannot set {self.name} with {type(value)}."
             raise TypeError(msg)
         if not all(isinstance(i, numbers.Real) for i in value):
-            msg = 'Allowed only type(value[i]) == numbers.Real.'
+            msg = "Allowed only type(value[i]) == numbers.Real."
             raise TypeError(msg)
-        if hasattr(self, 'size'):
+        if hasattr(self, "size"):
             if len(value) != self.size:
-                msg = f'Cannot set {self.name} with length {len(value)} value.'
+                msg = f"Cannot set {self.name} with length {len(value)} value."
                 raise ValueError(msg)
-        if hasattr(self, 'component_type'):
+        if hasattr(self, "component_type"):
             if not all(isinstance(i, self.component_type) for i in value):
-                msg = f'Allowed only type(value[i]) == {self.component_type}.'
+                msg = f"Allowed only type(value[i]) == {self.component_type}."
                 raise TypeError(msg)
-        if hasattr(self, 'unsigned'):
+        if hasattr(self, "unsigned"):
             if self.unsigned and not all(i >= 0 for i in value):
-                raise ValueError('Allowed only value[i] >= 0.')
-        if hasattr(self, 'positive'):
+                raise ValueError("Allowed only value[i] >= 0.")
+        if hasattr(self, "positive"):
             if self.positive and not all(i > 0 for i in value):
-                raise ValueError('Allowed only value[i] > 0.')
+                raise ValueError("Allowed only value[i] > 0.")
         super().__set__(instance, value)
 
 
@@ -479,15 +480,15 @@ class Name(Descriptor):
 
     def __set__(self, instance, value):
         if not isinstance(value, str):
-            msg = f'Cannot set {self.name} with {type(value)}.'
+            msg = f"Cannot set {self.name} with {type(value)}."
             raise TypeError(msg)
-        if hasattr(self, 'allowed_char'):
+        if hasattr(self, "allowed_char"):
             tmp_value = value.split(self.allowed_char)
         else:
             tmp_value = [value]
         for s in tmp_value:
             if not s.isidentifier() or keyword.iskeyword(s):
-                msg = f'{s} is not a valid variable name.'
+                msg = f"{s} is not a valid variable name."
                 raise ValueError(msg)
         super().__set__(instance, value)
 
@@ -571,20 +572,20 @@ class Dictionary(Descriptor):
     """
 
     def __set__(self, instance, value):
-        if hasattr(self, 'otherwise'):
+        if hasattr(self, "otherwise"):
             if isinstance(value, self.otherwise):
                 super().__set__(instance, value)
                 return None
         if not isinstance(value, dict):
-            msg = f'Cannot set {self.name} with {type(value)}.'
+            msg = f"Cannot set {self.name} with {type(value)}."
             raise TypeError(msg)
         if not value:
-            if hasattr(self, 'allow_empty'):
+            if hasattr(self, "allow_empty"):
                 if not self.allow_empty:
-                    msg = f'Cannot set {self.name} with an empty dictionary.'
+                    msg = f"Cannot set {self.name} with an empty dictionary."
                     raise ValueError(msg)
             else:
-                msg = f'Cannot set {self.name} with an empty dictionary.'
+                msg = f"Cannot set {self.name} with an empty dictionary."
                 raise ValueError(msg)
         for key, val in value.items():
             self.key_descriptor.__set__(self.key_descriptor, key)
@@ -651,13 +652,14 @@ class Parameter(Descriptor):
     """
 
     def __set__(self, instance, value):
-        if hasattr(self, 'otherwise'):
+        if hasattr(self, "otherwise"):
             if isinstance(value, self.otherwise):
                 super().__set__(instance, value)
                 return None
         if isinstance(value, dict):
-            dictdescriptor = Dictionary(key_descriptor=Name(allowed_char=':'),
-                                        value_descriptor=self.descriptor)
+            dictdescriptor = Dictionary(
+                key_descriptor=Name(allowed_char=":"), value_descriptor=self.descriptor
+            )
             dictdescriptor.__set__(dictdescriptor, value)
         else:
             self.descriptor.__set__(self.descriptor, value)
@@ -712,18 +714,18 @@ class Subset(Descriptor):
     """
 
     def __set__(self, instance, value):
-        if hasattr(self, 'otherwise'):
+        if hasattr(self, "otherwise"):
             if isinstance(value, self.otherwise):
                 super().__set__(instance, value)
                 return None
         if self.unpack:
             val = set(value)
             if not val.issubset(self.sample_set):
-                msg = f'Cannot set {self.name} with {value}.'
+                msg = f"Cannot set {self.name} with {value}."
                 raise ValueError(msg)
         else:
             val = value
             if val not in self.sample_set:
-                msg = f'Cannot set {self.name} with {value}.'
+                msg = f"Cannot set {self.name} with {value}."
                 raise ValueError(msg)
         super().__set__(instance, val)

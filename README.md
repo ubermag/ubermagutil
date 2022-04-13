@@ -13,7 +13,8 @@
 | --- | --- |
 | Tests | [![Build status](https://github.com/ubermag/ubermagutil/workflows/workflow/badge.svg)](https://github.com/ubermag/ubermagutil/actions?query=workflow%3Aworkflow) |
 |       | [![conda](https://github.com/ubermag/ubermagutil/workflows/conda/badge.svg)](https://github.com/ubermag/ubermagutil/actions?query=workflow%3Aconda) |
-| Linting | [![pre-commit.ci status](https://results.pre-commit.ci/badge/github/ubermag/ubermagutil/master.svg)](https://results.pre-commit.ci/latest/github/ubermag/ubermagutil/master)
+| Linting | [![pre-commit.ci status](https://results.pre-commit.ci/badge/github/ubermag/ubermagutil/master.svg)](https://results.pre-commit.ci/latest/github/ubermag/ubermagutil/master) |
+|         | [![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black) |
 | Releases | [![PyPI version](https://badge.fury.io/py/ubermagutil.svg)](https://badge.fury.io/py/ubermagutil) |
 |          | [![Anaconda-Server Badge](https://anaconda.org/conda-forge/ubermagutil/badges/version.svg)](https://anaconda.org/conda-forge/ubermagutil) |
 | Coverage | [![codecov](https://codecov.io/gh/ubermag/ubermagutil/branch/master/graph/badge.svg?token=hcK4fofmrL)](https://codecov.io/gh/ubermag/ubermagutil) |
