@@ -40,6 +40,7 @@ def setup_logging(level=logging.WARNING, package_levels=None):
         "micromagneticdata",
         "micromagneticmodel",
         "micromagnetictests",
+        "mumax3c",
         "oommfc",
         "ubermagtable",
         "ubermagutil",
