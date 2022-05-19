@@ -2,6 +2,7 @@
 import pkg_resources
 import pytest
 
+from .basic_logging import setup_logging
 from .inherit_docs import inherit_docs
 from .tools import hysteresis_values
 
