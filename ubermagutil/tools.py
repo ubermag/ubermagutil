@@ -1,4 +1,7 @@
 """Additional tools."""
+import contextlib
+import os
+
 import numpy as np
 
 
@@ -60,3 +63,14 @@ def hysteresis_values(vmin, vmax, step):
             [np.arange(vmax, vmin, -step), np.arange(vmin, vmax + rtol * step, step)]
         )
     )
+
+
+@contextlib.contextmanager
+def changedir(dirname):
+    """Context manager for changing directory."""
+    cwd = os.getcwd()
+    os.chdir(dirname)
+    try:
+        yield
+    finally:
+        os.chdir(cwd)
