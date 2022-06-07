@@ -4,7 +4,7 @@ import pytest
 
 from .basic_logging import setup_logging
 from .inherit_docs import inherit_docs
-from .tools import hysteresis_values
+from .tools import changedir, hysteresis_values
 
 __version__ = pkg_resources.get_distribution(__name__).version
 
