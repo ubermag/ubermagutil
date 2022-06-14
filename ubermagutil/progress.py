@@ -60,8 +60,8 @@ class ProgressBar(threading.Thread):
 
 
 @contextlib.contextmanager
-def bar(total, runner_name, glob_name):
-    progress_bar_thread = ProgressBar(total, runner_name, glob_name)
+def bar(total, package_name, runner_name, glob_name):
+    progress_bar_thread = ProgressBar(total, package_name, runner_name, glob_name)
     progress_bar_thread.start()
     try:
         yield
