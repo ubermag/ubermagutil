@@ -36,7 +36,8 @@ classifiers = [
 
 dependencies = [
     "numpy>=1.19",
-    "pytest>=6.2"
+    "pytest>=6.2",
+    "tqdm"
 ]
 
 [project.optional-dependencies]
