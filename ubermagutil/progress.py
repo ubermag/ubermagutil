@@ -72,8 +72,8 @@ def bar(total, package_name, runner_name, glob_name):
 @contextlib.contextmanager
 def summary(package_name, runner_name):
     now = datetime.datetime.now()
-    timestamp = "{}/{:02d}/{:02d} {:02d}:{:02d}".format(
-        now.year, now.month, now.day, now.hour, now.minute
+    timestamp = (
+        f"{now.year}/{now.month:02d}/{now.day:02d} {now.hour:02d}:{now.minute:02d}"
     )
     print(
         f"Running {package_name} ({runner_name})[{timestamp}]... ",
