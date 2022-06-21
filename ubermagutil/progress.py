@@ -49,7 +49,7 @@ class ProgressBar(threading.Thread):
             self.bar.n = len(glob.glob(f"{self.glob_name}"))
             self.bar.refresh()
             time.sleep(self.INTERVAL)
-        self.bar.n = len(glob.glob(f"{self.glob_name}*.omf"))
+        self.bar.n = len(glob.glob(f"{self.glob_name}"))
         self.bar.refresh()
         self.bar.close()
 
