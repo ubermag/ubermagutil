@@ -62,21 +62,25 @@ class ProgressBar(threading.Thread):
 @contextlib.contextmanager
 def bar(total, package_name, runner_name, glob_name):
     progress_bar_thread = ProgressBar(total, package_name, runner_name, glob_name)
+    now = datetime.datetime.now()
     progress_bar_thread.start()
+    tic = time.time()
     try:
         yield
     finally:
+        toc = time.time()
         progress_bar_thread.terminate()
+        print(
+            f"Running {package_name} ({runner_name})[{now:%Y-%m-%d %H:%M}]"
+            f" took {toc - tic:0.1f} s"
+        )
 
 
 @contextlib.contextmanager
 def summary(package_name, runner_name):
     now = datetime.datetime.now()
-    timestamp = (
-        f"{now.year}/{now.month:02d}/{now.day:02d} {now.hour:02d}:{now.minute:02d}"
-    )
     print(
-        f"Running {package_name} ({runner_name})[{timestamp}]... ",
+        f"Running {package_name} ({runner_name})[{now:%Y-%m-%d %H:%M}]... ",
         end="",
     )
     tic = time.time()
