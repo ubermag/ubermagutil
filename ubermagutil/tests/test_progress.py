@@ -15,7 +15,8 @@ def test_bar(capsys, tmp_path):
             (tmp_path / f"{i}.out").touch()
             time.sleep(0.1)
     captured = capsys.readouterr()
-    assert captured.out == ""
+    assert "Running my package" in captured.out  # summary line at the end
+    assert "took" in captured.out  # summary line at the end
     assert "files written" in captured.err  # tqdm writes to stderr
 
 
