@@ -1,10 +1,14 @@
 import contextlib
 import datetime
 import glob
+import pathlib
+import re
 import threading
 import time
 
 from tqdm.auto import tqdm
+from watchdog.events import FileSystemEventHandler
+from watchdog.observers import Observer
 
 
 class ProgressBar(threading.Thread):
@@ -94,3 +98,50 @@ def summary(package_name, runner_name):
 
 def quiet():
     return contextlib.nullcontext()
+
+
+class HoloviewsDataProvider(FileSystemEventHandler):
+    """Event handler to pass magnetisation files to holoviews pipe."""
+
+    def __init__(self, magnetisation_regex, pipe):
+        super().__init__()
+        self.magnetisation_regex = magnetisation_regex
+        self.pipe = pipe
+
+    def on_modified(self, event):
+        """Update buffer for energy plot."""
+        pass
+
+    def on_closed(self, event):
+        """Add filename of new output files to buffer."""
+        if event.is_directory:
+            return
+        src_path = pathlib.Path(event.src_path)
+        if re.findall(self.magnetisation_regex, src_path.name):
+            self.pipe.send(src_path)
+
+
+@contextlib.contextmanager
+def fs_observer(dirname, magnetisation_regex, hv_pipe):
+    """Watchdog for new files written by a calculator.
+
+    Parameters
+    ----------
+    dirname : str
+        Name where files are written to.
+    magnetisation_regex : str
+        Regular expression for magnetisation files.
+    hv_pipe : holoviews.streams.Pipe
+        Pipe to which magnetisation data filenames are sent.
+    """
+    observer = Observer()
+
+    hv_data = HoloviewsDataProvider(magnetisation_regex, hv_pipe)
+    observer.schedule(hv_data, dirname)
+
+    observer.start()
+    try:
+        yield
+    finally:
+        observer.stop()
+        observer.join()
