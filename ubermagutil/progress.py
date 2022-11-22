@@ -1,6 +1,7 @@
 import contextlib
 import datetime
 import glob
+import os
 import pathlib
 import re
 import threading
@@ -107,6 +108,7 @@ class HoloviewsDataProvider(FileSystemEventHandler):
         super().__init__()
         self.magnetisation_regex = magnetisation_regex
         self.pipe = pipe
+        self.last_file = 0
 
     def on_modified(self, event):
         """Update buffer for energy plot."""
@@ -118,26 +120,37 @@ class HoloviewsDataProvider(FileSystemEventHandler):
             return
         src_path = pathlib.Path(event.src_path)
         if re.findall(self.magnetisation_regex, src_path.name):
-            self.pipe.send(src_path)
+            # mumax3 closes and re-opens magnetisation files, presumably like follows:
+            # create file -> close -> open + write data -> close
+            # only add file to pipe when it contains data
+            if os.path.getsize(src_path) > 0:
+                # send updates only twice per second; too much data significantly slows
+                # the plotting down (to the point where the live update is unusable)
+                now = time.time()
+                if now - self.last_file > 0.5:
+                    self.last_file = now
+                    self.pipe.send(src_path.absolute())
 
 
 @contextlib.contextmanager
-def fs_observer(dirname, magnetisation_regex, hv_pipe):
+def fs_observer(magnetisation_regex, hv_pipe, recursive=False):
     """Watchdog for new files written by a calculator.
+
+    The current directory is monitored.
 
     Parameters
     ----------
-    dirname : str
-        Name where files are written to.
     magnetisation_regex : str
         Regular expression for magnetisation files.
     hv_pipe : holoviews.streams.Pipe
         Pipe to which magnetisation data filenames are sent.
+    recursive : bool, default False
+        If True, the directory is monitored recursively.
     """
     observer = Observer()
 
     hv_data = HoloviewsDataProvider(magnetisation_regex, hv_pipe)
-    observer.schedule(hv_data, dirname)
+    observer.schedule(event_handler=hv_data, path=".", recursive=recursive)
 
     observer.start()
     try:
