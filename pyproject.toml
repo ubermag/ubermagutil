@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "ubermagutil"
-version = "0.63.1"
+version = "0.63.2"
 description = "Utility package used across Ubermag."
 readme = "README.md"
 requires-python = ">=3.8"
