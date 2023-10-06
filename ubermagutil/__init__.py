@@ -1,5 +1,6 @@
 """Utilities used across Ubermag."""
-import pkg_resources
+import importlib.metadata
+
 import pytest
 
 from . import progress
@@ -7,7 +8,7 @@ from .basic_logging import setup_logging
 from .inherit_docs import inherit_docs
 from .tools import changedir, hysteresis_values
 
-__version__ = pkg_resources.get_distribution(__name__).version
+__version__ = importlib.metadata.version(__package__)
 
 
 def test():
