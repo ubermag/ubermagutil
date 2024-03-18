@@ -1,4 +1,5 @@
 """Utilities used across Ubermag."""
+
 import importlib.metadata
 
 import pytest

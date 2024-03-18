@@ -1,4 +1,5 @@
 """Typesystem utility."""
+
 from .descriptors import (
     Descriptor,
     Dictionary,

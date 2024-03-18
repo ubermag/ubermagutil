@@ -1,4 +1,5 @@
 """SI multiplier utility."""
+
 import collections
 
 si_prefixes = collections.OrderedDict(
