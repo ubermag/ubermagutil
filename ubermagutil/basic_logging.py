@@ -1,4 +1,5 @@
 """Setup basic logging for all ubermag packages."""
+
 import logging
 
 
