@@ -42,7 +42,7 @@ def typesystem(**kwargs):  # noqa: D401
     def decorate(cls):
         for key, value in kwargs.items():
             if isinstance(value, Descriptor):
-                setattr(value, "name", key)
+                value.name = key
                 setattr(cls, key, value)
         return cls
 

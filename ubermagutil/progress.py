@@ -88,7 +88,7 @@ def summary(package_name, runner_name):
         yield
     finally:
         toc = time.time()
-        seconds = "({:0.1f} s)".format(toc - tic)
+        seconds = f"({toc - tic:0.1f} s)"
         print(seconds)  # append seconds to the previous print.
 
 

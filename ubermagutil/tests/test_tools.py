@@ -34,7 +34,7 @@ def test_hysteresis_values():
 
 def test_changedir(tmp_path):
     with uu.changedir(tmp_path):
-        with open("test.txt", "wt", encoding="utf-8") as f:
+        with open("test.txt", "w", encoding="utf-8") as f:
             f.write("")
 
     assert (tmp_path / "test.txt").exists()
