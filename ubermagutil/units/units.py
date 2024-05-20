@@ -65,7 +65,7 @@ def si_multiplier(value):
     if value == 0:
         return 1
     else:
-        for prefix, multiplier in reversed(si_prefixes.items()):
+        for _prefix, multiplier in reversed(si_prefixes.items()):
             if 1 <= abs(value) / multiplier < 1e3:
                 return multiplier
         else:
