@@ -59,11 +59,9 @@ def hysteresis_values(vmin, vmax, step):
         msg = "Value range cannot be divided into integer number of steps."
         raise ValueError(msg)
 
-    return list(
-        np.concatenate(
-            [np.arange(vmax, vmin, -step), np.arange(vmin, vmax + rtol * step, step)]
-        )
-    )
+    return np.concatenate(
+        [np.arange(vmax, vmin, -step), np.arange(vmin, vmax + rtol * step, step)]
+    ).tolist()
 
 
 @contextlib.contextmanager
