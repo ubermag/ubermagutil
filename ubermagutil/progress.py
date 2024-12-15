@@ -71,7 +71,8 @@ def bar(total, package_name, runner_name, glob_name):
         toc = time.time()
         progress_bar_thread.terminate()
         print(
-            f"Running {package_name} ({runner_name})[{now:%Y/%m/%d %H:%M}]"
+            f"Running {package_name} ({runner_name})"
+            f"[{now.isoformat(timespec='seconds')}]"
             f" took {toc - tic:0.1f} s"
         )
 
@@ -80,7 +81,8 @@ def bar(total, package_name, runner_name, glob_name):
 def summary(package_name, runner_name):
     now = datetime.datetime.now()
     print(
-        f"Running {package_name} ({runner_name})[{now:%Y/%m/%d %H:%M}]... ",
+        f"Running {package_name} ({runner_name})"
+        f"[{now.isoformat(timespec='seconds')}]... ",
         end="",
     )
     tic = time.time()
