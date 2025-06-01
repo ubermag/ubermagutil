@@ -2,9 +2,13 @@
 
 import os
 import shutil
+import sys
 
 import pytest
-import tomli
+if sys.version_info.minor < 11:
+    import tomli as tomllib
+else:
+    import tomllib
 from invoke import Collection, Exit, task
 
 PYTHON = "python"
@@ -107,7 +111,7 @@ def release(c):
             raise e
 
     with open("pyproject.toml", "rb") as f:
-        version = tomli.load(f)["project"]["version"]
+        version = tomllib.load(f)["project"]["version"]
 
     c.run(f"git tag {version}")  # fails if the tag exists
     c.run("git tag -f latest")  # `latest` tag for binder
