@@ -7,7 +7,7 @@ name = "ubermagutil"
 version = "0.63.4"
 description = "Utility package used across Ubermag."
 readme = "README.md"
-requires-python = ">=3.8"
+requires-python = ">=3.9"
 license = {file = "LICENSE"}
 
 authors = [
@@ -47,7 +47,8 @@ dev = [
     "nbval",
     "pre-commit",
     "pytest-cov",
-    "twine"
+    "twine",
+    "tomli; python_version < '3.11'",
 ]
 
 [project.urls]
