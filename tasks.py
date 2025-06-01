@@ -43,7 +43,8 @@ def docs(c):
             "-v",
             "--doctest-modules",
             "--ignore",
-            "ubermagutil/tests", "ubermagutil",
+            "ubermagutil/tests",
+            "ubermagutil",
         ]
     )
     raise Exit(code=result)
