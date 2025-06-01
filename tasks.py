@@ -5,6 +5,7 @@ import shutil
 import sys
 
 import pytest
+
 if sys.version_info.minor < 11:
     import tomli as tomllib
 else:
