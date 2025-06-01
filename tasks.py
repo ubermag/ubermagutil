@@ -39,7 +39,13 @@ def coverage(c):
 def docs(c):
     """Run doctests."""
     result = pytest.main(
-        ["-v", "--doctest-modules", "--ignore", "ubermagutil/tests", "ubermagutil"]
+        [
+            "-v",
+            "--doctest-modules",
+            "--ignore",
+            "ubermagutil/tests",
+            "ubermagutil",
+        ]
     )
     raise Exit(code=result)
 
@@ -77,6 +83,7 @@ def build_dists(c):
     if os.path.exists("dist"):
         shutil.rmtree("dist")
     c.run(f"{PYTHON} -m build")
+    c.run("twine check dist/*")
 
 
 @task(build_dists)
